@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/comment_description_text_view"
+        style="@style/card_text_style"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:minHeight="32dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:textIsSelectable="true"
+        android:background="@color/claim_comment_text_background"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/edit_comment_image_button"
+        tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam tincidunt velit quis orci maximus, non porttitor ipsum porttitor. Aenean at mi et magna molestie hendrerit nec sed ipsum." />
+
+    <ImageButton
+        android:id="@+id/edit_comment_image_button"
+        android:layout_width="32dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="6dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/button_edit_comment"
+        android:src="@drawable/ic_pen_light"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/commentator_name_text_view"
+        style="@style/card_label_style"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        app:layout_constraintEnd_toStartOf="@+id/comment_date_text_view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/comment_description_text_view"
+        tools:text="А. И. Серова" />
+
+    <TextView
+        android:id="@+id/comment_date_text_view"
+        style="@style/card_label_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:paddingStart="4dp"
+        app:layout_constraintEnd_toStartOf="@id/comment_time_text_view"
+        app:layout_constraintTop_toBottomOf="@id/comment_description_text_view"
+        tools:ignore="RtlSymmetry"
+        tools:text="17.09.2021" />
+
+    <TextView
+        android:id="@+id/comment_time_text_view"
+        style="@style/card_claim_comment_time_text_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:paddingStart="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/comment_description_text_view"
+        tools:ignore="RtlSymmetry"
+        tools:text="19:30" />
+
+    <ImageView
+        style="@style/card_divider_style"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/commentator_name_text_view"
+        tools:ignore="ContentDescription" />
+</androidx.constraintlayout.widget.ConstraintLayout>

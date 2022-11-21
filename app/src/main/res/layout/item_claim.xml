@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/claim_list_card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="12dp"
+    android:layout_marginEnd="12dp"
+    android:layout_marginTop="6dp"
+    android:layout_marginBottom="6dp"
+    app:strokeWidth="2dp"
+    app:cardCornerRadius="0dp"
+    app:strokeColor="@color/claim_stroke_color"
+    app:cardElevation="@dimen/card_item_elevation">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="12dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/claim_header_background"
+            app:layout_constraintBottom_toTopOf="@id/claim_top_divider_image_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/title_material_text_view"
+            style="@style/LabelTextStyle"
+            android:layout_width="68dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/card_view_padding"
+            android:layout_marginTop="@dimen/card_view_padding"
+            android:text="@string/topic"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/description_material_text_view"
+            style="@style/PatientAndExecutorTextSize"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/card_view_padding"
+            android:layout_marginEnd="@dimen/card_view_padding"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textAlignment="viewEnd"
+            android:textIsSelectable="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/title_material_text_view"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@sample/posts.json/data/description" />
+
+        <ImageView
+            android:id="@+id/claim_top_divider_image_view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_divider_height"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="@dimen/padding_between_elements"
+            android:background="@color/half_light_grey"
+            android:contentDescription="@string/line_divider_description"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.457"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/description_material_text_view" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/plan_date_label_material_text_view"
+            style="@style/LabelTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="16dp"
+            android:layout_marginStart="@dimen/card_view_padding"
+            android:layout_marginTop="@dimen/padding_between_elements"
+            android:text="@string/plan_date"
+            android:textAlignment="viewStart"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/claim_middle_divider_image_view" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/plan_time_material_text_view"
+            style="@style/PlanTimeTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="16dp"
+            android:layout_marginEnd="@dimen/card_view_padding"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/plan_date_label_material_text_view"
+            tools:text="21-00" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/plan_date_material_text_view"
+            style="@style/SmallBlackTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="16dp"
+            android:layout_marginEnd="@dimen/card_view_padding"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textAlignment="viewEnd"
+            app:layout_constraintEnd_toStartOf="@id/plan_time_material_text_view"
+            app:layout_constraintTop_toTopOf="@+id/plan_date_label_material_text_view"
+            tools:text="@sample/posts.json/data/edited" />
+
+        <ImageView
+            android:id="@+id/claim_middle_divider_image_view"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/line_divider_height"
+            android:layout_marginTop="@dimen/padding_between_elements"
+            android:background="@color/half_light_grey"
+            android:contentDescription="@string/line_divider_description"
+            app:layout_constraintEnd_toEndOf="@+id/plan_date_label_material_text_view"
+            app:layout_constraintStart_toStartOf="@+id/plan_date_label_material_text_view"
+            app:layout_constraintTop_toBottomOf="@id/executor_name_label_material_text_view" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/executor_name_label_material_text_view"
+            style="@style/LabelTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="16dp"
+            android:layout_marginStart="@dimen/card_view_padding"
+            android:layout_marginTop="@dimen/padding_between_elements"
+            android:text="@string/executor_label"
+            android:textAlignment="viewStart"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/claim_top_divider_image_view" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/executor_name_material_text_view"
+            style="@style/SmallBlackTextStyle"
+            android:layout_width="0dp"
+            android:layout_height="16dp"
+            android:layout_marginEnd="@dimen/card_view_padding"
+            android:layout_marginStart="@dimen/card_view_padding"
+            android:ellipsize="marquee"
+            android:textAlignment="viewEnd"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/executor_name_label_material_text_view"
+            app:layout_constraintTop_toTopOf="@id/executor_name_label_material_text_view"
+            tools:text="@sample/posts.json/data/executor"
+            android:singleLine="true" />
+
+        <ImageView
+            android:id="@+id/claim_bottom_divider_image_view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_divider_height"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="@dimen/padding_between_elements"
+            android:background="@color/half_light_grey"
+            android:contentDescription="@string/line_divider_description"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.457"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/plan_date_material_text_view" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_between_elements"
+            android:src="@drawable/ic_gray_triangle_arrow"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/claim_bottom_divider_image_view"
+            tools:ignore="ContentDescription" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

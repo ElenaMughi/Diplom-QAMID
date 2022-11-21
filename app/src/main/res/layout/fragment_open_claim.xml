@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/container_custom_app_bar_include_on_fragment_open_claim"
+        layout="@layout/top_custom_app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:orientation="vertical"
+        android:padding="12dp">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="0dp"
+            app:cardElevation="4dp"
+            app:strokeColor="#868686"
+            app:strokeWidth="2dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingHorizontal="16dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="-16dp"
+                    android:layout_marginEnd="-16dp"
+                    android:background="#FFECE0"
+                    app:layout_constraintBottom_toTopOf="@id/divider1_image_view"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:id="@+id/title_label_text_view"
+                    style="@style/card_label_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingEnd="16dp"
+                    android:text="@string/them"
+                    app:layout_constraintBottom_toTopOf="@+id/divider1_image_view"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="RtlSymmetry" />
+
+                <TextView
+                    android:id="@+id/title_text_view"
+                    style="@style/card_text_style"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:maxWidth="220dp"
+                    android:textAlignment="viewEnd"
+                    app:layout_constraintBottom_toTopOf="@+id/divider1_image_view"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/title_label_text_view"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="подготовка к новогодним праздникам продолжается" />
+
+                <ImageView
+                    android:id="@+id/divider1_image_view"
+                    style="@style/card_divider_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="-16dp"
+                    android:layout_marginEnd="-16dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/title_text_view"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:id="@+id/executor_name_label_text_view"
+                    style="@style/card_label_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingEnd="16dp"
+                    android:text="@string/executor"
+                    app:layout_constraintBottom_toTopOf="@+id/divider2_image_view"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/divider1_image_view"
+                    tools:ignore="RtlSymmetry" />
+
+                <TextView
+                    android:id="@+id/executor_name_text_view"
+                    style="@style/card_text_style"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="viewEnd"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/executor_name_label_text_view"
+                    app:layout_constraintTop_toBottomOf="@id/divider1_image_view"
+                    tools:text="Иван Арнольдович Борменталь" />
+
+                <ImageView
+                    android:id="@+id/divider2_image_view"
+                    style="@style/card_divider_style"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    app:layout_constraintEnd_toEndOf="@+id/plane_date_label_text_view"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/executor_name_text_view"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:id="@+id/plane_date_label_text_view"
+                    style="@style/card_label_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/plan_date"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/divider2_image_view" />
+
+                <TextView
+                    android:id="@+id/plane_date_text_view"
+                    style="@style/card_text_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    app:layout_constraintEnd_toStartOf="@id/plan_time_text_view"
+                    app:layout_constraintTop_toBottomOf="@id/divider2_image_view"
+                    tools:text="19.12.2021" />
+
+                <TextView
+                    android:id="@+id/plan_time_text_view"
+                    style="@style/card_time_text_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/divider2_image_view"
+                    tools:text="18:00" />
+
+                <ImageView
+                    android:id="@+id/divider3_image_view"
+                    style="@style/card_divider_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/plane_date_text_view"
+                    tools:ignore="ContentDescription" />
+
+                <ImageView
+                    android:id="@+id/status_icon_image_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="10dp"
+                    android:src="@drawable/ic_rectangle_381"
+                    android:background="#FFECE0"
+                    app:layout_constraintBottom_toTopOf="@id/description_material_card_view"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/divider3_image_view"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:id="@+id/status_label_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#DE000000"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="@id/status_icon_image_view"
+                    app:layout_constraintEnd_toEndOf="@id/status_icon_image_view"
+                    app:layout_constraintStart_toStartOf="@id/status_icon_image_view"
+                    app:layout_constraintTop_toTopOf="@id/status_icon_image_view"
+                    app:layout_constraintVertical_bias="0.3"
+                    tools:text="в работе" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/description_material_card_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:backgroundTint="#E5E5E5"
+                    app:cardCornerRadius="4dp"
+                    app:cardElevation="4dp"
+                    app:contentPadding="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/status_icon_image_view">
+
+                    <TextView
+                        android:id="@+id/description_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#DE000000"
+                        android:textSize="16sp"
+                        android:textIsSelectable="true"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="Нужно собрать коллектив в переговорной. Будем обсуждать подготовку к новогодним праздникам." />
+                </com.google.android.material.card.MaterialCardView>
+
+                <ImageView
+                    android:id="@+id/divider4_image_view"
+                    style="@style/card_divider_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="14dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/description_material_card_view"
+                    tools:ignore="ContentDescription" />
+
+
+                <TextView
+                    android:id="@+id/author_label_text_view"
+                    style="@style/card_label_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingEnd="16dp"
+                    android:text="@string/author"
+                    app:layout_constraintBottom_toTopOf="@+id/divider5_image_view"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/divider4_image_view"
+                    tools:ignore="RtlSymmetry" />
+
+                <TextView
+                    android:id="@+id/author_name_text_view"
+                    style="@style/card_text_style"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="viewEnd"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/author_label_text_view"
+                    app:layout_constraintTop_toBottomOf="@id/divider4_image_view"
+                    tools:text="Иванов-Длиннофамильский Иван Иванович" />
+
+                <ImageView
+                    android:id="@+id/divider5_image_view"
+                    style="@style/card_divider_style"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    app:layout_constraintEnd_toEndOf="@+id/create_data_label_text_view"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/author_name_text_view"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:id="@+id/create_data_label_text_view"
+                    style="@style/card_label_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/created"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/divider5_image_view" />
+
+                <TextView
+                    android:id="@+id/create_data_text_view"
+                    style="@style/card_text_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    app:layout_constraintEnd_toStartOf="@id/create_time_text_view"
+                    app:layout_constraintTop_toBottomOf="@id/divider5_image_view"
+                    tools:text="05.12.2021" />
+
+                <TextView
+                    android:id="@+id/create_time_text_view"
+                    style="@style/card_time_text_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/divider5_image_view"
+                    tools:text="18:00" />
+
+                <ImageView
+                    android:id="@+id/divider6_image_view"
+                    style="@style/card_divider_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/create_data_text_view"
+                    tools:ignore="ContentDescription" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/comments_material_card_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="14dp"
+                    app:cardCornerRadius="4dp"
+                    app:cardElevation="4dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/divider6_image_view">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingHorizontal="16dp"
+                        android:paddingVertical="10dp">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/claim_comments_list_recycler_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:clipToPadding="true"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            tools:itemCount="2"
+                            tools:listitem="@layout/item_comment" />
+
+                        <TextView
+                            style="@style/card_label_style"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/insert_comment"
+                            android:visibility="visible"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/claim_comments_list_recycler_view" />
+
+                        <ImageButton
+                            android:id="@+id/add_comment_image_button"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:background="@android:color/transparent"
+                            android:contentDescription="@string/button_add_comment"
+                            android:src="@drawable/ic_add"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/claim_comments_list_recycler_view" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <ImageButton
+                    android:id="@+id/close_image_button"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="24dp"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="@string/button_close"
+                    android:src="@drawable/ic_arrow_back"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/comments_material_card_view" />
+
+                <ImageButton
+                    android:id="@+id/status_processing_image_button"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="24dp"
+                    android:layout_marginEnd="36dp"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="@string/button_change_status"
+                    android:src="@drawable/ic_status_processing"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/edit_processing_image_button"
+                    app:layout_constraintTop_toBottomOf="@id/comments_material_card_view" />
+
+                <ImageButton
+                    android:id="@+id/edit_processing_image_button"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="24dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="@string/button_settings"
+                    android:src="@drawable/ic_pen"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/comments_material_card_view" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

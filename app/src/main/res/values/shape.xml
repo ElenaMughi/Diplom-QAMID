@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="ShapeAppearanceOverlay.App.CornerSize50Percent"
+    parent="">
+    <!--
+    Sets size of corners to be 16% of min(width, height) of widget
+    -->
+    <item name="cornerSize">16%</item>
+    </style>
+
+
+</resources>

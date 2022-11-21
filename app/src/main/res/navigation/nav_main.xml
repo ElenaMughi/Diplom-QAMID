@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/splashScreenFragment">
+
+    <fragment
+        android:id="@+id/newsListFragment"
+        android:name="ru.iteco.fmhandroid.ui.NewsListFragment"
+        android:label="NewsListFragment">
+        <action
+            android:id="@+id/action_newsListFragment_to_newsControlPanelFragment"
+            app:destination="@id/newsControlPanelFragment" />
+        <action
+            android:id="@+id/action_newsListFragment_to_filterNewsFragment"
+            app:destination="@id/filterNewsFragment" />
+        <argument
+            android:name="newsFilterArgs"
+            app:argType="ru.iteco.fmhandroid.dto.NewsFilterArgs"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_newsListFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/action_newsListFragment_to_claimListFragment"
+            app:destination="@id/claimListFragment" />
+        <action
+            android:id="@+id/action_newsListFragment_to_authFragment"
+            app:destination="@id/authFragment" />
+        <action
+            android:id="@+id/action_newsListFragment_to_aboutFragment"
+            app:destination="@id/aboutFragment" />
+        <action
+            android:id="@+id/action_newsListFragment_to_our_mission_fragment"
+            app:destination="@id/our_mission_fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/newsControlPanelFragment"
+        android:name="ru.iteco.fmhandroid.ui.NewsControlPanelFragment"
+        android:label="NewsControlPanelFragment">
+        <argument
+            android:name="newsFilterArgs"
+            app:argType="ru.iteco.fmhandroid.dto.NewsFilterArgs"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_newsControlPanelFragment_to_filterNewsFragment"
+            app:destination="@id/filterNewsFragment" />
+        <action
+            android:id="@+id/action_newsControlPanelFragment_to_createEditNewsFragment"
+            app:destination="@id/createEditNewsFragment" />
+        <action
+            android:id="@+id/action_newsControlPanelFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/action_newsControlPanelFragment_to_claimListFragment"
+            app:destination="@id/claimListFragment" />
+        <action
+            android:id="@+id/action_newsControlPanelFragment_to_newsListFragment"
+            app:destination="@id/newsListFragment" />
+        <action
+            android:id="@+id/action_newsControlPanelFragment_to_authFragment"
+            app:destination="@id/authFragment" />
+        <action
+            android:id="@+id/action_newsControlPanelFragment_to_aboutFragment"
+            app:destination="@id/aboutFragment" />
+        <action
+            android:id="@+id/action_newsControlPanelFragment_to_our_mission_fragment"
+            app:destination="@id/our_mission_fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/openClaimFragment"
+        android:name="ru.iteco.fmhandroid.ui.OpenClaimFragment"
+        android:label="openClaimFragment">
+        <argument
+            android:name="argClaim"
+            app:argType="ru.iteco.fmhandroid.dto.FullClaim" />
+        <action
+            android:id="@+id/action_openClaimFragment_to_createEditClaimCommentFragment"
+            app:destination="@id/createEditClaimCommentFragment" />
+        <action
+            android:id="@+id/action_openClaimFragment_to_createEditClaimFragment"
+            app:destination="@id/createEditClaimFragment" />
+        <action
+            android:id="@+id/action_openClaimFragment_to_authFragment"
+            app:destination="@id/authFragment" />
+        <action
+            android:id="@+id/action_openClaimFragment_to_our_mission_fragment"
+            app:destination="@id/our_mission_fragment" />
+        <action
+            android:id="@+id/action_openClaimFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/action_openClaimFragment_to_claimListFragment"
+            app:destination="@id/claimListFragment" />
+        <action
+            android:id="@+id/action_openClaimFragment_to_newsListFragment"
+            app:destination="@id/newsListFragment" />
+        <action
+            android:id="@+id/action_openClaimFragment_to_aboutFragment"
+            app:destination="@id/aboutFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/createEditClaimFragment"
+        android:name="ru.iteco.fmhandroid.ui.CreateEditClaimFragment"
+        android:label="CreateEditClaimFragment">
+        <argument
+            android:name="argClaim"
+            android:defaultValue="@null"
+            app:argType="ru.iteco.fmhandroid.dto.FullClaim"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_createEditClaimFragment_to_openClaimFragment"
+            app:destination="@id/openClaimFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/createEditClaimCommentFragment"
+        android:name="ru.iteco.fmhandroid.ui.CreateEditClaimCommentFragment"
+        android:label="CreateEditClaimCommentFragment">
+        <argument
+            android:name="argComment"
+            android:defaultValue="@null"
+            app:argType="ru.iteco.fmhandroid.dto.ClaimComment"
+            app:nullable="true" />
+        <argument
+            android:name="argClaimId"
+            app:argType="integer" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/filterNewsFragment"
+        android:name="ru.iteco.fmhandroid.ui.FilterNewsListFragment"
+        android:label="FilterNewsFragment">
+        <action
+            android:id="@+id/action_filterNewsFragment_to_newsListFragment"
+            app:destination="@id/newsListFragment" />
+        <action
+            android:id="@+id/action_filterNewsFragment_to_newsControlPanelFragment"
+            app:destination="@id/newsControlPanelFragment" />
+        <argument
+            android:name="fragmentName"
+            app:argType="ru.iteco.fmhandroid.enum.FragmentsTags" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/claimListFragment"
+        android:name="ru.iteco.fmhandroid.ui.ClaimListFragment"
+        android:label="fragment_list_claim"
+        tools:layout="@layout/fragment_list_claim">
+        <action
+            android:id="@+id/action_claimListFragment_to_openClaimFragment"
+            app:destination="@id/openClaimFragment" />
+        <action
+            android:id="@+id/action_claimListFragment_to_createEditClaimFragment"
+            app:destination="@id/createEditClaimFragment" />
+        <action
+            android:id="@+id/action_claimListFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/action_claimListFragment_to_newsListFragment"
+            app:destination="@id/newsListFragment" />
+        <action
+            android:id="@+id/action_claimListFragment_to_authFragment"
+            app:destination="@id/authFragment" />
+        <action
+            android:id="@+id/action_claimListFragment_to_aboutFragment"
+            app:destination="@id/aboutFragment" />
+        <action
+            android:id="@+id/action_claimListFragment_to_our_mission_fragment"
+            app:destination="@id/our_mission_fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/createEditNewsFragment"
+        android:name="ru.iteco.fmhandroid.ui.CreateEditNewsFragment"
+        android:label="CreateEditNewsFragment">
+        <argument
+            android:name="newsItemArg"
+            android:defaultValue="@null"
+            app:argType="ru.iteco.fmhandroid.dto.NewsWithCategory"
+            app:nullable="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="ru.iteco.fmhandroid.ui.MainFragment"
+        android:label="fragment_main"
+        tools:layout="@layout/fragment_main">
+        <action
+            android:id="@+id/action_mainFragment_to_newsListFragment"
+            app:destination="@id/newsListFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_claimListFragment"
+            app:destination="@id/claimListFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_openClaimFragment"
+            app:destination="@id/openClaimFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_createEditClaimFragment"
+            app:destination="@id/createEditClaimFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_authFragment"
+            app:destination="@id/authFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_aboutFragment"
+            app:destination="@id/aboutFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_our_mission_fragment"
+            app:destination="@id/our_mission_fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/authFragment"
+        android:name="ru.iteco.fmhandroid.ui.AuthFragment"
+        android:label="AuthFragment">
+        <action
+            android:id="@+id/action_authFragment_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:popUpTo="@id/authFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/splashScreenFragment"
+        android:name="ru.iteco.fmhandroid.ui.SplashScreenFragment"
+        android:label="SplashScreenFragment">
+        <action
+            android:id="@+id/action_splashScreenFragment_to_authFragment"
+            app:destination="@id/authFragment"
+            app:popUpTo="@+id/splashScreenFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_splashScreenFragment_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:popUpTo="@+id/splashScreenFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="ru.iteco.fmhandroid.ui.AboutFragment"
+        android:label="AboutFragment" />
+    <fragment
+        android:id="@+id/our_mission_fragment"
+        android:name="ru.iteco.fmhandroid.ui.OurMissionFragment"
+        android:label="OurMissionFragment"
+        tools:layout="@layout/fragment_our_mission">
+        <action
+            android:id="@+id/action_our_mission_fragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/action_our_mission_fragment_to_newsListFragment"
+            app:destination="@id/newsListFragment" />
+        <action
+            android:id="@+id/action_our_mission_fragment_to_claimListFragment"
+            app:destination="@id/claimListFragment" />
+        <action
+            android:id="@+id/action_our_mission_fragment_to_aboutFragment"
+            app:destination="@id/aboutFragment" />
+        <action
+            android:id="@+id/action_our_mission_fragment_to_authFragment"
+            app:destination="@id/authFragment" />
+    </fragment>
+
+</navigation>

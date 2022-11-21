@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="new_patient_style">
+        <item name="android:textSize">
+            24sp
+        </item>
+
+        <item name="android:letterSpacing">
+            0.01
+        </item>
+
+        <item name="android:textColor">
+            #DE000000
+        </item>
+    </style>
+
+    <style name="new_patient_name_style">
+        <item name="android:textSize">
+            16sp
+        </item>
+        <item name="android:letterSpacing">
+            0.01
+        </item>
+    </style>
+
+    <style name="cancel_button_style">
+        <item name="android:textSize">
+            14sp
+        </item>
+        <item name="android:letterSpacing">
+            0.03
+        </item>
+        <item name="android:textColor">
+            #DE000000
+        </item>
+    </style>
+
+    <style name="SmallBlackTextStyle">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="LargeBlackTextStyle">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="card_label_style">
+        <item name="android:textSize">
+            14sp
+        </item>
+        <item name="android:textColor">
+            #575757
+        </item>
+        <item name="android:layout_marginTop">
+            6dp
+        </item>
+        <item name="android:layout_marginBottom">
+            6dp
+        </item>
+    </style>
+
+    <style name="card_claim_comment_time_text_style">
+        <item name="android:textSize">
+            14sp
+        </item>
+        <item name="android:textColor">
+            #8F8F8F
+        </item>
+        <item name="android:layout_marginTop">
+            6dp
+        </item>
+        <item name="android:layout_marginBottom">
+            6dp
+        </item>
+    </style>
+
+    <style name="card_text_style">
+        <item name="android:textSize">
+            16sp
+        </item>
+        <item name="android:textColor">
+            #DE000000
+        </item>
+        <item name="android:layout_marginTop">
+            6dp
+        </item>
+        <item name="android:layout_marginBottom">
+            6dp
+        </item>
+    </style>
+
+    <style name="card_time_text_style">
+        <item name="android:textSize">
+            16sp
+        </item>
+        <item name="android:textColor">
+            #535353
+        </item>
+        <item name="android:layout_marginTop">
+            6dp
+        </item>
+        <item name="android:layout_marginBottom">
+            6dp
+        </item>
+    </style>
+
+    <style name="card_divider_style">
+        <item name="android:background">
+            #14000000
+        </item>
+        <item name="android:layout_marginTop">
+            6dp
+        </item>
+    </style>
+
+    <style name="BottomToolbarTextStyle">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="EmptyListTextStyle">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">#878787</item>
+    </style>
+
+    <style name="materialButtonTheme" parent="Widget.MaterialComponents.Button.TextButton.Icon">
+        <item name="iconTint">?attr/colorControlNormal</item>
+        <item name="iconPadding">0dp</item>
+        <item name="android:minWidth">18dp</item>
+        <item name="android:minHeight">18dp</item>
+    </style>
+
+    <style name="LabelTextStyle">
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">#535353</item>
+    </style>
+
+    <style name="PatientAndExecutorTextSize">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/half_black</item>
+    </style>
+
+    <style name="PlanTimeTextStyle">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">#535353</item>
+    </style>
+
+    <style name="TopAppBarTitle">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="TopAppBarSubTitle">
+        <item name="android:textSize">26sp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="FilteringTitleTextStyle">
+        <item name="android:textSize">26sp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textColor">@color/filtering_claim_title_text_color</item>
+    </style>
+
+    <style name="TextInputLayoutOutlinedBox" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/execution_priority_low</item>
+    </style>
+
+    <style name="Widget.App.ShapeableImageView" parent="Widget.MaterialComponents.ShapeableImageView">
+        <item name="shapeAppearance">
+            ?attr/shapeAppearanceSmallComponent
+        </item>
+        <item name="shapeAppearanceOverlay">
+            @style/ShapeAppearanceOverlay.App.CornerSize50Percent
+        </item>
+    </style>
+
+    <style name="OurMissionTitleTextStyle">
+        <item name="android:textSize">26sp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textColor">@color/splash_screen_title_color_4</item>
+    </style>
+
+</resources>

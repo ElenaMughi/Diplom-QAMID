@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bottom_toolbar_background"
+        android:padding="@dimen/card_view_padding">
+
+        <TextView
+            style="@style/BottomToolbarTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/news"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/sort_news_material_button"
+            style="@style/materialButtonTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:iconGravity="end"
+            android:layout_marginEnd="12dp"
+            android:background="@android:color/transparent"
+            android:checkable="true"
+            android:minWidth="48dp"
+            android:minHeight="48dp"
+            android:contentDescription="@string/sort_news_list_button"
+            app:icon="@drawable/ic_sort_18"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/filter_news_material_button"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/filter_news_material_button"
+            style="@style/materialButtonTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:iconGravity="end"
+            android:layout_marginEnd="12dp"
+            android:background="@android:color/transparent"
+            android:checkable="true"
+            android:minWidth="48dp"
+            android:minHeight="48dp"
+            app:icon="@drawable/ic_filters_icon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/edit_news_material_button"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="DuplicateSpeakableTextCheck" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/edit_news_material_button"
+            style="@style/materialButtonTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:iconGravity="end"
+            android:layout_marginEnd="12dp"
+            android:background="@android:color/transparent"
+            android:checkable="true"
+            android:minWidth="48dp"
+            android:minHeight="48dp"
+            app:icon="@drawable/ic_pen"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/expand_material_button"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/expand_material_button"
+            style="@style/materialButtonTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:iconGravity="end"
+            android:background="@android:color/transparent"
+            android:checkable="true"
+            android:minWidth="48dp"
+            android:minHeight="48dp"
+            app:icon="@drawable/expand_less_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="DuplicateIncludedIds" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/all_news_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:padding="20dp"
+        android:text="@string/all_news"
+        android:textAllCaps="true"
+        android:textColor="@color/execution_priority_low"
+        android:visibility="visible" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/all_news_cards_block_constraint_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/news_list_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            tools:itemCount="3"
+            tools:listitem="@layout/item_news" />
+
+        <ImageView
+            android:id="@+id/empty_news_list_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/empty_list_image"
+            app:layout_constraintBottom_toTopOf="@+id/empty_news_list_text_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/empty_news_list_text_view"
+            style="@style/EmptyListTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/card_view_padding"
+            android:text="@string/empty_claim_list_text"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toTopOf="@+id/news_retry_material_button"
+            app:layout_constraintEnd_toEndOf="@id/empty_news_list_image_view"
+            app:layout_constraintStart_toStartOf="@id/empty_news_list_image_view"
+            app:layout_constraintTop_toBottomOf="@+id/empty_news_list_image_view"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/news_retry_material_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/card_view_padding"
+            android:text="@string/refresh"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/empty_news_list_image_view"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@id/empty_news_list_image_view"
+            app:layout_constraintTop_toBottomOf="@+id/empty_news_list_text_view" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/empty_news_list_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="empty_news_list_image_view, empty_news_list_text_view, news_retry_material_button" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="card_view_padding">16dp</dimen>
+    <dimen name="card_item_elevation">4dp</dimen>
+    <dimen name="padding_between_elements">8dp</dimen>
+    <dimen name="line_divider_height">2dp</dimen>
+</resources>

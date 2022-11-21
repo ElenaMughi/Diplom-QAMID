@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/execution_priority_low"
+    android:padding="@dimen/card_view_padding">
+
+    <ImageButton
+        android:id="@+id/main_menu_image_button"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="start"
+        android:background="?android:attr/selectableItemBackground"
+        android:contentDescription="@string/main_menu"
+        android:src="@drawable/ic_main_menu_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
+
+    <ImageButton
+        android:id="@+id/about_back_image_button"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_gravity="center"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_arrow_back_large"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/custom_app_bar_title_text_view"
+        style="@style/TopAppBarTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_tool_bar_title"
+        android:visibility="gone"
+        app:layout_constraintEnd_toStartOf="@id/our_mission_image_button"
+        app:layout_constraintStart_toEndOf="@id/main_menu_image_button"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/custom_app_bar_sub_title_text_view"
+        style="@style/TopAppBarSubTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_tool_bar_subtitle"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@id/custom_app_bar_title_text_view"
+        app:layout_constraintStart_toStartOf="@id/custom_app_bar_title_text_view"
+        app:layout_constraintTop_toBottomOf="@id/custom_app_bar_title_text_view" />
+
+    <ImageView
+        android:id="@+id/trademark_image_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/in_hospice_trademark"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/our_mission_image_button"
+        app:layout_constraintStart_toEndOf="@+id/main_menu_image_button"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
+
+    <ImageButton
+        android:id="@+id/authorization_image_button"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:contentDescription="@string/authorization"
+        android:src="@drawable/ic_authorization"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
+
+    <ImageButton
+        android:id="@+id/our_mission_image_button"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="16dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:contentDescription="@string/our_mission"
+        android:src="@drawable/ic_our_mission_21x23"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/authorization_image_button"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
