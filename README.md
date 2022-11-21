@@ -1,4 +1,3 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/gt21k41iw95uba8v?svg=true)](https://ci.appveyor.com/project/ElenaMughi/courseproject)
 
 #Для запуска тестов необходимо
 1. Скопировать репозиторий к себе на машину и открыть его в Android Studio
