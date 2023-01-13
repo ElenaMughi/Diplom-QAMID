@@ -4,7 +4,6 @@
     <string name="claim">Claim</string>
     <string name="cancellation">The changes won\'t be saved, do you really want to log out?</string>
     <string name="error">Something went wrong. Try again later.</string>
-    <string name="retry_loading">Retry</string>
     <string name="error_saving">Saving failed. Try again later.</string>
     <string name="toast_empty_field">The field cannot be empty.</string>
     <string name="editing">Editing</string>
@@ -64,15 +63,12 @@
     <string name="news_control_panel_not_active">Not active</string>
     <string name="news_control_panel">Control panel</string>
     <string name="fragment_positive_button" translatable="false">OK</string>
-    <string name="empty_news_list">There are no news there.\nIf you create a new news item, it will appear here</string>
     <string name="filter_news">Filter news</string>
     <string name="filter">Filter</string>
     <string name="wrong_news_date_period">Wrong period</string>
     <string name="error_removing">Removing failed. Try again later.</string>
     <string name="empty_fields">Fill empty fields</string>
     <string name="main">Main</string>
-    <string name="documents">Documents</string>
-    <string name="duty_roster">Duty roster</string>
     <string name="app_tool_bar_subtitle">HOSPIS</string>
     <string name="app_tool_bar_title">First Moscow</string>
     <string name="executor_label">Executor</string>

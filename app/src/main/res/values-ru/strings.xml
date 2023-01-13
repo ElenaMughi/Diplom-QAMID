@@ -5,7 +5,6 @@
     <string name="claim">Заявка</string>
     <string name="cancellation">Изменения не будут сохранены. Вы действительно хотите выйти?</string>
     <string name="error">Что-то пошло не так. Попробуйте позднее.</string>
-    <string name="retry_loading">Повторить</string>
     <string name="error_saving">Сохранение не удалось. Попробуйте позднее.</string>
     <string name="toast_empty_field">Поле не может быть пустым.</string>
     <string name="editing">Редактирование</string>
@@ -64,15 +63,12 @@
     <string name="news_control_panel_active">Активна</string>
     <string name="news_control_panel_not_active">Не активна</string>
     <string name="news_control_panel">Панель \n управления</string>
-    <string name="empty_news_list">Новостей нет.\nЕсли Вы создадите новость, она будет доступна здесь</string>
     <string name="filter_news">Фильтровать новости</string>
     <string name="filter">Фильтровать</string>
     <string name="wrong_news_date_period">Неверно указан период</string>
     <string name="error_removing">Удаление не удалось. Попробуйте позднее.</string>
     <string name="empty_fields">Заполните пустые поля</string>
     <string name="main">Главная</string>
-    <string name="documents">Документы</string>
-    <string name="duty_roster">Графики дежурств</string>
     <string name="app_tool_bar_subtitle">ХОСПИС</string>
     <string name="app_tool_bar_title">Первый Московский</string>
     <string name="executor_label">Исполнитель</string>

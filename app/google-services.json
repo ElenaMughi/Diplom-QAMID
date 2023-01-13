@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "729587742060",
+    "project_id": "fmh-android",
+    "storage_bucket": "fmh-android.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:729587742060:android:e7d6f87c783f52b9a42f49",
+        "android_client_info": {
+          "package_name": "ru.iteco.fmhandroid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "729587742060-i1s95savg4e7fcel6kg06052at6ul26s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ru.iteco.fmhandroid",
+            "certificate_hash": "4d58520f00cccbfad1c5c7c497455f3771647703"
+          }
+        },
+        {
+          "client_id": "729587742060-j0icud3atc87i7v5ff5ha7hl58j7h3b2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCU9yOr300iTEudvLNPSI-NUlql-KrS1SU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "729587742060-j0icud3atc87i7v5ff5ha7hl58j7h3b2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
