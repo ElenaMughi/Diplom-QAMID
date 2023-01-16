@@ -18,7 +18,7 @@ import androidx.test.espresso.ViewInteraction;
 
 import ru.iteco.fmhandroid.R;
 
-public class LoginFragment {
+public class LoginPageFragment {
 
     private void typingText(int parentId, String text) {
         onView(withId(parentId)).perform(click());
