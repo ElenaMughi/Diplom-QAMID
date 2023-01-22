@@ -1,19 +1,31 @@
 package ru.netology.data;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+
 public class HospiceInfo {
 
-    public static final String fio[] = {"Ivanov Ivan Ivanovich"};
-    public static final String comment[] = {"Let's fun!"};
+    // fio[0] - должно быть связано с логином login2, fio[1] - пустое/без исполнителя/.
+    public static final String fio[] = {"Ivanov Ivan Ivanovich", "", "Petrov Petr Petrovich", "Sidorov Sidor Sidorovich"};
+    public static final String comment[] = {"So Long, and Thanks for All the Fish", "Let's fun!", "Simple comment", "Try again", "We will win!"};
+    public static final String claimStatus[] = {"Open", "In progress", "Executed", "Canceled"};
+    public static final String claimStatusListMenu[] = {"open", "take to work", "To execute", "Throw off"};
 
-    public static LogInfo getLogInfo() {
-        return new LogInfo("login2", "password2");
-    };
+    public static LogInfo getLogInfo() { return new LogInfo("login2", "password2"); }
+    public static LogInfo getWrongLogInfo() { return new LogInfo("login", "password"); }
+    public static LogInfo getLogInfoWithLoginEmpty() { return new LogInfo("", "password2"); }
+    public static LogInfo getLogInfoWithPasswordEmpty() { return new LogInfo("login2", ""); }
 
-    public static ClaimInfo getClaimInfo() {
-        return new ClaimInfo("Title", fio[0], "16/01/2023", "00:00", "You make my day!");
-    };
+    public static ClaimInfo getClaimInfo(int i) {
+        String title = "Douglas Adams " + Math.round(Math.random()*1000);
+        String discr = "The Hitchhiker's Guide to the Galaxy " + Math.round(Math.random()*1000);
+        String dateText = LocalDate.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+        String timeText = LocalTime.now().format(DateTimeFormatter.ofPattern("hh:mm"));
+        return new ClaimInfo(title, fio[i - 1], dateText, timeText, discr, fio[0]);
+    }
 
-    public static class LogInfo {
+    public static final class LogInfo {
         private String login;
         private String password;
 
@@ -31,20 +43,24 @@ public class HospiceInfo {
         }
     }
 
-    public static final class ClaimInfo {
+    public static class ClaimInfo {
         private String title;
+
         private String executor;
         private String dateClaim;
         private String timeClaim;
         private String description;
+        private String author;
 
-        public ClaimInfo(String title, String executor, String dateClaim, String timeClaim, String description) {
+        public ClaimInfo(String title, String executor, String dateClaim, String timeClaim, String description, String author) {
             this.title = title;
             this.executor = executor;
             this.dateClaim = dateClaim;
             this.timeClaim = timeClaim;
             this.description = description;
+            this.author = author;
         }
+        public String getAuthor() { return author; }
 
         public String getTitle() {
             return title;
@@ -64,6 +80,10 @@ public class HospiceInfo {
 
         public String getDescription() {
             return description;
+        }
+
+        public void setExecutor(String executor) {
+            this.executor = executor;
         }
     }
 

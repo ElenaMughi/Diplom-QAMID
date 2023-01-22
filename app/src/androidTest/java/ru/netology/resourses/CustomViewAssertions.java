@@ -9,6 +9,9 @@ import androidx.test.espresso.ViewAssertion;
 public class CustomViewAssertions {
     public static ViewAssertion isRecyclerView() {
         return new ViewAssertion() {
+            //    проверить что список
+//    ViewInteraction recyclerView = onView(withId(R.id.recycler_view));
+//    recyclerView.check(CustomViewAssertions.isRecyclerView());
             @Override
             public void check(View view, NoMatchingViewException noViewFoundException) {
                 try {

@@ -2,66 +2,87 @@ package ru.netology.activity;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.contrib.RecyclerViewActions.actionOnItem;
+import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
+import static org.hamcrest.Matchers.allOf;
+
 import androidx.test.espresso.ViewInteraction;
-import androidx.test.espresso.intent.Intents;
-import androidx.test.espresso.matcher.RootMatchers;
+import androidx.test.espresso.contrib.RecyclerViewActions;
+
+import org.hamcrest.core.AllOf;
 
 import ru.iteco.fmhandroid.R;
 import ru.netology.data.HospiceInfo;
+import ru.netology.resourses.CustomViewAssertions;
+import ru.netology.resourses.EspressoIdlingResources;
+import ru.netology.resourses.ForAllResourses;
 
 public class ClaimsPageFragment {
 
-    protected void getExecutorFromList(String text) {
-        onView(withText(text))
-                .inRoot(RootMatchers.isPlatformPopup())
-                .perform(click());
+    ForAllResourses res = new ForAllResourses();
+
+    public void createClaim(HospiceInfo.ClaimInfo claimInfo) throws Exception {
+        onView(withId(R.id.add_new_claim_material_button))
+                .check(matches(isDisplayed()));
+        onView(withId(R.id.add_new_claim_material_button)).perform(click());
+        Thread.sleep(2000);
+        onView(withId(R.id.container_custom_app_bar_include_on_fragment_create_edit_claim))
+                .check(matches(isEnabled()));
+        ClaimFragment claim = new ClaimFragment();
+        claim.createClaim(claimInfo);
     }
 
-    private void typingText(int id, String text) {
-        ViewInteraction textClaim =  //Заголовок
-                onView(withId(id)).perform(click());
-        textClaim.perform(typeText(text), closeSoftKeyboard());
+    public MainPageFragment goToMainPage() throws Exception { // только вызов создания заявки
+        //TODO
+//        onView(withId(R.id.main_menu_image_button)).perform(click());
+//        res.getItemFromList("Main");
+//        Thread.sleep(2000);
+//        onView(withId(R.id.all_claims_text_view))
+//                .check(matches(isDisplayed()));
+        return new MainPageFragment();
     }
 
-    public void createClaim(HospiceInfo.ClaimInfo claimInfo) {
-
-        typingText(R.id.title_edit_text, claimInfo.getTitle()); //Заголовок
-
-        ViewInteraction executorClaim =  // Исполняющий
-                onView(withId(R.id.executor_drop_menu_auto_complete_text_view));
-        executorClaim.perform(click());
-        getExecutorFromList(claimInfo.getExecutor());
-        executorClaim.check(matches(withText(claimInfo.getExecutor())));
-
-        //TODO Calendar выбор даты-времени не реализован
-        onView(withId(R.id.date_in_plan_text_input_edit_text)).perform(click()); // Дата
-        Intents.init();
-        onView(withId(android.R.id.button1)).perform(click());
-        Intents.release();
-
-        onView(withId(R.id.time_in_plan_text_input_edit_text)).perform(click()); // Время
-        Intents.init();
-        onView(withId(android.R.id.button1)).perform(click());
-        Intents.release();
-
-        typingText(R.id.description_edit_text, claimInfo.getDescription()); // Описание
-
-        onView(withId(R.id.save_button)).perform(click());
+    public ClaimFragment toFoundClaim(HospiceInfo.ClaimInfo claimInfo) throws Exception {
+        ViewInteraction recyclerView = onView(withId(R.id.claim_list_recycler_view));
+        recyclerView.check(CustomViewAssertions.isRecyclerView());
+        recyclerView.perform(actionOnItem(hasDescendant(withText(claimInfo.getTitle())), click()));
+        Thread.sleep(6000);
+        return new ClaimFragment();
     }
 
-    public void toFoundClaim(HospiceInfo.ClaimInfo claimInfo) throws Exception {
+    public ViewInteraction toFoundClaimWithFilter(HospiceInfo.ClaimInfo claimInfo) throws Exception {
 //TODO
+        ViewInteraction claim = null;
+        return claim;
     }
 
-    public void addCommentToClaim(HospiceInfo.ClaimInfo claimInfo, String comment) throws Exception {
-        toFoundClaim(claimInfo);
+    public void toCheckStatusClaim(HospiceInfo.ClaimInfo claimInfo, String status) throws Exception {
+        ClaimFragment claimFragment = toFoundClaim(claimInfo);
+        Thread.sleep(2000);
+        claimFragment.toCheckClaim(claimInfo, status);
+    }
 
-//TODO
+    public HospiceInfo.ClaimInfo toChangeStatusClaim(HospiceInfo.ClaimInfo claimInfo, String oldStatus, String newStatus) throws Exception {
+        ClaimFragment claimFragment = toFoundClaim(claimInfo);
+        Thread.sleep(2000);
+        return claimFragment.toChangeStatusClaim(claimInfo, oldStatus, newStatus);
+    }
+
+    public void addCommentToClaim(HospiceInfo.ClaimInfo claimInfo, String comment, boolean okCancel, int numberOfComments) throws Exception {
+        ClaimFragment claimFragment = toFoundClaim(claimInfo);
+        Thread.sleep(2000);
+        claimFragment.writeComment(claimInfo, comment, okCancel, numberOfComments);
+    }
+
+    public void editCommentToClaim(HospiceInfo.ClaimInfo claimInfo, String comment, String oldComment, boolean okCancel, int numberOfComments) throws Exception {
+        ClaimFragment claimFragment = toFoundClaim(claimInfo);
+        Thread.sleep(2000);
+        claimFragment.editComment(claimInfo, comment, oldComment, okCancel, numberOfComments);
     }
 }

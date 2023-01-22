@@ -7,7 +7,12 @@ plugins {
     id 'kotlin-parcelize'
     id 'androidx.navigation.safeargs.kotlin'
     id 'com.google.firebase.crashlytics'
+//    id "io.qameta.allure" version "2.11.2"
 }
+
+//allure {
+//    value.set("2.8.0")
+//}
 
 android {
     compileSdkVersion 32
@@ -19,8 +24,12 @@ android {
         targetSdkVersion 32
         versionCode 14
         versionName "1.0.0"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-//        testInstrumentationRunner "io.qameta.allure.espresso.AllureAndroidRunner"
+//        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "io.qameta.allure.android.runners.AllureAndroidJUnitRunner"
+    }
+
+    repositories {
+        mavenCentral()
     }
 
     compileOptions {
@@ -49,6 +58,7 @@ android {
 }
 
 dependencies {
+
     def retrofit_version = "2.9.0"
     def retrofit_gson_version = "2.9.0"
     def okhttp_logging_version = "4.9.2"
@@ -101,9 +111,14 @@ dependencies {
 
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     androidTestImplementation 'androidx.test.espresso:espresso-intents:3.4.0'  // для intent-ов
-    implementation 'androidx.test.espresso:espresso-idling-resource:3.4.0'// для асинхронных операций
+    implementation 'androidx.test.espresso:espresso-idling-resource:3.4.0'
+    implementation 'androidx.test.espresso:espresso-contrib:3.5.1' // для recyclerView
 
     androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
-    androidTestImplementation 'io.qameta.allure:allure-kotlin-android:2.0.0'
+    androidTestImplementation 'io.qameta.allure:allure-kotlin-android:2.4.0'
+    androidTestImplementation "io.qameta.allure:allure-kotlin-model:2.4.0"
+    androidTestImplementation "io.qameta.allure:allure-kotlin-commons:2.4.0"
+    androidTestImplementation "io.qameta.allure:allure-kotlin-junit4:2.4.0"
+//    androidTestImplementation 'io.qameta.allure:io.qameta.allure.gradle.plugin:2.11.2'
 
 }
