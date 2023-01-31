@@ -12,11 +12,11 @@ import static org.hamcrest.Matchers.allOf;
 
 import ru.iteco.fmhandroid.R;
 import ru.netology.data.HospiceInfo;
-import ru.netology.resourses.ForAllResourses;
+import ru.netology.resourses.ForAllFunk;
 
 public class LoginPageFragment {
 
-    private ForAllResourses res = new ForAllResourses();
+    private ForAllFunk res = new ForAllFunk();
 
     public void toComeIn(HospiceInfo.LogInfo logInfo) throws Exception {
         onView(allOf(

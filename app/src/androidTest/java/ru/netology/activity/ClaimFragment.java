@@ -1,35 +1,31 @@
 package ru.netology.activity;
 
+import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.swipeUp;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.intent.Intents.intended;
-import static androidx.test.espresso.intent.Intents.intending;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
-import static androidx.test.espresso.intent.matcher.IntentMatchers.hasDataString;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.lessThan;
 import static org.hamcrest.core.IsNot.not;
 
 import androidx.test.espresso.ViewInteraction;
-import androidx.test.espresso.intent.Intents;
 
 import ru.iteco.fmhandroid.R;
-import ru.iteco.fmhandroid.ui.AppActivity;
 import ru.netology.data.HospiceInfo;
 import ru.netology.resourses.CustomViewAssertions;
 import ru.netology.resourses.CustomViewMatcher;
-import ru.netology.resourses.ForAllResourses;
+import ru.netology.resourses.ForAllFunk;
 
 public class ClaimFragment {
 
-    ForAllResourses res = new ForAllResourses();
+    ForAllFunk res = new ForAllFunk();
 
     public void goBackToClaimPage() {
         onView(withId(R.id.close_image_button)).perform(click());
@@ -60,34 +56,35 @@ public class ClaimFragment {
         onView(withId(R.id.close_image_button)).perform(click());
     }
 
-    public void changeExecutor(HospiceInfo.ClaimInfo claimInfo, String executor) {
-
-    }
-
     public HospiceInfo.ClaimInfo toChangeStatusClaim(HospiceInfo.ClaimInfo claimInfo, String oldStatus, String
-            newStatus) {
+            newStatus, boolean comment) throws Exception {
 
-        onView(allOf(withId(R.id.status_label_text_view), withText(oldStatus))).check(matches(isDisplayed()));
-        String status = newStatus;
-        if (newStatus == HospiceInfo.claimStatus[0]) {
-            status = HospiceInfo.claimStatusListMenu[0];
+        String statusMenu = res.choiceStatus(claimInfo, oldStatus, newStatus); //определяем пункт меню у статуса
+
+        if (statusMenu == HospiceInfo.claimStatusListMenu[4]) {
+            // Проверяем что кнопка недоступна - можно вынести в отдельный метод.
+            onView(withId(R.id.status_processing_image_button))
+                    .check(matches(isEnabled())).perform(click());
+            Thread.sleep(2000);
+            onView(withId(R.id.status_icon_image_view))
+                    .check(matches(isDisplayed()));
         } else {
-            if (newStatus == HospiceInfo.claimStatus[1]) {
-                status = HospiceInfo.claimStatusListMenu[1];
-            } else {
-                if (newStatus == HospiceInfo.claimStatus[2]) {
-                    status = HospiceInfo.claimStatusListMenu[2];
-                } else {
-                    if (newStatus == HospiceInfo.claimStatus[3]) {
-                        status = HospiceInfo.claimStatusListMenu[3];
-                    }
+            onView(withId(R.id.status_processing_image_button))
+                    .perform(click());
+            res.getItemFromList(statusMenu);
+            if (oldStatus == HospiceInfo.claimStatus[1]) {  // переход из  "В работе" на другой статус с комментарием
+                if (comment) { // если пишем комментарий
+                    res.typingText(R.id.editText, HospiceInfo.comment[0]);
+                    onView(withId(android.R.id.button1)).perform(click());
+                } else { // если не пишем комметарий. статус не меняется.
+                    onView(withId(android.R.id.button2)).perform(click());
                 }
             }
         }
-        onView(withId(R.id.status_processing_image_button)).perform(click());
-        res.getItemFromList(status);
-        onView(withId(R.id.close_image_button)).perform(click());
-        claimInfo.setExecutor(claimInfo.getAuthor());
+        Thread.sleep(2000);
+        onView(withId(R.id.close_image_button)).
+                perform(click());
+
         return claimInfo;
     }
 
@@ -237,10 +234,68 @@ public class ClaimFragment {
             recyclerView.perform(swipeUp());
             recyclerView.check(
                     matches(CustomViewMatcher.recyclerViewSizeMatcher(numberOfComments)));
-        }else {
+        } else {
             onView(withText(comment)).check(matches(isDisplayed()));
             onView(withId(R.id.commentator_name_text_view)).check(matches(withText(claimInfo.getAuthor())));
         }
     }
 
+    public void editClaimTitleAndDescription(HospiceInfo.ClaimInfo claimInfo, HospiceInfo.ClaimInfo claimInfo2) throws
+            Exception {
+        onView(withId(R.id.edit_processing_image_button)).perform(click());
+        Thread.sleep(2000);
+
+        onView(allOf(withId(R.id.title_edit_text), withText(claimInfo.getTitle())))
+                .check(matches(isDisplayed()));
+        res.typingTextWithClear(R.id.title_edit_text, claimInfo2.getTitle()); //Заголовок
+
+        onView(allOf(withId(R.id.description_edit_text), withText(claimInfo.getDescription())))
+                .check(matches(isDisplayed()));
+        res.typingTextWithClear(R.id.description_edit_text, claimInfo2.getDescription()); // Описание
+
+        onView(withId(R.id.save_button)).perform(click());
+        Thread.sleep(2000);
+        onView(withId(R.id.close_image_button)).perform(click());
+        Thread.sleep(2000);
+        onView(withId(R.id.trademark_image_view)).check(matches(isDisplayed()));
+
+    }
+
+    public void changeExecutor(HospiceInfo.ClaimInfo claimInfo, String executor) throws
+            Exception {
+        onView(allOf(withId(R.id.executor_name_text_view), withText("NOT ASSIGNED")))
+                .check(matches(isDisplayed()));
+
+        onView(withId(R.id.edit_processing_image_button))
+                .check(matches(isEnabled())).perform(click());
+
+        ViewInteraction executorClaim =  // Исполняющий
+                onView(withId(R.id.executor_drop_menu_auto_complete_text_view));
+        executorClaim.perform(click());
+        res.getItemFromList(executor);
+        executorClaim.check(matches(withText(executor))); //проверка вставки
+        closeSoftKeyboard();
+        onView(withId(R.id.save_button)).perform(click());
+        Thread.sleep(2000);
+        onView(allOf(withId(R.id.status_label_text_view), withText("In progress")))
+                .check(matches(isDisplayed()));
+
+        onView(withId(R.id.close_image_button)).perform(click());
+        Thread.sleep(2000);
+        onView(withId(R.id.add_new_claim_material_button))
+                .check(matches(isDisplayed()));
+    }
+
+    public void editClaimNot(HospiceInfo.ClaimInfo claimInfo) throws
+            Exception {
+        // TODO должна быть проверка всплывающего сообщения
+        onView(withId(R.id.edit_processing_image_button))
+                .check(matches(isEnabled())).perform(click());
+        onView(withId(R.id.status_icon_image_view))
+                .check(matches(isDisplayed()));
+        Thread.sleep(2000);
+        onView(withId(R.id.close_image_button)).perform(click());
+        Thread.sleep(2000);
+        onView(withId(R.id.add_new_claim_material_button)).check(matches(isDisplayed()));
+    }
 }
