@@ -8,11 +8,13 @@ import static androidx.test.espresso.contrib.RecyclerViewActions.actionOnItem;
 import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
+import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.endsWith;
 
 import androidx.test.espresso.ViewInteraction;
@@ -39,7 +41,7 @@ public class NewsPageFragment {
         toFoundNews(newsInfo);
         onView(allOf(withId(R.id.news_item_title_text_view),
                 withText(newsInfo.getTitle()))
-        ).perform(click());
+        ).check(matches(isDisplayed()));
         onView(allOf(withId(R.id.news_item_description_text_view),
                 withText(newsInfo.getDescription()))
         ).check(matches(isDisplayed()));
@@ -49,12 +51,10 @@ public class NewsPageFragment {
         onView(withId(R.id.filter_news_material_button)).perform(click());
         onView(
                 allOf(
-                        withClassName(endsWith("ImageButton")),
-                        withParent(withParent(withParent(withParent(withId(R.id.news_item_category_text_auto_complete_text_view)))))
+                        withId(R.id.text_input_end_icon),
+                        withContentDescription("Show dropdown menu")
                 )
         ).perform(click());
-//        onView(withId(R.id.news_item_category_text_auto_complete_text_view)).perform(clearText());
-//        onView(withId(R.id.news_item_category_text_auto_complete_text_view)).perform(click()); //Категория
         res.getItemFromList(category);
         onView(withId(R.id.filter_button)).perform(click());
     }

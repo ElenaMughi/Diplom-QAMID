@@ -18,7 +18,6 @@ import ru.netology.activity.ClaimsPageFragment;
 import ru.netology.activity.LoginPageFragment;
 import ru.netology.activity.MainPageFragment;
 import ru.netology.activity.NewsEditPageFragment;
-import ru.netology.activity.NewsFragment;
 import ru.netology.activity.NewsPageFragment;
 import ru.netology.data.HospiceInfo;
 import ru.netology.resourses.EspressoIdlingResources;
@@ -128,7 +127,7 @@ public class SimpleHospiceTest {
     @Test
     public void createClaimTestFromClaimsWithCheckExecutor() throws Exception { // выяснить
         step("4. Создание заявки из страницы с заявками с проверкой заполнения поля Исполнитель.");
-        Thread.sleep(4000); // загрузка
+        Thread.sleep(6000); // загрузка
 //        LoginPageFragment loginPageFragment = new LoginPageFragment();
 //        HospiceInfo.LogInfo loginInfo = HospiceInfo.getLogInfo();
 //        loginPageFragment.toComeIn(loginInfo);
@@ -287,13 +286,13 @@ public class SimpleHospiceTest {
 //        loginPageFragment.toComeIn(loginInfo);
 
         HospiceInfo.NewsInfo[] news = {
-//                HospiceInfo.getNewInfo(1, true), //новость Объявление
-//                HospiceInfo.getNewInfo(2, true), //новость День рождения
-//                HospiceInfo.getNewInfo(3, true), //новость Зарплата
-//                HospiceInfo.getNewInfo(4, true), //новость Профсоюз
-//                HospiceInfo.getNewInfo(5, true), //новость Праздник
-//                HospiceInfo.getNewInfo(6, true), //новость Массаж
-//                HospiceInfo.getNewInfo(7, true), //новость Благодарность
+                HospiceInfo.getNewInfo(1, true), //новость Объявление
+                HospiceInfo.getNewInfo(2, true), //новость День рождения
+                HospiceInfo.getNewInfo(3, true), //новость Зарплата
+                HospiceInfo.getNewInfo(4, true), //новость Профсоюз
+                HospiceInfo.getNewInfo(5, true), //новость Праздник
+                HospiceInfo.getNewInfo(6, true), //новость Массаж
+                HospiceInfo.getNewInfo(7, true), //новость Благодарность
                 HospiceInfo.getNewInfo(8, true) //новость Нужна помощь
         };
         MainPageFragment mainPage = new MainPageFragment();
@@ -304,7 +303,7 @@ public class SimpleHospiceTest {
             newsEdit.createSimpleNews(newsInfo, true);
         }
 
-//        newsEdit.goToMainPage();
+        newsEdit.goToMainPage();
         mainPage.goToNewsPage();
         for (HospiceInfo.NewsInfo newsInfo : news) {
             newsPage.checkNewsCategory(newsInfo);
@@ -312,12 +311,20 @@ public class SimpleHospiceTest {
 
         newsPage.goToEditNewsPage();
         for (HospiceInfo.NewsInfo newsInfo : news) {
-            newsEdit.checkNewsCategory(newsInfo, false, false);
+            newsEdit.checkNewsCategoryAndActive(newsInfo, true, true);
         }
 
+        mainPage.goToNewsPage();
+        newsPage.goToEditNewsPage();
         newsEdit.changeActive(news[0], false);
-        newsEdit.checkNewsCategory(news[0], false, true);
-        newsEdit.checkNewsCategory(news[1], true, false);
+        newsEdit.checkNewsActive(news[0], false, true);
+        newsEdit.checkNewsActive(news[1], true, false);
+
+        newsEdit.goToMainPage();
+        mainPage.goToNewsPage();
+        newsPage.goToEditNewsPage();
+        newsEdit.checkNewsCategoryAndActive(news[0], false, true);
+        newsEdit.checkNewsCategoryAndActive(news[1], true, false);
 
 //        loginPageFragment.toComeOut();
     }

@@ -7,7 +7,7 @@ plugins {
     id 'kotlin-parcelize'
     id 'androidx.navigation.safeargs.kotlin'
     id 'com.google.firebase.crashlytics'
-//    id "io.qameta.allure" version "2.11.2"
+    id "io.qameta.allure" version "2.8.0"
 }
 
 //allure {
@@ -119,6 +119,6 @@ dependencies {
     androidTestImplementation "io.qameta.allure:allure-kotlin-model:2.4.0"
     androidTestImplementation "io.qameta.allure:allure-kotlin-commons:2.4.0"
     androidTestImplementation "io.qameta.allure:allure-kotlin-junit4:2.4.0"
-//    androidTestImplementation 'io.qameta.allure:io.qameta.allure.gradle.plugin:2.11.2'
+    androidTestImplementation 'io.qameta.allure:io.qameta.allure.gradle.plugin:2.11.2'
 
 }

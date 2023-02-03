@@ -80,6 +80,11 @@ public class ClaimFragment {
                     onView(withId(android.R.id.button2)).perform(click());
                 }
             }
+            if(oldStatus == HospiceInfo.claimStatus[0]) {
+                if(newStatus == HospiceInfo.claimStatus[1]){
+                    claimInfo.setExecutor(claimInfo.getAuthor());
+                }
+            }
         }
         Thread.sleep(2000);
         onView(withId(R.id.close_image_button)).

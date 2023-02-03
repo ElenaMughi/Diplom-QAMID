@@ -1,0 +1,72 @@
+{
+    "name": "CheckNewsFilter",
+    "start": 1675451107892,
+    "stop": 1675451414527,
+    "stage": "finished",
+    "description": null,
+    "descriptionHtml": null,
+    "status": "broken",
+    "statusDetails": {
+        "message": "Class 'org.hamcrest.StringDescription' does not implement interface 'java.lang.Iterable' in call to 'java.util.Iterator java.lang.Iterable.iterator()' (declaration of 'org.hamcrest.BaseDescription' appears in /data/app/~~uv1eLNL-3bJN-Djc6P-w6g==/ru.iteco.fmhandroid-EkyqyxiYtmcTC2QjcxZDtA==/base.apk!classes16.dex)",
+        "trace": "java.lang.IncompatibleClassChangeError: Class 'org.hamcrest.StringDescription' does not implement interface 'java.lang.Iterable' in call to 'java.util.Iterator java.lang.Iterable.iterator()' (declaration of 'org.hamcrest.BaseDescription' appears in /data/app/~~uv1eLNL-3bJN-Djc6P-w6g==/ru.iteco.fmhandroid-EkyqyxiYtmcTC2QjcxZDtA==/base.apk!classes16.dex)\n\tat org.hamcrest.BaseDescription.appendValueList(BaseDescription.java:81)\n\tat androidx.test.espresso.matcher.ViewMatchers.getMismatchDescriptionString(ViewMatchers.java:3)\n\tat androidx.test.espresso.matcher.ViewMatchers.assertThat(ViewMatchers.java:5)\n\tat androidx.test.espresso.assertion.ViewAssertions$MatchesViewAssertion.check(ViewAssertions.java:7)\n\tat androidx.test.espresso.ViewInteraction$SingleExecutionViewAssertion.check(ViewInteraction.java:2)\n\tat androidx.test.espresso.ViewInteraction$2.call(ViewInteraction.java:14)\n\tat androidx.test.espresso.ViewInteraction$2.call(ViewInteraction.java:1)\n\tat java.util.concurrent.FutureTask.run(FutureTask.java:266)\n\tat android.os.Handler.handleCallback(Handler.java:938)\n\tat android.os.Handler.dispatchMessage(Handler.java:99)\n\tat android.os.Looper.loop(Looper.java:223)\n\tat android.app.ActivityThread.main(ActivityThread.java:7656)\n\tat java.lang.reflect.Method.invoke(Native Method)\n\tat com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:592)\n\tat com.android.internal.os.ZygoteInit.main(ZygoteInit.java:947)\n"
+    },
+    "steps": [
+        {
+            "name": "9. Проверка фильтров новостей.",
+            "start": 1675451108609,
+            "stop": 1675451108609,
+            "stage": "finished",
+            "description": null,
+            "descriptionHtml": null,
+            "status": "passed",
+            "statusDetails": null,
+            "steps": [
+            ],
+            "attachments": [
+            ],
+            "parameters": [
+            ]
+        }
+    ],
+    "attachments": [
+    ],
+    "parameters": [
+    ],
+    "uuid": "95890550-70e3-43d0-a0c6-d40c725151e9",
+    "historyId": "f06abe778756798d2c2f44012c08ac61",
+    "fullName": "ru.netology.test.SimpleHospiceTest.CheckNewsFilter",
+    "labels": [
+        {
+            "name": "package",
+            "value": "ru.netology.test"
+        },
+        {
+            "name": "testClass",
+            "value": "ru.netology.test.SimpleHospiceTest"
+        },
+        {
+            "name": "testMethod",
+            "value": "CheckNewsFilter"
+        },
+        {
+            "name": "suite",
+            "value": "ru.netology.test.SimpleHospiceTest"
+        },
+        {
+            "name": "host",
+            "value": "localhost"
+        },
+        {
+            "name": "thread",
+            "value": "Instr: io.qameta.allure.android.runners.AllureAndroidJUnitRunner(302)"
+        },
+        {
+            "name": "framework",
+            "value": "junit4"
+        },
+        {
+            "name": "language",
+            "value": "kotlin"
+        }
+    ]
+}

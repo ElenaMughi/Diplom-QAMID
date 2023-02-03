@@ -10,7 +10,9 @@ import static androidx.test.espresso.contrib.RecyclerViewActions.actionOnItem;
 import static androidx.test.espresso.matcher.ViewMatchers.hasChildCount;
 import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.isNotChecked;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
+import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -82,6 +84,7 @@ public class NewsEditPageFragment {
 
     public void changeActive(HospiceInfo.NewsInfo newsInfo, boolean getActive) throws Exception {
         toFoundNews(newsInfo);
+        Thread.sleep(2000);
         onView(
                 allOf(
                         withId(R.id.edit_news_item_image_view),
@@ -96,6 +99,7 @@ public class NewsEditPageFragment {
 
     public void editNews(HospiceInfo.NewsInfo newsInfo, HospiceInfo.NewsInfo newsInfo2, boolean saveCancel) throws Exception {
         toFoundNews(newsInfo);
+        Thread.sleep(2000);
         onView(
                 allOf(
                         withId(R.id.edit_news_item_image_view),
@@ -107,31 +111,48 @@ public class NewsEditPageFragment {
         news.editNews(newsInfo, newsInfo2, saveCancel);
     }
 
-    public void checkNewsCategory(HospiceInfo.NewsInfo newsInfo, boolean active, boolean notActive) throws Exception {
-        setUpFilterCategory(newsInfo.getCategory());
-        setUpFilterActive(active, notActive);
+    public void checkNewsActive(HospiceInfo.NewsInfo newsInfo, boolean active, boolean notActive) throws Exception {
+        onView(withId(R.id.filter_news_material_button)).perform(click());
+        setChekBox(active, notActive);
+        onView(withId(R.id.filter_button)).perform(click());
         toFoundNews(newsInfo);
+        Thread.sleep(2000);
         onView(allOf(withId(R.id.news_item_title_text_view),
                 withText(newsInfo.getTitle()))
-        ).perform(click());
+        ).check(matches(isDisplayed()));
         onView(allOf(withId(R.id.news_item_description_text_view),
                 withText(newsInfo.getDescription()))
         ).check(matches(isDisplayed()));
     }
 
-    private void setUpFilterActive(boolean active, boolean notActive) {
-        onView(withId(R.id.filter_news_active_material_check_box)).perform(scrollTo(), CustomSetChecked.setChecked(active));
-        onView(withId(R.id.filter_news_inactive_material_check_box)).perform(scrollTo(), CustomSetChecked.setChecked(notActive));
+    public void setChekBox(boolean active, boolean notActive) {
+        onView(withId(R.id.filter_news_active_material_check_box)).perform(CustomSetChecked.setChecked(active));
+        onView(withId(R.id.filter_news_inactive_material_check_box)).perform(CustomSetChecked.setChecked(notActive));
     }
 
-    public void setUpFilterCategory(String Category) {
-        onView(withId(R.id.news_item_category_text_auto_complete_text_view)).perform(clearText());
-        onView(withId(R.id.news_item_category_text_auto_complete_text_view)).perform(click());
-        ViewInteraction category =
-                onView(withId(R.id.news_item_category_text_auto_complete_text_view)); //Категория
-        category.perform(click());
-        res.getItemFromList(Category);
+    public void setUpFilterCategory(String category, boolean active, boolean notActive) {
+        onView(withId(R.id.filter_news_material_button)).perform(click());
+        onView(
+                allOf(
+                        withId(R.id.text_input_end_icon),
+                        withContentDescription("Show dropdown menu")
+                )
+        ).perform(click());
+        res.getItemFromList(category);
+        setChekBox(active, notActive);
         onView(withId(R.id.filter_button)).perform(click());
+    }
+
+    public void checkNewsCategoryAndActive(HospiceInfo.NewsInfo newsInfo, boolean active, boolean notActive) throws Exception {
+        setUpFilterCategory(newsInfo.getCategory(), active, notActive);
+        toFoundNews(newsInfo);
+        Thread.sleep(2000);
+        onView(allOf(withId(R.id.news_item_title_text_view),
+                withText(newsInfo.getTitle()))
+        ).check(matches(isDisplayed()));
+        onView(allOf(withId(R.id.news_item_description_text_view),
+                withText(newsInfo.getDescription()))
+        ).check(matches(isDisplayed()));
     }
 }
 
