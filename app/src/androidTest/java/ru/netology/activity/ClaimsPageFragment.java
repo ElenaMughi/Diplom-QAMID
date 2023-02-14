@@ -8,115 +8,151 @@ import static androidx.test.espresso.contrib.RecyclerViewActions.actionOnItem;
 import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
-import static androidx.test.espresso.matcher.ViewMatchers.isNotChecked;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.hamcrest.Matchers.allOf;
 
 import androidx.test.espresso.ViewInteraction;
+import androidx.test.espresso.contrib.RecyclerViewActions;
 
 import ru.iteco.fmhandroid.R;
-import ru.netology.data.HospiceInfo;
+import ru.netology.data.HospiceData;
+import ru.netology.data.ClaimsInfo;
+import ru.netology.resourses.CustomSetChecked;
 import ru.netology.resourses.CustomViewAssertions;
-import ru.netology.resourses.ForAllFunk;
+import ru.netology.resourses.EspressoIdlingResources;
+import ru.netology.resourses.PrintText;
+import ru.netology.resourses.WaitId;
 
 public class ClaimsPageFragment {
 
-    ForAllFunk res = new ForAllFunk();
+    PrintText res = new PrintText();
+    HospiceData hospiceData = new HospiceData();
 
-    public void createClaim(HospiceInfo.ClaimInfo claimInfo) throws Exception {
-        onView(withId(R.id.add_new_claim_material_button))
-                .check(matches(isDisplayed()));
-        onView(withId(R.id.add_new_claim_material_button)).perform(click());
-        Thread.sleep(2000);
-        onView(withId(R.id.container_custom_app_bar_include_on_fragment_create_edit_claim))
-                .check(matches(isEnabled()));
-        ClaimFragment claim = new ClaimFragment();
-        claim.createClaim(claimInfo);
-    }
-
-    public ClaimFragment toFoundClaim(HospiceInfo.ClaimInfo claimInfo) throws Exception {
-
-        res.setUpFilter(true); //ставим галочки
-        Thread.sleep(1000);
-        ViewInteraction recyclerView = onView(withId(R.id.claim_list_recycler_view));
-        recyclerView.check(CustomViewAssertions.isRecyclerView());
-        Thread.sleep(1000);
-        recyclerView.perform(actionOnItem(hasDescendant(withText(claimInfo.getTitle())), click()));
-        Thread.sleep(10000);
-        return new ClaimFragment();
-    }
-
-    public ClaimFragment toFoundClaimWithFilter(HospiceInfo.ClaimInfo claimInfo, String status) throws Exception {
-
-        //TODO Привести Canceled (статус)-Cancelled (статус в фильтре) к одному знаменателю.
-        if (status == "Canceled") {
-            status = "Cancelled";
-        }
-        res.setUpFilter(false); //чистим галочки
-
+    public void setFilter(boolean filter[]) {
+        WaitId.waitMyIdWithCheck(R.id.filters_material_button, 5000);
         onView(withId(R.id.filters_material_button)).perform(click());
-        // ставим нужную галочку
-        onView(withText(status)).check(matches(isNotChecked())).perform(scrollTo(), click());
+        // ставим галочки согласно фильтру
+        onView(withId(R.id.item_filter_open)).perform(scrollTo(), CustomSetChecked.setChecked(filter[0]));
+        onView(withId(R.id.item_filter_in_progress)).perform(scrollTo(), CustomSetChecked.setChecked(filter[1]));
+        onView(withId(R.id.item_filter_executed)).perform(scrollTo(), CustomSetChecked.setChecked(filter[2]));
+        onView(withId(R.id.item_filter_cancelled)).perform(scrollTo(), CustomSetChecked.setChecked(filter[3]));
 
         onView(withId(R.id.claim_list_filter_ok_material_button)).perform(click());
-        Thread.sleep(6000);
+        WaitId.waitMyIdWithCheck(R.id.claim_list_recycler_view, 5000);
+    }
 
-        ViewInteraction recyclerView = onView(withId(R.id.claim_list_recycler_view));
+    public void getFilterByStatus(String status) {
+        boolean filter[] = {false, false, false, false};
+        for (int i = 0; i < 4; i++) {
+            if (status == hospiceData.claimStatus[i]) {
+                filter[i] = true;
+            }
+        }
+        setFilter(filter);
+    }
+
+    public ClaimFragment foundClaim(int id, String text) {
+        EspressoIdlingResources.increment();
+        ViewInteraction recyclerView = onView(withId(id));
+        EspressoIdlingResources.decrement();
+
         recyclerView.check(CustomViewAssertions.isRecyclerView());
-        recyclerView.perform(actionOnItem(hasDescendant(withText(claimInfo.getTitle())), click()));
+        recyclerView.perform(actionOnItem(hasDescendant(withText(text)), click()));
 
+        WaitId.waitMyIdWithCheck(R.id.close_image_button, 15000);
         return new ClaimFragment();
     }
 
-    public void toCheckStatusClaim(HospiceInfo.ClaimInfo claimInfo, String status) throws Exception {
-        ClaimFragment claimFragment = toFoundClaim(claimInfo);
-        Thread.sleep(2000);
+    public ClaimFragment toFoundClaimWithWholeFilter(ClaimsInfo.ClaimInfo claimInfo) {
+        boolean filter[] = {true, true, true, true};
+        setFilter(filter); //ставим галочки
+        return foundClaim(R.id.claim_list_recycler_view, claimInfo.getTitle());
+    }
+
+    public ClaimFragment toFoundClaimWithFilter(ClaimsInfo.ClaimInfo claimInfo, String status) {
+        //TODO Привести Canceled (статус)-Cancelled (статус в фильтре) к одному знаменателю.
+        getFilterByStatus(status);
+        return foundClaim(R.id.claim_list_recycler_view, claimInfo.getTitle());
+    }
+
+    public ClaimsInfo.ClaimInfo createClaim(ClaimsInfo.ClaimInfo claimInfo) {
+        onView(withId(R.id.add_new_claim_material_button)).perform(click());
+        WaitId.waitMyIdWithCheck(R.id.save_button, 5000);
+        ClaimFragment claim = new ClaimFragment();
+        return claim.createClaim(claimInfo);
+    }
+
+    public void toCheckStatusClaim(ClaimsInfo.ClaimInfo claimInfo, String status) {
+        ClaimFragment claimFragment = toFoundClaimWithFilter(claimInfo, status);
         claimFragment.toCheckClaim(claimInfo, status);
     }
 
-    public HospiceInfo.ClaimInfo toChangeStatusClaim(HospiceInfo.ClaimInfo claimInfo, String oldStatus, String newStatus, boolean comment) throws Exception {
+    public void toChangeStatusClaim(ClaimsInfo.ClaimInfo claimInfo, String oldStatus, String newStatus, boolean comment) {
         ClaimFragment claimFragment = toFoundClaimWithFilter(claimInfo, oldStatus);
-        Thread.sleep(2000);
-        return claimFragment.toChangeStatusClaim(claimInfo, oldStatus, newStatus, comment);
+        claimFragment.toChangeStatusClaim(claimInfo, oldStatus, newStatus, comment);
     }
 
-    public void addCommentToClaim(HospiceInfo.ClaimInfo claimInfo, String comment, boolean okCancel, int numberOfComments) throws Exception {
-        ClaimFragment claimFragment = toFoundClaim(claimInfo);
-        Thread.sleep(2000);
+    public void addCommentToClaim(ClaimsInfo.ClaimInfo claimInfo, String comment, boolean okCancel, int numberOfComments) {
+        ClaimFragment claimFragment = toFoundClaimWithWholeFilter(claimInfo);
         claimFragment.writeComment(claimInfo, comment, okCancel, numberOfComments);
     }
 
-    public void editCommentToClaim(HospiceInfo.ClaimInfo claimInfo, String comment, String oldComment, boolean okCancel, int numberOfComments) throws Exception {
-        ClaimFragment claimFragment = toFoundClaim(claimInfo);
-        Thread.sleep(2000);
+    public void editCommentToClaim(ClaimsInfo.ClaimInfo claimInfo, String comment, String oldComment, boolean okCancel, int numberOfComments) {
+        ClaimFragment claimFragment = toFoundClaimWithWholeFilter(claimInfo);
         claimFragment.editComment(claimInfo, comment, oldComment, okCancel, numberOfComments);
     }
 
-    public void editClaim(HospiceInfo.ClaimInfo claimInfo, HospiceInfo.ClaimInfo claimInfo2) throws Exception {
-        ClaimFragment claimFragment = toFoundClaim(claimInfo);
-        Thread.sleep(2000);
+    public void editClaim(ClaimsInfo.ClaimInfo claimInfo, ClaimsInfo.ClaimInfo claimInfo2) {
+        ClaimFragment claimFragment = toFoundClaimWithWholeFilter(claimInfo);
         claimFragment.editClaimTitleAndDescription(claimInfo, claimInfo2);
     }
 
-    public void editClaimNot(HospiceInfo.ClaimInfo claimInfo, String status) throws Exception {
-        ClaimFragment claimFragment = toFoundClaimWithFilter(claimInfo, status);
-        Thread.sleep(2000);
-        claimFragment.editClaimNot(claimInfo);
+    public void editClaimNot(ClaimsInfo.ClaimInfo claim, String status) {
+        ClaimFragment claimFragment = toFoundClaimWithFilter(claim, status);
+        claimFragment.editClaimNot(claim);
     }
 
-    public void changeExecutor(HospiceInfo.ClaimInfo claimInfo, String executor, String claimStatus) throws Exception {
-        ClaimFragment claimFragment = toFoundClaimWithFilter(claimInfo, claimStatus);
-        Thread.sleep(2000);
-        claimFragment.changeExecutor(claimInfo, executor);
+    public void changeExecutor(ClaimsInfo.ClaimInfo claim, String executor, String status) {
+        ClaimFragment claimFragment = toFoundClaimWithFilter(claim, status);
+        claimFragment.changeExecutor(claim, executor);
     }
 
-    public void goToMainPage() throws Exception {
+    public void goToMainPage() {
         onView(withId(R.id.main_menu_image_button)).perform(click());
         res.getItemFromList("Main");
-        Thread.sleep(2000);
-        onView(withId(R.id.main_swipe_refresh))
-                .check(matches(isDisplayed()));
+        WaitId.waitId(R.id.main_swipe_refresh, 3000);
+    }
+
+    public void checkClaim(ClaimsInfo.ClaimInfo claimInfo, String status) {
+        ClaimFragment claimFragment = toFoundClaimWithWholeFilter(claimInfo);
+        claimFragment.toCheckClaim(claimInfo, status);
+    }
+
+    public void checkClaimWithFiler(ClaimsInfo.ClaimInfo claim, String status) {
+        ClaimFragment claimFragment = toFoundClaimWithFilter(claim, status);
+        claimFragment.toCheckClaim(claim, status);
+    }
+
+    public void checkClaimWithMultipleFiler(ClaimsInfo.ClaimInfo[] claims, boolean filter[]) {
+        setFilter(filter);
+        for (int i = 0; i < 3; i++) {
+            if (filter[i]) {
+                ClaimFragment claimFragment = foundClaim(R.id.claim_list_recycler_view, claims[i].getTitle());
+                claimFragment.toCheckClaim(claims[i], hospiceData.claimStatus[i]);
+            }
+        }
+    }
+
+    public void checkDataTimeInClaim(ClaimsInfo.ClaimInfo claim) {
+        ClaimFragment claimFragment = toFoundClaimWithFilter(claim, hospiceData.claimStatus[1]);
+        claimFragment.checkDataTime(claim);
+        onView(withId(R.id.close_image_button)).perform(click());
+    }
+
+    public void editData(ClaimsInfo.ClaimInfo claim, String data, String time) {
+        ClaimFragment claimFragment = toFoundClaimWithFilter(claim, hospiceData.claimStatus[1]);
+        claimFragment.editDataTime(data, time);
     }
 }

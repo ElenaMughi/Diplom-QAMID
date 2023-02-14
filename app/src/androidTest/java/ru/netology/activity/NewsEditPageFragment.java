@@ -1,66 +1,58 @@
 package ru.netology.activity;
 
 import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.clearText;
 import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.contrib.RecyclerViewActions.actionOnHolderItem;
 import static androidx.test.espresso.contrib.RecyclerViewActions.actionOnItem;
-import static androidx.test.espresso.matcher.ViewMatchers.hasChildCount;
 import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
+import static androidx.test.espresso.matcher.ViewMatchers.hasSibling;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.isNotChecked;
-import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.endsWith;
 
-import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.ViewInteraction;
-import androidx.test.espresso.contrib.RecyclerViewActions;
 
 import ru.iteco.fmhandroid.R;
-import ru.netology.data.HospiceInfo;
+import ru.netology.data.ClaimsInfo;
+import ru.netology.data.NewsInfo;
 import ru.netology.resourses.CustomSetChecked;
 import ru.netology.resourses.CustomViewAssertions;
-import ru.netology.resourses.ForAllFunk;
+import ru.netology.resourses.EspressoIdlingResources;
+import ru.netology.resourses.PrintText;
 
 public class NewsEditPageFragment {
 
-    ForAllFunk res = new ForAllFunk();
+    PrintText res = new PrintText();
 
-    public void createSimpleNews(HospiceInfo.NewsInfo newsInfo, boolean saveCancel) throws Exception {
+    public NewsInfo.NewInfo createSimpleNews(NewsInfo.NewInfo newsInfo, boolean saveCancel) {
         onView(withId(R.id.add_news_image_view)).perform(click());
-        Thread.sleep(2000);
         onView(withId(R.id.custom_app_bar_sub_title_text_view))
                 .check(matches(isDisplayed()));
         NewsFragment news = new NewsFragment();
-        news.createSimpleNews(newsInfo, saveCancel);
+        return news.createSimpleNews(newsInfo, saveCancel);
     }
 
-    public void checkFieldsFromNews(HospiceInfo.NewsInfo newsInfo) throws Exception {
+    public void checkFieldsFromNews(NewsInfo.NewInfo newsInfo) {
         onView(withId(R.id.add_news_image_view)).perform(click());
-        Thread.sleep(2000);
         onView(withId(R.id.custom_app_bar_sub_title_text_view))
                 .check(matches(isDisplayed()));
         NewsFragment news = new NewsFragment();
         news.checkFieldsFromNews(newsInfo);
     }
 
-    public void toFoundNews(HospiceInfo.NewsInfo newsInfo) throws Exception {
-
+    public void toFoundNews(NewsInfo.NewInfo newsInfo) {
+        EspressoIdlingResources.increment();
         ViewInteraction recyclerView = onView(withId(R.id.news_list_recycler_view));
+        EspressoIdlingResources.decrement();
         recyclerView.check(CustomViewAssertions.isRecyclerView());
         recyclerView.perform(actionOnItem(hasDescendant(withText(newsInfo.getTitle())), click()));
-        Thread.sleep(6000);
     }
 
-    public void deleteNews(HospiceInfo.NewsInfo newsInfo, boolean okNo) throws Exception {
+    public void deleteNews(NewsInfo.NewInfo newsInfo, boolean okNo) {
         toFoundNews(newsInfo);
         onView(
                 allOf(
@@ -74,17 +66,15 @@ public class NewsEditPageFragment {
         }
     }
 
-    public void goToMainPage() throws Exception {
+    public void goToMainPage() {
         onView(withId(R.id.main_menu_image_button)).perform(click());
         res.getItemFromList("Main");
-        Thread.sleep(2000);
         onView(withId(R.id.main_swipe_refresh))
                 .check(matches(isDisplayed()));
     }
 
-    public void changeActive(HospiceInfo.NewsInfo newsInfo, boolean getActive) throws Exception {
+    public void changeActive(NewsInfo.NewInfo newsInfo, boolean getActive) {
         toFoundNews(newsInfo);
-        Thread.sleep(2000);
         onView(
                 allOf(
                         withId(R.id.edit_news_item_image_view),
@@ -97,9 +87,8 @@ public class NewsEditPageFragment {
 
     }
 
-    public void editNews(HospiceInfo.NewsInfo newsInfo, HospiceInfo.NewsInfo newsInfo2, boolean saveCancel) throws Exception {
+    public void editNews(NewsInfo.NewInfo newsInfo, NewsInfo.NewInfo newsInfo2, boolean saveCancel) {
         toFoundNews(newsInfo);
-        Thread.sleep(2000);
         onView(
                 allOf(
                         withId(R.id.edit_news_item_image_view),
@@ -111,12 +100,11 @@ public class NewsEditPageFragment {
         news.editNews(newsInfo, newsInfo2, saveCancel);
     }
 
-    public void checkNewsActive(HospiceInfo.NewsInfo newsInfo, boolean active, boolean notActive) throws Exception {
+    public void checkNewsActive(NewsInfo.NewInfo newsInfo, boolean active, boolean notActive) {
         onView(withId(R.id.filter_news_material_button)).perform(click());
         setChekBox(active, notActive);
         onView(withId(R.id.filter_button)).perform(click());
         toFoundNews(newsInfo);
-        Thread.sleep(2000);
         onView(allOf(withId(R.id.news_item_title_text_view),
                 withText(newsInfo.getTitle()))
         ).check(matches(isDisplayed()));
@@ -126,8 +114,10 @@ public class NewsEditPageFragment {
     }
 
     public void setChekBox(boolean active, boolean notActive) {
-        onView(withId(R.id.filter_news_active_material_check_box)).perform(CustomSetChecked.setChecked(active));
-        onView(withId(R.id.filter_news_inactive_material_check_box)).perform(CustomSetChecked.setChecked(notActive));
+        onView(withId(R.id.filter_news_active_material_check_box))
+                .perform(CustomSetChecked.setChecked(active));
+        onView(withId(R.id.filter_news_inactive_material_check_box))
+                .perform(CustomSetChecked.setChecked(notActive));
     }
 
     public void setUpFilterCategory(String category, boolean active, boolean notActive) {
@@ -143,16 +133,41 @@ public class NewsEditPageFragment {
         onView(withId(R.id.filter_button)).perform(click());
     }
 
-    public void checkNewsCategoryAndActive(HospiceInfo.NewsInfo newsInfo, boolean active, boolean notActive) throws Exception {
+    public void checkNewsCategoryAndActive(NewsInfo.NewInfo newsInfo, boolean active, boolean notActive) {
         setUpFilterCategory(newsInfo.getCategory(), active, notActive);
         toFoundNews(newsInfo);
-        Thread.sleep(2000);
         onView(allOf(withId(R.id.news_item_title_text_view),
                 withText(newsInfo.getTitle()))
         ).check(matches(isDisplayed()));
         onView(allOf(withId(R.id.news_item_description_text_view),
                 withText(newsInfo.getDescription()))
         ).check(matches(isDisplayed()));
+    }
+
+    public void checkDataTimeInClaim(NewsInfo.NewInfo news) {
+        toFoundNews(news);
+        onView(allOf(hasSibling(withText(news.getTitle())),
+                withId(R.id.news_item_publication_date_text_view))
+        ).check(matches(withText(news.getDateNews())));
+        onView(allOf(hasSibling(withText(news.getTitle())),
+                withId(R.id.news_item_create_date_text_view))
+        ).check(matches(withText(news.getCreationDate())));
+    }
+
+    public NewsInfo.NewInfo editNewsDataAndTime(NewsInfo.NewInfo news, String data, String time) {
+        toFoundNews(news);
+        onView(
+                allOf(
+                        withId(R.id.edit_news_item_image_view),
+                        withParent(withParent((hasDescendant(withText(news.getTitle()))))))
+        ).perform(click());
+        onView(withId(R.id.custom_app_bar_sub_title_text_view))
+                .check(matches(isDisplayed()));
+        news.setDateNews(data);
+        news.setTimeNews(time);
+        NewsFragment newsFragment = new NewsFragment();
+        newsFragment.editNewsDataAndTime(news);
+        return news;
     }
 }
 

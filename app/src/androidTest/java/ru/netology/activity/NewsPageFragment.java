@@ -1,42 +1,38 @@
 package ru.netology.activity;
 
 import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.clearText;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.contrib.RecyclerViewActions.actionOnItem;
 import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.endsWith;
 
 import androidx.test.espresso.ViewInteraction;
 
 import ru.iteco.fmhandroid.R;
-import ru.netology.data.HospiceInfo;
+import ru.netology.data.ClaimsInfo;
+import ru.netology.data.NewsInfo;
 import ru.netology.resourses.CustomViewAssertions;
-import ru.netology.resourses.ForAllFunk;
+import ru.netology.resourses.EspressoIdlingResources;
+import ru.netology.resourses.PrintText;
 
 public class NewsPageFragment {
 
-    ForAllFunk res = new ForAllFunk();
+    PrintText res = new PrintText();
 
-    public NewsEditPageFragment goToEditNewsPage() throws Exception {
+    public NewsEditPageFragment goToEditNewsPage(){
         onView(withId(R.id.edit_news_material_button)).perform(click());
-        Thread.sleep(2000);
         onView(withId(R.id.news_control_panel_swipe_to_refresh))
                 .check(matches(isDisplayed()));
         return new NewsEditPageFragment();
     }
 
-    public void checkNewsCategory(HospiceInfo.NewsInfo newsInfo) throws Exception {
+    public void checkNewsCategory(NewsInfo.NewInfo newsInfo) {
         setUpFilter(newsInfo.getCategory());
         toFoundNews(newsInfo);
         onView(allOf(withId(R.id.news_item_title_text_view),
@@ -59,11 +55,13 @@ public class NewsPageFragment {
         onView(withId(R.id.filter_button)).perform(click());
     }
 
-    public void toFoundNews(HospiceInfo.NewsInfo newsInfo) throws Exception {
-
+    public void toFoundNews(NewsInfo.NewInfo newsInfo) {
+        EspressoIdlingResources.increment();
         ViewInteraction recyclerView = onView(withId(R.id.news_list_recycler_view));
+        EspressoIdlingResources.decrement();
+
         recyclerView.check(CustomViewAssertions.isRecyclerView());
         recyclerView.perform(actionOnItem(hasDescendant(withText(newsInfo.getTitle())), click()));
-        Thread.sleep(6000);
+
     }
 }

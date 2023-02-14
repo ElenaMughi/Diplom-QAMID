@@ -4,21 +4,24 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.hamcrest.Matchers.allOf;
 
+import static ru.netology.resourses.WaitId.waitId;
+
 import ru.iteco.fmhandroid.R;
-import ru.netology.data.HospiceInfo;
-import ru.netology.resourses.ForAllFunk;
+import ru.netology.data.ClaimsInfo;
+import ru.netology.resourses.PrintText;
 
 public class LoginPageFragment {
 
-    private ForAllFunk res = new ForAllFunk();
+    private PrintText res = new PrintText();
 
-    public void toComeIn(HospiceInfo.LogInfo logInfo) throws Exception {
+    public void toComeIn(ClaimsInfo.LogInfo logInfo) {
         onView(allOf(
                 withParent(withParent(withId(R.id.nav_host_fragment))),
                 withText("Authorization")))
@@ -27,13 +30,9 @@ public class LoginPageFragment {
         res.typingTextWithParentWithClear(R.id.login_text_input_layout, logInfo.getLogin());
         res.typingTextWithParentWithClear(R.id.password_text_input_layout, logInfo.getPassword());
         onView(withId(R.id.enter_button)).perform(click());
-
-        Thread.sleep(2000);
-        onView(withId(R.id.authorization_image_button))
-                .check(matches(isDisplayed()));
     }
 
-    public void toWrongComeIn(HospiceInfo.LogInfo logInfo) throws Exception {
+    public void toWrongComeIn(ClaimsInfo.LogInfo logInfo) {
 
         onView(allOf(
                 withParent(withParent(withId(R.id.nav_host_fragment))),
@@ -50,21 +49,19 @@ public class LoginPageFragment {
 //                .inRoot(withDecorView(not(activityTestRule.getActivity().getWindow().getDecorView())))
 //                .check(matches(isDisplayed()));
 
-        Thread.sleep(2000);
         onView(allOf(
                 withParent(withParent(withId(R.id.nav_host_fragment))),
                 withText("Authorization")))
                 .check(matches(isDisplayed()));
     }
 
-    public void toComeOut() throws Exception {
+    public void toComeOut() {
         onView(withId(R.id.authorization_image_button))
                 .check(matches(isDisplayed()));
 
         onView(withId(R.id.authorization_image_button)).perform(click());
         onView(withText("Log out")).perform(click());
 
-        Thread.sleep(2000);
         onView(allOf(
                 withParent(withParent(withId(R.id.nav_host_fragment))),
                 withText("Authorization")))

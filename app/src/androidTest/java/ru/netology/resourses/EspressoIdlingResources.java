@@ -7,6 +7,7 @@ public class EspressoIdlingResources {
 //// Сложные операции требующие время ;)
 // EspressoIdlingResources.decrement();// Уменьшили счетчик
     private static final String RESOURCE = "GLOBAL";
+
     public static CountingIdlingResource idlingResource = new CountingIdlingResource(RESOURCE);
 
     public static void increment() {

@@ -15,60 +15,57 @@ import static org.hamcrest.Matchers.endsWith;
 
 import androidx.test.espresso.ViewInteraction;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import ru.iteco.fmhandroid.R;
-import ru.netology.data.HospiceInfo;
-import ru.netology.resourses.ForAllFunk;
+import ru.netology.data.NewsInfo;
+import ru.netology.resourses.PrintText;
+import ru.netology.resourses.SetDataTime;
+import ru.netology.resourses.WaitId;
 
 public class NewsFragment {
 
-    ForAllFunk res = new ForAllFunk();
+    PrintText res = new PrintText();
 
-    private void clickSaveCancelButton(boolean saveCancel) throws Exception {
+    private void clickSaveCancelButton(boolean saveCancel){
         if (saveCancel) {
             onView(withId(R.id.save_button)).perform(click());
-            Thread.sleep(2000);
         } else {
             onView(withId(R.id.cancel_button)).perform(click());
-            Thread.sleep(2000);
             onView(withText("CANCEL")).perform(click());
-            Thread.sleep(2000);
             onView(withText("CANCEL")).perform(click());
-            Thread.sleep(2000);
             onView(withText("OK")).perform(click());
         }
     }
 
-    public void createSimpleNews(HospiceInfo.NewsInfo newsInfo, boolean saveCancel) throws Exception {
+    public NewsInfo.NewInfo createSimpleNews(NewsInfo.NewInfo newsInfo, boolean saveCancel) {
 
-//                onView(withId(R.id.news_item_category_text_auto_complete_text_view)); //Категория
         onView(
                 allOf(
                         withClassName(endsWith("ImageButton")),
                         withParent(withParent(withParent(withParent(withId(R.id.news_item_category_text_input_layout)))))
                 )
         ).perform(click());
-//        onView(withId(R.id.text_input_end_icon)).perform(click());
         res.getItemFromList(newsInfo.getCategory());
 
         res.typingTextWithClear(R.id.news_item_title_text_input_edit_text, newsInfo.getTitle()); //Заголовок
 
-        // TODO выбор даты-времени не реализован
-        onView(withId(R.id.news_item_publish_date_text_input_edit_text)).perform(click()); // Дата
-        ViewInteraction date = onView(withId(android.R.id.button1));
-        date.perform(click());
+        SetDataTime.setDate(R.id.news_item_publish_date_text_input_edit_text, newsInfo.getDateNews());
+        newsInfo.setCreationDate(LocalDate.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")));
+        SetDataTime.setTime(R.id.news_item_publish_time_text_input_edit_text, newsInfo.getTimeNews());
 
-        onView(withId(R.id.news_item_publish_time_text_input_edit_text)).perform(click()); // Время
-        ViewInteraction time = onView(withId(android.R.id.button1));
-        time.perform(click());
 
         res.typingText(R.id.news_item_description_text_input_edit_text, newsInfo.getDescription()); // Описание
 
         clickSaveCancelButton(saveCancel); //сохранение/отмена
 
-        onView(withId(R.id.trademark_image_view)).check(matches(isDisplayed()));
+        WaitId.waitId(R.id.trademark_image_view, 5000);
+
+        return  newsInfo;
     }
 
-    public void checkFieldsFromNews(HospiceInfo.NewsInfo newsInfo) throws Exception {
+    public void checkFieldsFromNews(NewsInfo.NewInfo newsInfo) {
 
         clickSaveCancelButton(true); //сохранение/отмена
         // TODO проверка toast-сообщения - не реализовано
@@ -106,7 +103,7 @@ public class NewsFragment {
 
     }
 
-    public void changeActive(boolean getActive) throws Exception {
+    public void changeActive(boolean getActive) {
         if (getActive) {
             onView(allOf(withId(R.id.switcher), withText("Not active")))
                     .check(matches(isDisplayed()));
@@ -123,7 +120,7 @@ public class NewsFragment {
         clickSaveCancelButton(true); //сохранение/отмена
     }
 
-    public void editNews(HospiceInfo.NewsInfo newsInfo, HospiceInfo.NewsInfo newsInfo2, boolean saveCancel) throws Exception {
+    public void editNews(NewsInfo.NewInfo newsInfo, NewsInfo.NewInfo newsInfo2, boolean saveCancel) {
 
         onView(allOf(withId(R.id.news_item_category_text_auto_complete_text_view), withText(newsInfo.getCategory())))
                 .check(matches(isDisplayed()));
@@ -142,5 +139,11 @@ public class NewsFragment {
         clickSaveCancelButton(saveCancel); //сохранение/отмена
 
         onView(withId(R.id.trademark_image_view)).check(matches(isDisplayed()));
+    }
+
+    public void editNewsDataAndTime(NewsInfo.NewInfo news) {
+        SetDataTime.setDate(R.id.news_item_publish_date_text_input_edit_text, news.getDateNews());
+        SetDataTime.setTime(R.id.news_item_publish_time_text_input_edit_text, news.getTimeNews());
+        clickSaveCancelButton(true);
     }
 }
