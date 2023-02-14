@@ -65,10 +65,7 @@ public class SimpleHospiceTest {
     public void logInOutTest() throws Exception {
         step("1. Авторизация в приложении");
 
-
-        Thread.sleep(4000); // загрузка
-        LoginPageFragment loginPageFragment = new LoginPageFragment();
-
+        LoginPageFragment loginPageFragment = logIn();
         loginPageFragment.toComeOut();
 
         ClaimsInfo.LogInfo loginInfo = ClaimsInfo.getWrongLogInfo();
@@ -82,6 +79,8 @@ public class SimpleHospiceTest {
 
         loginInfo = ClaimsInfo.getLogInfo();
         loginPageFragment.toComeIn(loginInfo);
+
+        loginPageFragment.toComeOut();
 
     }
 
@@ -114,7 +113,7 @@ public class SimpleHospiceTest {
     public void createClaimTestFromMainWithCheckCancel() throws Exception {
         step("3. Проверка отмены создания заявки");
         Thread.sleep(4000); // загрузка
-//        LoginPageFragment loginPage = logIn();
+        LoginPageFragment loginPage = logIn();
 
         ClaimsInfo.ClaimInfo claimInfo = ClaimsInfo.getClaimInfoWithChoiceFIO(1); //заявка
         MainPageFragment mainPage = new MainPageFragment();
@@ -130,14 +129,14 @@ public class SimpleHospiceTest {
         claim.goBackToClaimPage();
         claimPage.goToMainPage();
 
-//        loginPage.toComeOut();
+        loginPage.toComeOut();
     }
 
     @Test
     public void createClaimTestFromClaimsWithCheckExecutor() throws Exception { // выяснить
         step("4. Создание заявки из страницы с заявками с проверкой заполнения поля Исполнитель.");
         Thread.sleep(6000); // загрузка
-//        LoginPageFragment loginPage = logIn();
+        LoginPageFragment loginPage = logIn();
 
         ClaimsInfo.ClaimInfo claimInfo = ClaimsInfo.getClaimInfoWithChoiceFIO(2); //заявка
         MainPageFragment mainPage = new MainPageFragment();
@@ -158,14 +157,14 @@ public class SimpleHospiceTest {
         claimPage3.createClaim(claimInfo3);
         claimPage3.toCheckStatusClaim(claimInfo3, HospiceData.claimStatus[1]);
 
-//        loginPage.toComeOut();
+        loginPage.toComeOut();
     }
 
     @Test
     public void createAndEditCommentOnClaim() throws Exception {
         step("5. Проверка добавления комментариев к заявке на этапах Открыто и в Работе.");
         Thread.sleep(4000); // загрузка
-//        LoginPageFragment loginPage = logIn();
+        LoginPageFragment loginPage = logIn();
 
         ClaimsInfo.ClaimInfo claimInfo = ClaimsInfo.getClaimInfoWithChoiceFIO(2); //заявка
         MainPageFragment mainPage = new MainPageFragment();
@@ -188,14 +187,14 @@ public class SimpleHospiceTest {
         claimPage.addCommentToClaim(claimInfo2, HospiceData.comment[3], true, 2);
         claimPage.addCommentToClaim(claimInfo2, HospiceData.comment[0], true, 3);
 
-//        loginPage.toComeOut();
+        loginPage.toComeOut();
     }
 
     @Test
     public void changeClaimStatus() throws Exception {
         step("6. Прохождение по статусам заявок с редактированием заявки и использованием фильтра заявок.");
         Thread.sleep(4000); // загрузка
-//        LoginPageFragment loginPage = logIn();
+        LoginPageFragment loginPage = logIn();
 
         ClaimsInfo.ClaimInfo claimInfo = ClaimsInfo.getClaimInfoWithChoiceFIO(2); //заявка
         MainPageFragment mainPage = new MainPageFragment();
@@ -217,14 +216,14 @@ public class SimpleHospiceTest {
 
         claimPage.createClaim(claimInfo);
         claimPage.changeExecutor(claimInfo, claimInfo.getAuthor(), HospiceData.claimStatus[0]);
-//        loginPage.toComeOut();
+        loginPage.toComeOut();
     }
 
     @Test
     public void createNewsWithMenuEmptyFieldsAndCancel() throws Exception {
         step("7. Создание новости с проверкой пустых полей, отмены создания, удаление новости.");
         Thread.sleep(4000); // загрузка
-//        LoginPageFragment loginPage = logIn();
+        LoginPageFragment loginPage = logIn();
 
         NewsInfo.NewInfo newsInfo = NewsInfo.getNewInfo(1, true); //заявка
         MainPageFragment mainPage = new MainPageFragment();
@@ -238,14 +237,14 @@ public class SimpleHospiceTest {
         newsEdit.deleteNews(newsInfo, false);
         newsEdit.deleteNews(newsInfo, true);
 
-//        loginPage.toComeOut();
+        loginPage.toComeOut();
     }
 
     @Test
     public void viewNewsFromMainWithEditAndActive() throws Exception {
         step("8. Просмотр текущих новостей на главной странице и редактирование. Активность новости.");
         Thread.sleep(4000); // загрузка
-//        LoginPageFragment loginPage = logIn();
+        LoginPageFragment loginPage = logIn();
 
         NewsInfo.NewInfo newsInfo = NewsInfo.getNewInfo(1, true); //заявка
         MainPageFragment mainPage = new MainPageFragment();
@@ -273,14 +272,14 @@ public class SimpleHospiceTest {
         newsEdit.goToMainPage();
         mainPage.checkNews(newsInfo2, true);
 
-//        loginPage.toComeOut();
+        loginPage.toComeOut();
     }
 
     @Test
     public void checkNewsFilter() throws Exception {
         step("9. Проверка фильтров новостей.");
         Thread.sleep(4000); // загрузка
-//        LoginPageFragment loginPage = logIn();
+        LoginPageFragment loginPage = logIn();
 
         NewsInfo.NewInfo[] news = {
                 NewsInfo.getNewInfo(1, true), //новость Объявление
@@ -323,14 +322,14 @@ public class SimpleHospiceTest {
         newsEdit.checkNewsCategoryAndActive(news[0], false, true);
         newsEdit.checkNewsCategoryAndActive(news[1], true, false);
 
-//        loginPage.toComeOut();
+        loginPage.toComeOut();
     }
 
     @Test
     public void checkClaimsFilter() throws Exception {
         step("10. Проверка фильтров заявок.");
         Thread.sleep(4000); // загрузка
-//        LoginPageFragment loginPage = logIn();
+        LoginPageFragment loginPage = logIn();
 
         ClaimsInfo.ClaimInfo claims[] = {
                 ClaimsInfo.getClaimInfoWithChoiceFIO(2), //заявка1
@@ -363,7 +362,7 @@ public class SimpleHospiceTest {
         boolean filter3[] = {true, false, true, true};
         claimPage.checkClaimWithMultipleFiler(claims, filter3);
 
-//        loginPage.toComeOut();
+        loginPage.toComeOut();
     }
 
 
@@ -371,7 +370,7 @@ public class SimpleHospiceTest {
     public void checkPrintSymbolsAndLettersInClaims() throws Exception {
         step("11. Проверка доступности символов при создании заявки.");
         Thread.sleep(4000); // загрузка
-//        LoginPageFragment loginPage = logIn();
+        LoginPageFragment loginPage = logIn();
 
         MainPageFragment mainPage = new MainPageFragment();
         ClaimsPageFragment claimPage = mainPage.goToClaimsPageFromClaimBox();
@@ -390,14 +389,14 @@ public class SimpleHospiceTest {
             claimPage.addCommentToClaim(claim, text[i], true, 0);
         }
 
-//        loginPage.toComeOut();
+        loginPage.toComeOut();
     }
 
     @Test
     public void checkPrintSymbolsAndLettersInNews() throws Exception {
         step("12. Проверка доступности символов при создании новости.");
         Thread.sleep(4000); // загрузка
-//        LoginPageFragment loginPage = logIn();
+        LoginPageFragment loginPage = logIn();
 
         MainPageFragment mainPage = new MainPageFragment();
         NewsPageFragment newsPage = mainPage.goToNewsPage();
@@ -416,7 +415,7 @@ public class SimpleHospiceTest {
             newsEdit.createSimpleNews(news, true);
         }
 
-//        loginPage.toComeOut();
+        loginPage.toComeOut();
     }
 
     @Test
@@ -453,7 +452,7 @@ public class SimpleHospiceTest {
     public void createNewsTestWithDateAndTime() throws Exception {
         step("16. Проверка даты и времени в новости.");
         Thread.sleep(4000); // загрузка
-//        LoginPageFragment loginPage = logIn();
+        LoginPageFragment loginPage = logIn();
 
 
         NewsInfo.NewInfo news[] = {
@@ -476,7 +475,7 @@ public class SimpleHospiceTest {
         news[0] = newsEditPage.editNewsDataAndTime(news[2], HospiceData.setData(3, 2, 0), HospiceData.testingTime[4]);
         newsEditPage.checkDataTimeInClaim(news[2]);
 
-//        loginPage.toComeOut();
+        loginPage.toComeOut();
     }
 }
 
