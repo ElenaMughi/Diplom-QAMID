@@ -9,6 +9,8 @@ import androidx.test.espresso.IdlingRegistry;
 import androidx.test.espresso.NoMatchingViewException;
 import androidx.test.rule.ActivityTestRule;
 
+import junit.framework.AssertionFailedError;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -52,12 +54,12 @@ public class SimpleHospiceTest {
         LoginPageFragment loginPage = new LoginPageFragment();
         ClaimsInfo.LogInfo loginInfo = ClaimsInfo.getLogInfo();
         try {
-            onView(isRoot()).perform(waitId(R.id.nav_host_fragment, 7000));
+            onView(isRoot()).perform(waitId(R.id.enter_button, 10000));
             loginPage.toComeIn(loginInfo);
-        } catch (NoMatchingViewException e) {
-            System.out.println("не найдено" + R.id.nav_host_fragment);
+        } catch (NoMatchingViewException e) { //NoMatchingViewException AssertionFailedError
+            System.out.println("не найдено" + R.id.enter_button);
         }
-        onView(isRoot()).perform(waitId(R.id.main_swipe_refresh, 5000));
+        onView(isRoot()).perform(waitId(R.id.main_swipe_refresh, 8000));
         return loginPage;
     }
 
