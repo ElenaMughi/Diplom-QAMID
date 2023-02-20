@@ -1,0 +1,69 @@
+{
+    "name": "checkClaimsFilterTest",
+    "start": 1676893174030,
+    "stop": 1676893258964,
+    "stage": "finished",
+    "description": null,
+    "descriptionHtml": null,
+    "status": "passed",
+    "statusDetails": null,
+    "steps": [
+        {
+            "name": "10. Проверка фильтров заявок.",
+            "start": 1676893174802,
+            "stop": 1676893174802,
+            "stage": "finished",
+            "description": null,
+            "descriptionHtml": null,
+            "status": "passed",
+            "statusDetails": null,
+            "steps": [
+            ],
+            "attachments": [
+            ],
+            "parameters": [
+            ]
+        }
+    ],
+    "attachments": [
+    ],
+    "parameters": [
+    ],
+    "uuid": "38bae484-2f53-4db6-8cca-ac4f07ae48e2",
+    "historyId": "3eb96d194ef3eb527204d83b6e402f34",
+    "fullName": "ru.netology.test.SimpleHospiceTest.checkClaimsFilterTest",
+    "labels": [
+        {
+            "name": "package",
+            "value": "ru.netology.test"
+        },
+        {
+            "name": "testClass",
+            "value": "ru.netology.test.SimpleHospiceTest"
+        },
+        {
+            "name": "testMethod",
+            "value": "checkClaimsFilterTest"
+        },
+        {
+            "name": "suite",
+            "value": "ru.netology.test.SimpleHospiceTest"
+        },
+        {
+            "name": "host",
+            "value": "localhost"
+        },
+        {
+            "name": "thread",
+            "value": "Instr: io.qameta.allure.android.runners.AllureAndroidJUnitRunner(482)"
+        },
+        {
+            "name": "framework",
+            "value": "junit4"
+        },
+        {
+            "name": "language",
+            "value": "kotlin"
+        }
+    ]
+}

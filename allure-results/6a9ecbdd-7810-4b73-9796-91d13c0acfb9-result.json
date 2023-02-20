@@ -1,0 +1,69 @@
+{
+    "name": "createClaimTestFromMainWithCheckEmptyFields",
+    "start": 1676741668888,
+    "stop": 1676742981015,
+    "stage": "finished",
+    "description": null,
+    "descriptionHtml": null,
+    "status": "passed",
+    "statusDetails": null,
+    "steps": [
+        {
+            "name": "2. Создание заявки из главной страницы и проверка заполнения полей",
+            "start": 1676741677025,
+            "stop": 1676741677026,
+            "stage": "finished",
+            "description": null,
+            "descriptionHtml": null,
+            "status": "passed",
+            "statusDetails": null,
+            "steps": [
+            ],
+            "attachments": [
+            ],
+            "parameters": [
+            ]
+        }
+    ],
+    "attachments": [
+    ],
+    "parameters": [
+    ],
+    "uuid": "6a9ecbdd-7810-4b73-9796-91d13c0acfb9",
+    "historyId": "19ae5c1885e85a299df8fef75671cdae",
+    "fullName": "ru.netology.test.SimpleHospiceTest.createClaimTestFromMainWithCheckEmptyFields",
+    "labels": [
+        {
+            "name": "package",
+            "value": "ru.netology.test"
+        },
+        {
+            "name": "testClass",
+            "value": "ru.netology.test.SimpleHospiceTest"
+        },
+        {
+            "name": "testMethod",
+            "value": "createClaimTestFromMainWithCheckEmptyFields"
+        },
+        {
+            "name": "suite",
+            "value": "ru.netology.test.SimpleHospiceTest"
+        },
+        {
+            "name": "host",
+            "value": "localhost"
+        },
+        {
+            "name": "thread",
+            "value": "Instr: io.qameta.allure.android.runners.AllureAndroidJUnitRunner(575)"
+        },
+        {
+            "name": "framework",
+            "value": "junit4"
+        },
+        {
+            "name": "language",
+            "value": "kotlin"
+        }
+    ]
+}

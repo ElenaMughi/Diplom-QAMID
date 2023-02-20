@@ -15,10 +15,13 @@ import static org.hamcrest.Matchers.endsWith;
 
 import androidx.test.espresso.ViewInteraction;
 
+import net.datafaker.Faker;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 import ru.iteco.fmhandroid.R;
+import ru.netology.data.HospiceData;
 import ru.netology.data.NewsInfo;
 import ru.netology.resourses.PrintText;
 import ru.netology.resourses.SetDataTime;
@@ -27,8 +30,9 @@ import ru.netology.resourses.WaitId;
 public class NewsFragment {
 
     PrintText res = new PrintText();
+    static Faker faker = new Faker();
 
-    private void clickSaveCancelButton(boolean saveCancel){
+    private void clickSaveCancelButton(boolean saveCancel) {
         if (saveCancel) {
             onView(withId(R.id.save_button)).perform(click());
         } else {
@@ -44,7 +48,8 @@ public class NewsFragment {
         onView(
                 allOf(
                         withClassName(endsWith("ImageButton")),
-                        withParent(withParent(withParent(withParent(withId(R.id.news_item_category_text_input_layout)))))
+                        withParent(withParent(withParent(withParent(withId(
+                                R.id.news_item_category_text_input_layout)))))
                 )
         ).perform(click());
         res.getItemFromList(newsInfo.getCategory());
@@ -62,10 +67,10 @@ public class NewsFragment {
 
         WaitId.waitId(R.id.trademark_image_view, 5000);
 
-        return  newsInfo;
+        return newsInfo;
     }
 
-    public void checkFieldsFromNews(NewsInfo.NewInfo newsInfo) {
+    public void checkEmptyFieldsWhenCreatingNews(NewsInfo.NewInfo newsInfo) {
 
         clickSaveCancelButton(true); //сохранение/отмена
         // TODO проверка toast-сообщения - не реализовано
@@ -103,7 +108,7 @@ public class NewsFragment {
 
     }
 
-    public void changeActive(boolean getActive) {
+    public NewsInfo.NewInfo changeActive(NewsInfo.NewInfo newsInfo, boolean getActive) {
         if (getActive) {
             onView(allOf(withId(R.id.switcher), withText("Not active")))
                     .check(matches(isDisplayed()));
@@ -117,33 +122,61 @@ public class NewsFragment {
             onView(allOf(withId(R.id.switcher), withText("Not active")))
                     .check(matches(isDisplayed()));
         }
+        newsInfo.setActive(getActive);
         clickSaveCancelButton(true); //сохранение/отмена
+        return newsInfo;
     }
 
-    public void editNews(NewsInfo.NewInfo newsInfo, NewsInfo.NewInfo newsInfo2, boolean saveCancel) {
+    public NewsInfo.NewInfo editNews(NewsInfo.NewInfo newsInfo, boolean saveCancel) {
 
         onView(allOf(withId(R.id.news_item_category_text_auto_complete_text_view), withText(newsInfo.getCategory())))
                 .check(matches(isDisplayed()));
         onView(withId(R.id.news_item_category_text_auto_complete_text_view)).perform(clearText());
         onView(withId(R.id.news_item_category_text_auto_complete_text_view)).perform(click()); //Категория
-        res.getItemFromList(newsInfo2.getCategory());
+        res.getItemFromList(HospiceData.newsCategory.Salary.getTitle());
 
         onView(allOf(withId(R.id.news_item_title_text_input_edit_text), withText(newsInfo.getTitle())))
                 .check(matches(isDisplayed()));
-        res.typingTextWithClear(R.id.news_item_title_text_input_edit_text, newsInfo2.getTitle()); //Заголовок
+        String title = faker.bothify("Bunny???#??#??#??#");
+        res.typingTextWithClear(R.id.news_item_title_text_input_edit_text, title); //Заголовок
 
         onView(allOf(withId(R.id.news_item_description_text_input_edit_text), withText(newsInfo.getDescription())))
                 .check(matches(isDisplayed()));
-        res.typingTextWithClear(R.id.news_item_description_text_input_edit_text, newsInfo2.getDescription()); // Описание
+        String descript = faker.bothify("Fox???#??#??#??#");
+        res.typingTextWithClear(R.id.news_item_description_text_input_edit_text, descript); // Описание
 
+        if (saveCancel) {
+            newsInfo.setCategory(HospiceData.newsCategory.Salary.getTitle());
+            newsInfo.setTitle(title);
+            newsInfo.setDescription(descript);
+        }
         clickSaveCancelButton(saveCancel); //сохранение/отмена
-
-        onView(withId(R.id.trademark_image_view)).check(matches(isDisplayed()));
+        WaitId.waitId(R.id.trademark_image_view, 3000);
+        return newsInfo;
     }
 
     public void editNewsDataAndTime(NewsInfo.NewInfo news) {
         SetDataTime.setDate(R.id.news_item_publish_date_text_input_edit_text, news.getDateNews());
         SetDataTime.setTime(R.id.news_item_publish_time_text_input_edit_text, news.getTimeNews());
         clickSaveCancelButton(true);
+    }
+
+    public void checkNews(NewsInfo.NewInfo news) {
+        onView(allOf(withId(R.id.news_item_category_text_auto_complete_text_view), withText(news.getCategory())))
+                .check(matches(isDisplayed()));
+
+        onView(allOf(withId(R.id.news_item_title_text_input_edit_text), withText(news.getTitle())))
+                .check(matches(isDisplayed()));
+
+        onView(allOf(withId(R.id.news_item_publish_date_text_input_edit_text), withText(news.getDateNews())))
+                .check(matches(isDisplayed()));
+
+        onView(allOf(withId(R.id.news_item_publish_time_text_input_edit_text), withText(news.getTimeNews())))
+                .check(matches(isDisplayed()));
+
+        onView(allOf(withId(R.id.news_item_description_text_input_edit_text), withText(news.getDescription())))
+                .check(matches(isDisplayed()));
+
+        clickSaveCancelButton(false);
     }
 }

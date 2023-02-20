@@ -1,7 +1,6 @@
 package ru.netology.resourses;
 
 import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
@@ -19,8 +18,6 @@ import androidx.test.espresso.util.TreeIterables;
 import org.hamcrest.Matcher;
 
 import java.util.concurrent.TimeoutException;
-
-import ru.iteco.fmhandroid.R;
 
 public class WaitId {
 

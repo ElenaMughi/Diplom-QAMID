@@ -1,0 +1,69 @@
+{
+    "name": "checkPrintAllSymbolsAndLettersInNewsTest",
+    "start": 1676893018208,
+    "stop": 1676893081254,
+    "stage": "finished",
+    "description": null,
+    "descriptionHtml": null,
+    "status": "passed",
+    "statusDetails": null,
+    "steps": [
+        {
+            "name": "12. Проверка доступности символов при создании новости.",
+            "start": 1676893019190,
+            "stop": 1676893019191,
+            "stage": "finished",
+            "description": null,
+            "descriptionHtml": null,
+            "status": "passed",
+            "statusDetails": null,
+            "steps": [
+            ],
+            "attachments": [
+            ],
+            "parameters": [
+            ]
+        }
+    ],
+    "attachments": [
+    ],
+    "parameters": [
+    ],
+    "uuid": "cd952839-4161-43a0-bd91-8cf656d3a8df",
+    "historyId": "3a4b3a047dc332389d6f3bcb90e9a555",
+    "fullName": "ru.netology.test.SimpleHospiceTest.checkPrintAllSymbolsAndLettersInNewsTest",
+    "labels": [
+        {
+            "name": "package",
+            "value": "ru.netology.test"
+        },
+        {
+            "name": "testClass",
+            "value": "ru.netology.test.SimpleHospiceTest"
+        },
+        {
+            "name": "testMethod",
+            "value": "checkPrintAllSymbolsAndLettersInNewsTest"
+        },
+        {
+            "name": "suite",
+            "value": "ru.netology.test.SimpleHospiceTest"
+        },
+        {
+            "name": "host",
+            "value": "localhost"
+        },
+        {
+            "name": "thread",
+            "value": "Instr: io.qameta.allure.android.runners.AllureAndroidJUnitRunner(482)"
+        },
+        {
+            "name": "framework",
+            "value": "junit4"
+        },
+        {
+            "name": "language",
+            "value": "kotlin"
+        }
+    ]
+}

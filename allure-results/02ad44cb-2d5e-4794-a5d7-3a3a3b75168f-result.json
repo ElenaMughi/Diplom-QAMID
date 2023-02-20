@@ -1,0 +1,69 @@
+{
+    "name": "checkNewsWithDateAndTimeTest",
+    "start": 1676890085368,
+    "stop": 1676890171863,
+    "stage": "finished",
+    "description": null,
+    "descriptionHtml": null,
+    "status": "passed",
+    "statusDetails": null,
+    "steps": [
+        {
+            "name": "16. Проверка даты и времени в новости.",
+            "start": 1676890087851,
+            "stop": 1676890087852,
+            "stage": "finished",
+            "description": null,
+            "descriptionHtml": null,
+            "status": "passed",
+            "statusDetails": null,
+            "steps": [
+            ],
+            "attachments": [
+            ],
+            "parameters": [
+            ]
+        }
+    ],
+    "attachments": [
+    ],
+    "parameters": [
+    ],
+    "uuid": "02ad44cb-2d5e-4794-a5d7-3a3a3b75168f",
+    "historyId": "affd4dbe125b44d38ea4b6afd65fe8b3",
+    "fullName": "ru.netology.test.SimpleHospiceTest.checkNewsWithDateAndTimeTest",
+    "labels": [
+        {
+            "name": "package",
+            "value": "ru.netology.test"
+        },
+        {
+            "name": "testClass",
+            "value": "ru.netology.test.SimpleHospiceTest"
+        },
+        {
+            "name": "testMethod",
+            "value": "checkNewsWithDateAndTimeTest"
+        },
+        {
+            "name": "suite",
+            "value": "ru.netology.test.SimpleHospiceTest"
+        },
+        {
+            "name": "host",
+            "value": "localhost"
+        },
+        {
+            "name": "thread",
+            "value": "Instr: io.qameta.allure.android.runners.AllureAndroidJUnitRunner(412)"
+        },
+        {
+            "name": "framework",
+            "value": "junit4"
+        },
+        {
+            "name": "language",
+            "value": "kotlin"
+        }
+    ]
+}

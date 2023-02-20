@@ -1,0 +1,69 @@
+{
+    "name": "createClaimFromMainPageWithCheckCancelTest",
+    "start": 1676890826123,
+    "stop": 1676890857097,
+    "stage": "finished",
+    "description": null,
+    "descriptionHtml": null,
+    "status": "passed",
+    "statusDetails": null,
+    "steps": [
+        {
+            "name": "3. Проверка отмены создания заявки",
+            "start": 1676890826861,
+            "stop": 1676890826862,
+            "stage": "finished",
+            "description": null,
+            "descriptionHtml": null,
+            "status": "passed",
+            "statusDetails": null,
+            "steps": [
+            ],
+            "attachments": [
+            ],
+            "parameters": [
+            ]
+        }
+    ],
+    "attachments": [
+    ],
+    "parameters": [
+    ],
+    "uuid": "e2bbee81-a4a3-4379-b481-a137395d5f01",
+    "historyId": "2b472e60a943fe5841c7620dae24b55b",
+    "fullName": "ru.netology.test.SimpleHospiceTest.createClaimFromMainPageWithCheckCancelTest",
+    "labels": [
+        {
+            "name": "package",
+            "value": "ru.netology.test"
+        },
+        {
+            "name": "testClass",
+            "value": "ru.netology.test.SimpleHospiceTest"
+        },
+        {
+            "name": "testMethod",
+            "value": "createClaimFromMainPageWithCheckCancelTest"
+        },
+        {
+            "name": "suite",
+            "value": "ru.netology.test.SimpleHospiceTest"
+        },
+        {
+            "name": "host",
+            "value": "localhost"
+        },
+        {
+            "name": "thread",
+            "value": "Instr: io.qameta.allure.android.runners.AllureAndroidJUnitRunner(417)"
+        },
+        {
+            "name": "framework",
+            "value": "junit4"
+        },
+        {
+            "name": "language",
+            "value": "kotlin"
+        }
+    ]
+}

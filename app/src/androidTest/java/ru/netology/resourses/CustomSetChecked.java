@@ -1,12 +1,5 @@
 package ru.netology.resourses;
 
-import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.action.ViewActions.scrollTo;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.isNotChecked;
-import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.core.Is.isA;
 
 import android.view.View;
@@ -17,8 +10,6 @@ import androidx.test.espresso.ViewAction;
 
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
-
-import ru.iteco.fmhandroid.R;
 
 public class CustomSetChecked { // для проверки чек-бокса
     public static ViewAction setChecked(final boolean checked) {

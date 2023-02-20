@@ -1,0 +1,69 @@
+{
+    "name": "createNewsWithMenuEmptyFieldsAndCancel",
+    "start": 1676831461483,
+    "stop": 1676831518231,
+    "stage": "finished",
+    "description": null,
+    "descriptionHtml": null,
+    "status": "passed",
+    "statusDetails": null,
+    "steps": [
+        {
+            "name": "7. Создание новости с проверкой пустых полей, отмены создания, удаление новости.",
+            "start": 1676831463562,
+            "stop": 1676831463562,
+            "stage": "finished",
+            "description": null,
+            "descriptionHtml": null,
+            "status": "passed",
+            "statusDetails": null,
+            "steps": [
+            ],
+            "attachments": [
+            ],
+            "parameters": [
+            ]
+        }
+    ],
+    "attachments": [
+    ],
+    "parameters": [
+    ],
+    "uuid": "403a9109-5a56-43aa-ba43-197305abb54d",
+    "historyId": "ebf37406b9d2d34c0e06cd4f889f558b",
+    "fullName": "ru.netology.test.SimpleHospiceTest.createNewsWithMenuEmptyFieldsAndCancel",
+    "labels": [
+        {
+            "name": "package",
+            "value": "ru.netology.test"
+        },
+        {
+            "name": "testClass",
+            "value": "ru.netology.test.SimpleHospiceTest"
+        },
+        {
+            "name": "testMethod",
+            "value": "createNewsWithMenuEmptyFieldsAndCancel"
+        },
+        {
+            "name": "suite",
+            "value": "ru.netology.test.SimpleHospiceTest"
+        },
+        {
+            "name": "host",
+            "value": "localhost"
+        },
+        {
+            "name": "thread",
+            "value": "Instr: io.qameta.allure.android.runners.AllureAndroidJUnitRunner(932)"
+        },
+        {
+            "name": "framework",
+            "value": "junit4"
+        },
+        {
+            "name": "language",
+            "value": "kotlin"
+        }
+    ]
+}
