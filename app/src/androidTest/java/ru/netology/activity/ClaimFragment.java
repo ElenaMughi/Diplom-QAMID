@@ -145,7 +145,7 @@ public class ClaimFragment {
     }
 
     public void toCheckClaim(ClaimsInfo.ClaimInfo claimInfo) {
-        WaitId.waitId(R.id.status_label_text_view, 5000);
+        WaitId.waitId(R.id.status_label_text_view, 10000);
 
         onView(allOf(withId(R.id.status_label_text_view),  //статус
                 withText(claimInfo.getStatus()))).check(matches(isDisplayed()));
