@@ -5,6 +5,7 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.swipeUp;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.hasSibling;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
@@ -38,13 +39,14 @@ public class ClaimFragment {
     PrintText res = new PrintText();
     static Faker faker = new Faker();
 
-    public void goBackToClaimPage() {
+    public void closeClaim() {
         onView(withId(R.id.close_image_button)).perform(click());
+        WaitId.waitId(R.id.claim_list_swipe_refresh, 10000);
     }
 
-    public void fillingInClaimFields(ClaimsInfo.ClaimInfo claimInfo) {
+    public ClaimsInfo.ClaimInfo fillingInClaimFields(ClaimsInfo.ClaimInfo claimInfo) {
 
-        onView(isRoot()).perform(waitId(R.id.title_edit_text, 3000));
+        onView(isRoot()).perform(waitId(R.id.title_edit_text, 10000));
         res.typingText(R.id.title_edit_text, claimInfo.getTitle()); //Заголовок
 
         if (claimInfo.getExecutor().length() > 0) {
@@ -68,11 +70,12 @@ public class ClaimFragment {
 
         res.typingText(R.id.description_edit_text, claimInfo.getDescription()); // Описание
 
+        return claimInfo;
     }
 
     public ClaimsInfo.ClaimInfo createClaim(ClaimsInfo.ClaimInfo claimInfo) {
 
-        fillingInClaimFields(claimInfo);
+        claimInfo = fillingInClaimFields(claimInfo);
 
         claimInfo.setCreationDate( // сохраняем дату перед сохранением заявки
                 LocalDate.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))); // сохраняем дату создания
@@ -80,32 +83,30 @@ public class ClaimFragment {
                 LocalTime.now(Clock.system(ZoneId.of("Europe/Moscow"))).format(DateTimeFormatter.ofPattern("hh:mm"))); // сохраняем время создания
 
         onView(withId(R.id.save_button)).perform(click());
-        WaitId.waitId(R.id.claim_list_swipe_refresh, 5000);
+        WaitId.waitId(R.id.claim_list_swipe_refresh, 10000);
 
         return claimInfo;
     }
 
-    public ClaimsInfo.ClaimInfo cancellationCreateClaim(ClaimsInfo.ClaimInfo claimInfo, boolean OKCANCEL) {
+    public ClaimsInfo.ClaimInfo cancellationCreateClaim(ClaimsInfo.ClaimInfo claimInfo, boolean saveCancel) {
 
-        fillingInClaimFields(claimInfo);
+        fillingInClaimFields(claimInfo); // заполнение полей
 
         onView(withId(R.id.cancel_button)).perform(click());
-
         onView(withText("The changes won't be saved, do you really want to log out?"))
                 .check(matches(isEnabled()));
 
-        if (OKCANCEL) {
-            onView(withText("OK")).perform(click());
-            onView(withId(R.id.our_mission_image_button)).check(matches(isDisplayed()));
-        } else {
+        if (saveCancel) {
             onView(withText("CANCEL")).perform(click());
-            onView(withId(R.id.save_button)).check(matches(isDisplayed()));
             claimInfo.setCreationDate( // сохраняем дату перед сохранением заявки
                     LocalDate.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))); // сохраняем дату создания
             claimInfo.setCreationTime(
                     LocalTime.now(Clock.system(ZoneId.of("Europe/Moscow"))).format(DateTimeFormatter.ofPattern("hh:mm"))); // сохраняем время создания
             onView(withId(R.id.save_button)).perform(click());
             WaitId.waitId(R.id.claim_list_swipe_refresh, 5000);
+        } else { // подтверждаем отмену
+            onView(withText("OK")).perform(click());
+            onView(withId(R.id.our_mission_image_button)).check(matches(isDisplayed()));
         }
         return claimInfo;
     }
@@ -117,14 +118,16 @@ public class ClaimFragment {
         onView(withText("OK")).perform(click());
     }
 
-    public void checkingEmptyFieldsWhenCreatingClaim(ClaimsInfo.ClaimInfo claimInfo) {
+    public ClaimsInfo.ClaimInfo checkingEmptyFieldsWhenCreatingClaim(ClaimsInfo.ClaimInfo claimInfo) {
+
+        WaitId.waitId(R.id.title_edit_text, 5000);
 
         checkFillEmptyFieldsMessage();
 
         res.typingText(R.id.title_edit_text, claimInfo.getTitle());
         checkFillEmptyFieldsMessage();
 
-        // без исполнителя можно
+        //без исполнителя
 
         onView(withId(R.id.date_in_plan_text_input_edit_text)).perform(click()); // Дата из календаря
         onView(withId(android.R.id.button1)).perform(click());
@@ -138,13 +141,21 @@ public class ClaimFragment {
         res.typingTextWithClear(R.id.title_edit_text, "");
         checkFillEmptyFieldsMessage();
 
-        onView(withId(R.id.cancel_button)).perform(click()); // отменяем создание
-        onView(withText("OK")).perform(click());
+        res.typingTextWithClear(R.id.title_edit_text, claimInfo.getTitle());
+        onView(withId(R.id.save_button)).perform(click());
 
-        WaitId.waitId(R.id.main_swipe_refresh, 5000);
+        WaitId.waitId(R.id.claim_list_swipe_refresh, 10000);
+
+        claimInfo.setStatus(HospiceData.claimsStatus.OPEN.getTitle()); // сохраняем статус
+        claimInfo.setCreationDate( // сохраняем дату перед сохранением заявки
+                LocalDate.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))); // сохраняем дату создания
+        claimInfo.setCreationTime(
+                LocalTime.now(Clock.system(ZoneId.of("Europe/Moscow"))).format(DateTimeFormatter.ofPattern("hh:mm"))); // сохраняем время создания
+
+        return claimInfo;
     }
 
-    public void toCheckClaim(ClaimsInfo.ClaimInfo claimInfo) {
+    public void checkClaimFields(ClaimsInfo.ClaimInfo claimInfo) {
         WaitId.waitId(R.id.status_label_text_view, 10000);
 
         onView(allOf(withId(R.id.status_label_text_view),  //статус
@@ -166,7 +177,9 @@ public class ClaimFragment {
 
         onView(allOf(withId(R.id.create_data_text_view),   //дата создания
                 withText(claimInfo.getCreationDate()))).check(matches(isDisplayed()));
-        //TODO уточнить время создания и плановое
+
+// TODO уточнить время создания
+
 //        onView(allOf(withId(R.id.create_time_text_view),   //время создания
 //                withText(claimInfo.getCreationTime()))).check(matches(isDisplayed()));
 
@@ -183,7 +196,7 @@ public class ClaimFragment {
                 if (claimInfo.getExecutor() == claimInfo.getAuthor()) {
                     onView(withId(R.id.status_processing_image_button)).check(matches(isEnabled()));
                 } else {
-                    //TODO как проверить что кнопка отжата?
+//TODO как проверить что кнопка отжата?
 //                    onView(withId(R.id.status_processing_image_button)).check(matches(not(isEnabled())));
                 }
             } else {
@@ -192,7 +205,7 @@ public class ClaimFragment {
 //            onView(withId(R.id.edit_processing_image_button)).check(matches(not(isEnabled())));
         }
 
-        onView(withId(R.id.close_image_button)).perform(click());
+        closeClaim();
     }
 
     public String defineRequiredMenu(ClaimsInfo.ClaimInfo claimInfo, String newStatus) {
@@ -219,63 +232,55 @@ public class ClaimFragment {
     }
 
     public ClaimsInfo.ClaimInfo toChangeStatusClaim(ClaimsInfo.ClaimInfo claimInfo, String newStatus, boolean comment) {
-
+        // переход из  "В работе" на другой статус с комментарием. Для остальных параметр comment не используется и значение не важно.
         String statusMenu = defineRequiredMenu(claimInfo, newStatus); //определяем необходимый пункт меню
-        if (statusMenu == HospiceData.claimStatusPopUpMenu.EMPTY.getTitle()) {
-            // Проверяем что кнопка недоступна - можно вынести в отдельный метод.
-            onView(withId(R.id.status_processing_image_button))
-                    .check(matches(isEnabled())).perform(click());
-            WaitId.waitId(R.id.status_icon_image_view, 3000);
-        } else {
-            onView(withId(R.id.status_processing_image_button))
-                    .perform(click());
-            res.getItemFromList(statusMenu);
-            if (claimInfo.getStatus() == HospiceData.claimsStatus.WORK.getTitle()) {
-                // переход из  "В работе" на другой статус с комментарием
-                if (comment) { // если пишем комментарий
-                    res.typingText(R.id.editText, faker.bothify("Boniface???#??#??#??#"));
-                    claimInfo.setStatus(newStatus); // переопределяем статус у заявки.
-                    onView(withId(android.R.id.button1)).perform(click());
-                } else { // если не пишем комметарий. статус не меняется.
-                    onView(withId(android.R.id.button2)).perform(click());
-                }
-            } else {
-                claimInfo.setStatus(newStatus); // переопределяем статус у заявки, если нет комментария
+
+        onView(withId(R.id.status_processing_image_button)).perform(click());
+        res.getItemFromList(statusMenu);
+
+        if (claimInfo.getStatus() == HospiceData.claimsStatus.WORK.getTitle()) {
+            if (comment) { // если пишем комментарий
+                res.typingText(R.id.editText, faker.bothify("Boniface???#??#??#??#"));
+                claimInfo.setStatus(newStatus); // переопределяем статус у заявки.
+                onView(withId(android.R.id.button1)).perform(click());
+                WaitId.waitId(R.id.status_icon_image_view, 5000);
+            } else { // если не пишем комметарий. статус не меняется.
+                onView(withId(android.R.id.button2)).perform(click());
+                WaitId.waitId(R.id.status_icon_image_view, 5000);
             }
+        } else {
+            claimInfo.setStatus(newStatus); // переопределяем статус у заявки, если нет комментария
         }
-        onView(withId(R.id.close_image_button)).perform(click());
+        closeClaim();
         return claimInfo;
     }
 
-    public ClaimsInfo.ClaimInfo writeComment(ClaimsInfo.ClaimInfo claimInfo, boolean okCancel) {
+    public ClaimsInfo.ClaimInfo writeComment(ClaimsInfo.ClaimInfo claimInfo, String comment,
+                                             boolean okCancel) {
 
         onView(withId(R.id.add_comment_image_button)).perform(click());
-        String comment = faker.bothify("Elena???#??#??#??#??#???");
         res.typingTextWithParent(R.id.comment_text_input_layout, comment);
         if (okCancel) {
             onView(withId(R.id.save_button)).perform(click());
             claimInfo.setNumberOfComments(claimInfo.getNumberOfComments() + 1); //счетчик комментариев
-            checkComment(claimInfo, comment);
         } else {
             onView(withId(R.id.cancel_button)).perform(click());
         }
-        onView(withId(R.id.close_image_button)).perform(click());
+
         return claimInfo;
     }
 
-    public void editComment(ClaimsInfo.ClaimInfo claimInfo, boolean okCancel) {
+    public void editComment(String comment, String comment2, boolean okCancel) {
 
-        onView(withId(R.id.edit_comment_image_button)).perform(click());
-        String comment = faker.bothify("Elena???#??#??#??#??#???");
-        res.typingTextWithParentWithClear(R.id.comment_text_input_layout, comment);
+        onView(allOf(withId(R.id.edit_comment_image_button),   //плановая дата
+                hasSibling(withText(comment)))).perform(click());
+
+        res.typingTextWithParentWithClear(R.id.comment_text_input_layout, comment2);
         if (okCancel) {
             onView(withId(R.id.save_button)).perform(click());
-            checkComment(claimInfo, comment);
         } else {
-            // TODO как "вытащить" старый комментарий для проверки отказа?
             onView(withId(R.id.cancel_button)).perform(click());
         }
-        onView(withId(R.id.close_image_button)).perform(click());
     }
 
     public void checkComment(ClaimsInfo.ClaimInfo claimInfo, String comment) {
@@ -292,7 +297,8 @@ public class ClaimFragment {
         }
     }
 
-    public ClaimsInfo.ClaimInfo editTitleAndDescriptionInClaim(ClaimsInfo.ClaimInfo claimInfo, boolean saveCancel) {
+    public ClaimsInfo.ClaimInfo editTitleAndDescriptionInClaim(ClaimsInfo.ClaimInfo claimInfo,
+                                                               boolean saveCancel) {
 
         onView(withId(R.id.edit_processing_image_button)).perform(click());
         WaitId.waitId(R.id.title_text_input_layout, 3000);
@@ -314,9 +320,7 @@ public class ClaimFragment {
             onView(withId(android.R.id.button1)).perform(click());
         }
 
-        WaitId.waitId(R.id.close_image_button, 3000);
-        onView(withId(R.id.close_image_button)).perform(click());
-        WaitId.waitId(R.id.claim_list_swipe_refresh, 3000);
+        closeClaim();
 
         return claimInfo;
     }
@@ -324,8 +328,6 @@ public class ClaimFragment {
     public ClaimsInfo.ClaimInfo changeExecutor(ClaimsInfo.ClaimInfo claimInfo, String executor) {
 
         WaitId.waitId(R.id.executor_name_text_view, 5000);
-//        onView(allOf(withId(R.id.executor_name_text_view), withText("NOT ASSIGNED")))
-//                .check(matches(isDisplayed()));
 
         onView(withId(R.id.edit_processing_image_button))
                 .check(matches(isEnabled())).perform(click());
@@ -338,12 +340,7 @@ public class ClaimFragment {
         onView(withId(R.id.save_button)).perform(click());
         WaitId.waitId(R.id.status_label_text_view, 10000);
 
-        //TODO не сработало
-//        onView(allOf(withId(R.id.status_label_text_view), withText("In progress")))
-//                .check(matches(isDisplayed()));
-
-        onView(withId(R.id.close_image_button)).perform(click());
-        WaitId.waitId(R.id.claim_list_swipe_refresh, 5000);
+        closeClaim();
 
         claimInfo.setExecutor(claimInfo.getAuthor());
         claimInfo.setStatus(HospiceData.claimsStatus.WORK.getTitle());
@@ -355,7 +352,6 @@ public class ClaimFragment {
         SetDataTime.setDate(R.id.date_in_plan_text_input_edit_text, data);
         SetDataTime.setTime(R.id.time_in_plan_text_input_edit_text, time);
 
-        onView(withId(R.id.save_button)).perform(click());
-        WaitId.waitId(R.id.claim_list_swipe_refresh, 3000);
+        closeClaim();
     }
 }

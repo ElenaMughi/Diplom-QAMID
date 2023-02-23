@@ -5,7 +5,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static io.qameta.allure.kotlin.Allure.step;
 import static ru.netology.resourses.WaitId.waitId;
 
-import androidx.test.espresso.NoMatchingViewException;
 import androidx.test.espresso.PerformException;
 import androidx.test.rule.ActivityTestRule;
 
@@ -48,10 +47,9 @@ public class SimpleHospiceTest {
         try {
             onView(isRoot()).perform(waitId(R.id.enter_button, 10000));
             loginPage.toComeIn(loginInfo);
-        } catch (PerformException e) { //NoMatchingViewException AssertionFailedError
+        } catch (PerformException e) {
             System.out.println("не найдено" + R.id.enter_button);
         }
-        onView(isRoot()).perform(waitId(R.id.main_swipe_refresh, 8000));
         return loginPage;
     }
 
@@ -75,27 +73,25 @@ public class SimpleHospiceTest {
         loginPageFragment.toComeIn(loginInfo);
 
         loginPageFragment.toComeOut();
-
     }
 
     @Test
     public void createClaimFromMainPageWithCheckEmptyFieldsTest() {
-        step("2. Создание заявки из главной страницы и проверка заполнения полей");
+        step("2. Создание заявки и проверка заполнения полей(без исполнителя)");
 
         LoginPageFragment loginPage = logIn();
 
         ClaimsInfo.ClaimInfo claimInfo =
-                ClaimsInfo.getClaimInfoWithChoiceFIO(HospiceData.fio.IVANOV.getTitle()); //заявка
+                ClaimsInfo.getClaimInfoWithOutFIO(); //заявка
+
         MainPageFragment mainPage = new MainPageFragment();
-        ClaimFragment claim = mainPage.callCreationNewClaimFromMainPage(); //вызов создания заявки
-        claim.checkingEmptyFieldsWhenCreatingClaim(claimInfo); // проверка пустых полей
+        ClaimsPageFragment claimsPage = mainPage.goToClaimsPage();
+        ClaimFragment claim = claimsPage.callCreateClaim(); //вызов создания заявки
+        claimInfo = claim.checkingEmptyFieldsWhenCreatingClaim(claimInfo); // проверка пустых полей
 
-        mainPage.callCreationNewClaimFromMainPage();
-        claimInfo = claim.createClaim(claimInfo); // пересохраняем заявку с новой датой/временем
-
-        ClaimsPageFragment claimsPageFragment = mainPage.goToClaimsPage();
-        claimsPageFragment.checkClaimWithWholeFilter(claimInfo); // проверка заявки
-        claimsPageFragment.goToMainPage();
+        claim = claimsPage.toFoundClaimWithFilter(claimInfo);
+        claim.checkClaimFields(claimInfo);
+        claimsPage.goToMainPage();
 
         loginPage.toComeOut();
     }
@@ -108,16 +104,17 @@ public class SimpleHospiceTest {
 
         ClaimsInfo.ClaimInfo claimInfo =
                 ClaimsInfo.getClaimInfoWithOutFIO(); //заявка
+
         MainPageFragment mainPage = new MainPageFragment();
-        ClaimFragment claim = mainPage.callCreationNewClaimFromMainPage();
-        claim.cancellationCreateClaim(claimInfo, true); //да, при подтверждении
-
-        claimInfo = ClaimsInfo.getClaimInfoWithOutFIO(); // создаем новую заявку (для изменения планового времени)
-        mainPage.callCreationNewClaimFromMainPage();
-        claimInfo = claim.cancellationCreateClaim(claimInfo, false); //нет, при подтверждении. сохраняем заявку
-
         ClaimsPageFragment claimsPage = mainPage.goToClaimsPage();
-        claimsPage.checkClaimWithWholeFilter(claimInfo); // проверка заявки
+        ClaimFragment claim = claimsPage.callCreateClaim();
+        claim.cancellationCreateClaim(claimInfo, false); //не сохранять при подтверждении
+
+        claim = claimsPage.callCreateClaim();
+        claimInfo = claim.cancellationCreateClaim(claimInfo, true); //сохранить при подтверждении
+
+        claim = claimsPage.toFoundClaimWithFilter(claimInfo);
+        claim.checkClaimFields(claimInfo);
         claimsPage.goToMainPage();
 
         loginPage.toComeOut();
@@ -125,119 +122,222 @@ public class SimpleHospiceTest {
 
     @Test
     public void createClaimFromClaimsPageWithCheckExecutorTest() {
-        step("4. Создание заявки из страницы с заявками с проверкой заполнения поля Исполнитель.");
+        step("4. Создание заявки с Исполнителем и проверкой статуса.");
 
         LoginPageFragment loginPage = logIn();
 
         ClaimsInfo.ClaimInfo claimInfo =
                 ClaimsInfo.getClaimInfoWithOutFIO(); //заявка
+
         MainPageFragment mainPage = new MainPageFragment();
-        ClaimsPageFragment claimPage = mainPage.goToClaimsPage();
+        ClaimsPageFragment claimsPage = mainPage.goToClaimsPage();
 
-        claimInfo = claimPage.createClaim(claimInfo); //пересохраняем заявку с новой датой/временем
-        claimPage.checkClaimWithFilter(claimInfo);
-        claimInfo = claimPage.changeStatusOfClaim(claimInfo, HospiceData.claimsStatus.WORK.getTitle(), true);
-        claimPage.checkClaimWithFilter(claimInfo);
+        ClaimFragment claim = claimsPage.callCreateClaim();
+        claimInfo = claim.createClaim(claimInfo);
 
-        // TODO: 22.01.2023 //Нельзя ввести несуществующего исполнителя. Проверка снята.
+        claim = claimsPage.toFoundClaimWithFilter(claimInfo);
+        claim.checkClaimFields(claimInfo);
+
+// TODO: 22.01.2023 //Нельзя ввести несуществующего исполнителя. Проверка снята.
+
 //        ClaimsInfo.ClaimInfo claimInfo2 =
 //                ClaimsInfo.getClaimInfoWithChoiceFIO(HospiceData.fio.PETROV.getTitle()); //заявка
-//        claimPage.createClaim(claimInfo2);
-//        claimPage.toCheckStatusClaim(claimInfo2);
+//        claim = claimsPage.callCreateClaim();
+//        claimInfo2 = claim.createClaim(claimInfo2);
+//        claim = claimsPage.toFoundClaimWithFilter(claimInfo2);
+//        claim.checkClaimFields(claimInfo2);
 
         ClaimsInfo.ClaimInfo claimInfo3 =
                 ClaimsInfo.getClaimInfoWithChoiceFIO(HospiceData.fio.IVANOV.getTitle()); //заявка
-        claimPage.createClaim(claimInfo3);
-        claimPage.checkClaimWithFilter(claimInfo3);
+        claim = claimsPage.callCreateClaim();
+        claimInfo3 = claim.createClaim(claimInfo3);
+
+        claim = claimsPage.toFoundClaimWithFilter(claimInfo3);
+        claim.checkClaimFields(claimInfo3);
 
         loginPage.toComeOut();
     }
 
     @Test
-    public void createAndEditCommentsOnClaimTest() {
-        step("5. Проверка добавления комментариев к заявке на этапах Открыто и в Работе.");
+    public void createAndEditCommentsOnOpenClaimTest() {
+        step("5.1 Добавление/редактирование (с отменой) комментариев к заявке в статусе Открыто.");
 
         LoginPageFragment loginPage = logIn();
 
         ClaimsInfo.ClaimInfo claimInfo =
                 ClaimsInfo.getClaimInfoWithOutFIO(); //заявка
+
         MainPageFragment mainPage = new MainPageFragment();
-        ClaimsPageFragment claimPage = mainPage.goToClaimsPageFromClaimBox();
-        claimPage.createClaim(claimInfo);
+        ClaimsPageFragment claimsPage = mainPage.goToClaimsPage();
 
-        claimInfo = claimPage.addCommentToClaim(claimInfo, false);
-        claimInfo = claimPage.addCommentToClaim(claimInfo, true);
-        claimPage.editCommentToClaim(claimInfo, false);
-        claimPage.editCommentToClaim(claimInfo, true);
+        ClaimFragment claim = claimsPage.callCreateClaim();
+        claimInfo = claim.createClaim(claimInfo);
 
-        claimPage.changeStatusOfClaim(claimInfo, HospiceData.claimsStatus.WORK.getTitle(), false);
-        claimPage.addCommentToClaim(claimInfo, true);
+        claim = claimsPage.toFoundClaimWithFilter(claimInfo);
+        String comment = faker.bothify("Comment #??#??#??#??#???");
+        claimInfo = claim.writeComment(claimInfo, comment, false); // не сохранять коммент
+        claimInfo = claim.writeComment(claimInfo, comment, true); // сохранять коммент
+        claim.checkComment(claimInfo, comment);
 
-        ClaimsInfo.ClaimInfo claimInfo2 =
-                ClaimsInfo.getClaimInfoWithChoiceFIO(HospiceData.fio.IVANOV.getTitle()); //заявка2
-        claimPage.createClaim(claimInfo2);
+        String comment2 = faker.bothify("Comment #??#??#??#??#???");
+        claim.editComment(comment, comment2, false); // не сохранять исправления
+        claim.checkComment(claimInfo, comment);
+        claim.editComment(comment, comment2, true); // сохранять исправления
+        claim.checkComment(claimInfo, comment2);
 
-        claimPage.addCommentToClaim(claimInfo2, true);
-        claimPage.editCommentToClaim(claimInfo2, true);
-        claimPage.addCommentToClaim(claimInfo2, true);
-        claimPage.addCommentToClaim(claimInfo2, true);
+        claimInfo = claim.writeComment(claimInfo, comment, true); // сохранять коммент
+        claim.checkComment(claimInfo, comment);
+
+        loginPage.toComeOut();
+    }
+
+    @Test
+    public void createAndEditCommentsOnWorkClaimTest() {
+        step("5.2 Добавление/редактирование нескольких комментариев к заявке в статусе в Работе.");
+
+        LoginPageFragment loginPage = logIn();
+
+        ClaimsInfo.ClaimInfo claimInfo =
+                ClaimsInfo.getClaimInfoWithChoiceFIO(HospiceData.fio.IVANOV.getTitle()); //заявка
+
+        MainPageFragment mainPage = new MainPageFragment();
+        ClaimsPageFragment claimsPage = mainPage.goToClaimsPageFromClaimBox();
+        ClaimFragment claim = claimsPage.callCreateClaim();
+        claimInfo = claim.createClaim(claimInfo);
+
+        claim = claimsPage.toFoundClaimWithFilter(claimInfo);
+        String comment = faker.bothify("Comment #??#??#??#??#???");
+        String comment2 = faker.bothify("Comment2 #??#??#??#??#???");
+
+        claimInfo = claim.writeComment(claimInfo, comment, true);
+        claim.editComment(comment, comment2, true); // не сохранять исправления
+        claim.checkComment(claimInfo, comment2);
+        claimInfo = claim.writeComment(claimInfo, comment, true);
+        claim.checkComment(claimInfo, comment);
+
+        String comment3 = faker.bothify("Comment2 #??#??#??#??#???");
+        claimInfo = claim.writeComment(claimInfo, comment3, true);
+        claim.checkComment(claimInfo, comment3);
 
         loginPage.toComeOut();
     }
 
     @Test
     public void editOpenStatusClaimTest() {
-        step("6.1. Редактирование заявки в статусе Открыто. Сброс открытой заявки.");
+        step("6.1. Редактирование названия и описания заявки в статусе Открыто.");
 
         LoginPageFragment loginPage = logIn();
 
         ClaimsInfo.ClaimInfo claimInfo =
                 ClaimsInfo.getClaimInfoWithOutFIO(); //заявка
+
         MainPageFragment mainPage = new MainPageFragment();
-        ClaimsPageFragment claimPage = mainPage.goToClaimsPage();
+        ClaimsPageFragment claimsPage = mainPage.goToClaimsPageFromClaimBox();
+        ClaimFragment claim = claimsPage.callCreateClaim();
+        claimInfo = claim.createClaim(claimInfo);
 
-        claimPage.createClaim(claimInfo);
-        claimInfo = claimPage.editTitleAndDescriptionInClaim(claimInfo, false);
-        claimPage.checkClaimWithFilter(claimInfo); // проверяем отмену изменений
-        claimInfo = claimPage.editTitleAndDescriptionInClaim(claimInfo, true);
-        claimPage.checkClaimWithFilter(claimInfo);
+        claim = claimsPage.toFoundClaimWithFilter(claimInfo);
+        claim.editTitleAndDescriptionInClaim(claimInfo, false); //не сохраняем
+        claim = claimsPage.toFoundClaimWithFilter(claimInfo);
+        claim.checkClaimFields(claimInfo);
 
-        claimInfo = claimPage.changeStatusOfClaim(claimInfo, HospiceData.claimsStatus.CANCEL.getTitle(), true);
-        claimPage.checkClaimWithWholeFilter(claimInfo); // проверяем отмену изменений
+        claim = claimsPage.toFoundClaimWithFilter(claimInfo);
+        claimInfo = claim.editTitleAndDescriptionInClaim(claimInfo, true);
+        claim = claimsPage.toFoundClaimWithFilter(claimInfo);
+        claim.checkClaimFields(claimInfo);
 
         loginPage.toComeOut();
     }
 
     @Test
-    public void changeClaimStatusTest() {
-        step("6.2. Прохождение по статусам заявки и использованием фильтра заявок. Смена статуса установлением исполнителя.");
+    public void editExecutorInOpenStatusClaimTest() {
+        step("6.2. Изменение Исполнителя в заявке в статусе Открыто.");
 
         LoginPageFragment loginPage = logIn();
 
         ClaimsInfo.ClaimInfo claimInfo =
                 ClaimsInfo.getClaimInfoWithOutFIO(); //заявка
+
         MainPageFragment mainPage = new MainPageFragment();
-        ClaimsPageFragment claimPage = mainPage.goToClaimsPage();
+        ClaimsPageFragment claimsPage = mainPage.goToClaimsPageFromClaimBox();
+        ClaimFragment claim = claimsPage.callCreateClaim();
+        claimInfo = claim.createClaim(claimInfo);
 
-        claimPage.createClaim(claimInfo);
-        claimInfo = claimPage.changeStatusOfClaim
+        claim = claimsPage.toFoundClaimWithFilter(claimInfo);
+        claimInfo = claim.changeExecutor(claimInfo, claimInfo.getAuthor()); //сохраняем новый статус
+
+        claim = claimsPage.toFoundClaimWithFilter(claimInfo);
+        claim.checkClaimFields(claimInfo); // проверка в том числе статуса
+
+        loginPage.toComeOut();
+    }
+
+    @Test
+    public void changeClaimStatusFromOpenTest() {
+        step("6.3. Прохождение по статусам заявки начиная со статуса Открыто.");
+
+        LoginPageFragment loginPage = logIn();
+
+        ClaimsInfo.ClaimInfo claimInfo =
+                ClaimsInfo.getClaimInfoWithOutFIO(); //заявка без исполнителя
+
+        MainPageFragment mainPage = new MainPageFragment();
+        ClaimsPageFragment claimsPage = mainPage.goToClaimsPageFromClaimBox();
+        ClaimFragment claim = claimsPage.callCreateClaim();
+        claimInfo = claim.createClaim(claimInfo);
+
+        claim = claimsPage.toFoundClaimWithFilter(claimInfo);
+        claimInfo = claim.toChangeStatusClaim
                 (claimInfo, HospiceData.claimsStatus.WORK.getTitle(), true);
-        claimPage.checkClaimWithFilter(claimInfo);
-        claimInfo = claimPage.changeStatusOfClaim
-                (claimInfo, HospiceData.claimsStatus.OPEN.getTitle(), true);
-        claimPage.checkClaimWithFilter(claimInfo);
-        claimInfo = claimPage.changeStatusOfClaim
-                (claimInfo, HospiceData.claimsStatus.WORK.getTitle(), true);
-        claimPage.checkClaimWithFilter(claimInfo);
-        claimInfo = claimPage.changeStatusOfClaim
+        claim = claimsPage.toFoundClaimWithFilter(claimInfo);
+        claim.checkClaimFields(claimInfo);
+
+        claim = claimsPage.toFoundClaimWithFilter(claimInfo);
+        claim.toChangeStatusClaim // статус без изменений
+                (claimInfo, HospiceData.claimsStatus.EXEC.getTitle(), false);
+        claim = claimsPage.toFoundClaimWithFilter(claimInfo);
+        claim.checkClaimFields(claimInfo);
+
+        claim = claimsPage.toFoundClaimWithFilter(claimInfo);
+        claimInfo = claim.toChangeStatusClaim
                 (claimInfo, HospiceData.claimsStatus.EXEC.getTitle(), true);
-        claimPage.checkClaimWithFilter(claimInfo);
+        claim = claimsPage.toFoundClaimWithFilter(claimInfo);
+        claim.checkClaimFields(claimInfo);
 
-        ClaimsInfo.ClaimInfo claimInfo2 =
-                ClaimsInfo.getClaimInfoWithOutFIO(); //смена статуса заявки через изменение исполнителя
-        claimPage.createClaim(claimInfo2);
-        claimInfo2 = claimPage.changeExecutor(claimInfo2, claimInfo.getAuthor());
-        claimPage.checkClaimWithFilter(claimInfo2);
+        loginPage.toComeOut();
+    }
+
+    @Test
+    public void changeClaimStatusFromWorkTest() {
+        step("6.4. Прохождение по статусам отмены заявки начиная со статуса В работе.");
+
+        LoginPageFragment loginPage = logIn();
+
+        ClaimsInfo.ClaimInfo claimInfo =
+                ClaimsInfo.getClaimInfoWithChoiceFIO(HospiceData.fio.IVANOV.getTitle());
+
+        MainPageFragment mainPage = new MainPageFragment();
+        ClaimsPageFragment claimsPage = mainPage.goToClaimsPageFromClaimBox();
+        ClaimFragment claim = claimsPage.callCreateClaim();
+        claimInfo = claim.createClaim(claimInfo);
+
+        claim = claimsPage.toFoundClaimWithFilter(claimInfo);
+        claimInfo = claim.toChangeStatusClaim
+                (claimInfo, HospiceData.claimsStatus.OPEN.getTitle(), false);
+        claim = claimsPage.toFoundClaimWithFilter(claimInfo);
+        claim.checkClaimFields(claimInfo);
+
+        claim = claimsPage.toFoundClaimWithFilter(claimInfo);
+        claimInfo = claim.toChangeStatusClaim
+                (claimInfo, HospiceData.claimsStatus.OPEN.getTitle(), true);
+        claim = claimsPage.toFoundClaimWithFilter(claimInfo);
+        claim.checkClaimFields(claimInfo);
+
+        claim = claimsPage.toFoundClaimWithFilter(claimInfo);
+        claimInfo = claim.toChangeStatusClaim
+                (claimInfo, HospiceData.claimsStatus.CANCEL.getTitle(), true);
+        claim = claimsPage.toFoundClaimWithFilter(claimInfo);
+        claim.checkClaimFields(claimInfo);
 
         loginPage.toComeOut();
     }
@@ -412,7 +512,7 @@ public class SimpleHospiceTest {
         for (int i = 0; i < text.length; i = i + 1) {         //русские символы пропущены
             claim = ClaimsInfo.getClaimInfoWithChoiceTitleAndDiscr(text[i], text[i]); //заявка
             claimPage.createClaim(claim);
-            claimPage.addCommentToClaim(claim, true);
+//            claimPage.addCommentToClaim(claim, true);
         }
         loginPage.toComeOut();
     }
@@ -519,5 +619,9 @@ public class SimpleHospiceTest {
 
         loginPage.toComeOut();
     }
+
+    //    {
+//      2. Создание заявки из главной страницы(все варианты)
+//    }
 }
 
