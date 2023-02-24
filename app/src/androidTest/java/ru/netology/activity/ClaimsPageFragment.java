@@ -34,11 +34,10 @@ public class ClaimsPageFragment {
         onView(withId(R.id.item_filter_cancelled)).perform(scrollTo(), CustomSetChecked.setChecked(filter[3]));
 
         onView(withId(R.id.claim_list_filter_ok_material_button)).perform(click());
-        WaitId.waitMyIdWithCheck(R.id.claim_list_recycler_view, 40000);
+        WaitId.waitMyIdWithCheck(R.id.claim_list_recycler_view, 25000);
     }
 
     public ClaimFragment foundClaim(int id, String text) {
-        WaitId.waitMyIdWithCheck(R.id.claim_list_recycler_view, 40000);
         ViewInteraction recyclerView = onView(withId(id));
         recyclerView.perform(actionOnItem(hasDescendant(withText(text)), click()));
 
@@ -51,7 +50,7 @@ public class ClaimsPageFragment {
         setFilter(filter); //ставим галочки
 
         ClaimFragment claim = foundClaim(R.id.claim_list_recycler_view, claimInfo.getTitle());
-        WaitId.waitMyIdWithCheck(R.id.status_label_text_view, 20000);
+        WaitId.waitMyIdWithCheck(R.id.status_label_text_view, 25000);
         return claim;
     }
 

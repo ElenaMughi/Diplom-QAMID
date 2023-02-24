@@ -57,7 +57,7 @@ public class ClaimFragment {
             if (claimInfo.getExecutor() == claimInfo.getAuthor()) {
                 res.getItemFromList(claimInfo.getExecutor());
             } else {
-                //TODO на случай возможности вставки другого исполнителя
+                //TODO на случай возможности вставки другого исполнителя - в текущей версии не используется
                 res.typingText(R.id.executor_drop_menu_auto_complete_text_view, claimInfo.getExecutor());
             }
             executorClaim.check(matches(withText(claimInfo.getExecutor()))); //проверка вставки
@@ -150,7 +150,7 @@ public class ClaimFragment {
         claimInfo.setCreationDate( // сохраняем дату перед сохранением заявки
                 LocalDate.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))); // сохраняем дату создания
         claimInfo.setCreationTime(
-                LocalTime.now(Clock.system(ZoneId.of("Europe/Moscow"))).format(DateTimeFormatter.ofPattern("hh:mm"))); // сохраняем время создания
+                LocalTime.now().format(DateTimeFormatter.ofPattern("hh:mm"))); // сохраняем время создания
 
         return claimInfo;
     }
@@ -178,7 +178,7 @@ public class ClaimFragment {
         onView(allOf(withId(R.id.create_data_text_view),   //дата создания
                 withText(claimInfo.getCreationDate()))).check(matches(isDisplayed()));
 
-// TODO уточнить время создания
+// TODO уточнить время создания - не работает
 
 //        onView(allOf(withId(R.id.create_time_text_view),   //время создания
 //                withText(claimInfo.getCreationTime()))).check(matches(isDisplayed()));
@@ -196,7 +196,8 @@ public class ClaimFragment {
                 if (claimInfo.getExecutor() == claimInfo.getAuthor()) {
                     onView(withId(R.id.status_processing_image_button)).check(matches(isEnabled()));
                 } else {
-//TODO как проверить что кнопка отжата?
+//TODO как проверить что кнопка отжата не работает
+
 //                    onView(withId(R.id.status_processing_image_button)).check(matches(not(isEnabled())));
                 }
             } else {
@@ -240,8 +241,11 @@ public class ClaimFragment {
 
         if (claimInfo.getStatus() == HospiceData.claimsStatus.WORK.getTitle()) {
             if (comment) { // если пишем комментарий
-                res.typingText(R.id.editText, faker.bothify("Boniface???#??#??#??#"));
+                res.typingText(R.id.editText, faker.bothify("Boniface ???#??#??#??#"));
                 claimInfo.setStatus(newStatus); // переопределяем статус у заявки.
+                if (newStatus == HospiceData.claimsStatus.OPEN.getTitle()){
+                    claimInfo.setExecutor(""); //обнуляем исполнителя
+                }
                 onView(withId(android.R.id.button1)).perform(click());
                 WaitId.waitId(R.id.status_icon_image_view, 5000);
             } else { // если не пишем комметарий. статус не меняется.
@@ -303,10 +307,10 @@ public class ClaimFragment {
         onView(withId(R.id.edit_processing_image_button)).perform(click());
         WaitId.waitId(R.id.title_text_input_layout, 3000);
 
-        String title = faker.bothify("Tatiana???#??#??#??#??#???");
+        String title = faker.bothify("Tatiana ???#??#??#??#??#???");
         res.typingTextWithClear(R.id.title_edit_text, title); //Заголовок
 
-        String descript = faker.bothify("Tatiana???#??#??#??#??#???");
+        String descript = faker.bothify("Tatiana ???#??#??#??#??#???");
         res.typingTextWithClear(R.id.description_edit_text, descript); // Описание
 
         if (saveCancel) {

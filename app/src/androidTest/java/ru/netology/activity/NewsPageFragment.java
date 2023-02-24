@@ -5,6 +5,7 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.contrib.RecyclerViewActions.actionOnItem;
 import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
+import static androidx.test.espresso.matcher.ViewMatchers.hasSibling;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -30,15 +31,6 @@ public class NewsPageFragment {
         return new NewsEditPageFragment();
     }
 
-    public void checkNewsWithCategoryFilter(NewsInfo.NewInfo newsInfo) {
-        setUpCategoryFilter(newsInfo.getCategory());
-        toFoundNews(newsInfo);
-        onView(allOf(withId(R.id.news_item_title_text_view), withText(newsInfo.getTitle())))
-                .check(matches(isDisplayed()));
-        onView(allOf(withId(R.id.news_item_description_text_view), withText(newsInfo.getDescription())))
-                .check(matches(isDisplayed()));
-    }
-
     public void setUpCategoryFilter(String category) {
         onView(withId(R.id.filter_news_material_button)).perform(click());
         onView(allOf(withId(R.id.text_input_end_icon),
@@ -46,12 +38,26 @@ public class NewsPageFragment {
                 .perform(click());
         res.getItemFromList(category);
         onView(withId(R.id.filter_button)).perform(click());
-        WaitId.waitId(R.id.news_list_recycler_view, 5000);
+        WaitId.waitId(R.id.news_list_recycler_view, 10000);
     }
 
     public void toFoundNews(NewsInfo.NewInfo newsInfo) {
         ViewInteraction recyclerView = onView(withId(R.id.news_list_recycler_view));
         recyclerView.perform(actionOnItem(hasDescendant(withText(newsInfo.getTitle())), click()));
         WaitId.waitId(R.id.news_item_description_text_view, 10000);
+    }
+
+    public void checkNews(NewsInfo.NewInfo newsInfo) {
+        onView(allOf(withId(R.id.news_item_title_text_view),
+                hasSibling(withText(newsInfo.getDescription()))))
+                .check(matches(withText(newsInfo.getTitle())));
+
+        onView(allOf(withId(R.id.news_item_description_text_view),
+                hasSibling(withText(newsInfo.getTitle()))))
+                .check(matches(withText(newsInfo.getDescription())));
+
+        onView(allOf(withId(R.id.news_item_date_text_view),
+                hasSibling(withText(newsInfo.getDescription()))))
+                .check(matches(withText(newsInfo.getDateNews())));
     }
 }

@@ -44,7 +44,7 @@ public class LoginPageFragment {
         res.typingTextWithParentWithClear(R.id.password_text_input_layout, logInfo.getPassword());
         onView(withId(R.id.enter_button)).perform(click());
 
-// TODO для проверки всплывающего сообщения
+// TODO для проверки всплывающего сообщения - проверка снята
 
 //        onView(withText(R.string.wrong_login_or_password)) //"Wrong login or password"
 //        onView(withText(R.string.empty_login_or_password)) //"Login and password cannot be empty"

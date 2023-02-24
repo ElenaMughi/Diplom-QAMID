@@ -65,7 +65,7 @@ public class MainPageFragment {
 
     public ClaimsPageFragment goToAboutPage() { // только вызов создания заявки
         onView(withId(R.id.main_menu_image_button)).perform(click());
-        // TODO getMenuFromList("About");
+// TODO getMenuFromList("About");
         return new ClaimsPageFragment();
     }
 
@@ -80,7 +80,7 @@ public class MainPageFragment {
                     withText(newsInfo.getDescription()))
             ).check(matches(isDisplayed()));
         } else {
-            // TODO Проверка что на экране нет.
+// TODO Проверка что на экране нет - не реализовано
         }
     }
 

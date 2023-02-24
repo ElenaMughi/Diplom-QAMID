@@ -21,6 +21,20 @@ public class HospiceData {
         }
     }
 
+    public enum authorNews {
+        IVANOV("Ivanov I.I.");
+
+        private String title;
+
+        authorNews(String title) {
+            this.title = title;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+    }
+
     public enum claimsStatus {
         OPEN("Open"),
         WORK("In progress"),

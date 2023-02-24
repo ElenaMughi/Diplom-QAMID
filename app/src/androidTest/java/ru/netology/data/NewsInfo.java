@@ -16,19 +16,24 @@ public class NewsInfo {
         String timePublish = LocalTime.now().format(DateTimeFormatter.ofPattern("hh:mm"));
         String descript = faker.bothify("Boniface???#??#??#??#");
         boolean active = NewsActive;
-        return new NewInfo(category, title, datePublish, timePublish, descript, active);
+        return new NewInfo(category, title, datePublish, timePublish, descript, active,
+                HospiceData.authorNews.IVANOV.getTitle());
     }
 
     public static NewInfo getNewInfoWithTitleAndDescr(String title, String descript) {
         String datePublish = LocalDate.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
         String timePublish = LocalTime.now().format(DateTimeFormatter.ofPattern("hh:mm"));
-        return new NewInfo(HospiceData.newsCategory.Help.getTitle(), title, datePublish, timePublish, descript, true);
+        return new NewInfo(HospiceData.newsCategory.Help.getTitle(),
+                title, datePublish, timePublish, descript, true,
+                HospiceData.authorNews.IVANOV.getTitle());
     }
 
     public static NewInfo getNewsInfoDateTimeChoice(String date, String time) {
         String title = faker.bothify("Winnie???#??#??#??#");
         String descript = faker.bothify("Boniface???#??#??#??#");
-        return new NewInfo(HospiceData.newsCategory.Gratitude.getTitle(), title, date, time, descript, true);
+        return new NewInfo(HospiceData.newsCategory.Gratitude.getTitle(),
+                title, date, time, descript, true,
+                HospiceData.authorNews.IVANOV.getTitle());
     }
     public static class NewInfo {
         private String category;
@@ -38,15 +43,17 @@ public class NewsInfo {
         private String description;
         private boolean active;
         private String creationDate;
+        private String author;
 
 
-        public NewInfo(String category, String title, String dateNews, String timeNews, String description, boolean active) {
+        public NewInfo(String category, String title, String dateNews, String timeNews, String description, boolean active, String author) {
             this.category = category;
             this.title = title;
             this.dateNews = dateNews;
             this.timeNews = timeNews;
             this.description = description;
             this.active = active;
+            this.author = author;
         }
 
         public String getCategory() {
@@ -91,5 +98,6 @@ public class NewsInfo {
 
         public void setCreationDate(String creationDate) { this.creationDate = creationDate; }
 
+        public String getAuthor() { return author; }
     }
 }

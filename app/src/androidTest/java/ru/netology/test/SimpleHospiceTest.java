@@ -26,6 +26,7 @@ import ru.netology.activity.ClaimsPageFragment;
 import ru.netology.activity.LoginPageFragment;
 import ru.netology.activity.MainPageFragment;
 import ru.netology.activity.NewsEditPageFragment;
+import ru.netology.activity.NewsFragment;
 import ru.netology.activity.NewsPageFragment;
 import ru.netology.data.HospiceData;
 import ru.netology.data.ClaimsInfo;
@@ -344,7 +345,31 @@ public class SimpleHospiceTest {
 
     @Test
     public void createAndDeleteNewsFromMainPageTest() {
-        step("7. Создание/отмена создания/удаление новости с проверкой пустых полей.");
+        step("7.1 Создание/отмена создания/удаление/отмена удаления новости.");
+
+        LoginPageFragment loginPage = logIn();
+
+        MainPageFragment mainPage = new MainPageFragment();
+        NewsPageFragment newsPage = mainPage.goToNewsPage();
+        NewsEditPageFragment newsEdit = newsPage.goToEditNewsPage();
+
+        NewsInfo.NewInfo newsInfo =
+                NewsInfo.getNewInfo(HospiceData.newsCategory.Salary.getTitle(), true); //заявка
+        NewsFragment news = newsEdit.goToCreateNews();
+        news.createSimpleNews(newsInfo, false); //отмена
+        news = newsEdit.goToCreateNews();
+        newsInfo = news.createSimpleNews(newsInfo, true); //создание
+        newsEdit.checkNews(newsInfo);
+
+        newsEdit.deleteNews(newsInfo, false); //отмена
+        newsEdit.deleteNews(newsInfo, true);  //удаление
+
+        loginPage.toComeOut();
+    }
+
+    @Test
+    public void createNewsWithCheckEmptyFieldsTest() {
+        step("7.2 Создание новости с проверкой пустых полей.");
 
         LoginPageFragment loginPage = logIn();
 
@@ -354,22 +379,54 @@ public class SimpleHospiceTest {
 
         NewsInfo.NewInfo newsInfo =
                 NewsInfo.getNewInfo(HospiceData.newsCategory.Announcement.getTitle(), true); //заявка
-        newsEdit.checkEmptyFieldsWhenCreatingNews(newsInfo); //проверка пустых полей
-
-        NewsInfo.NewInfo newsInfo2 =
-                NewsInfo.getNewInfo(HospiceData.newsCategory.Announcement.getTitle(), true); //заявка
-        newsEdit.createSimpleNews(newsInfo2, false); //отмена
-        newsEdit.createSimpleNews(newsInfo2, true);  //создание
-        newsEdit.checkEmptyFieldsWhenCreatingNews(newsInfo2);
-        newsEdit.deleteNews(newsInfo2, false);
-        newsEdit.deleteNews(newsInfo2, true);
+        NewsFragment news = newsEdit.goToCreateNews();
+        newsInfo = news.checkEmptyFieldsWhenCreatingNews(newsInfo); //проверка пустых полей
+        newsEdit.checkNews(newsInfo);
 
         loginPage.toComeOut();
     }
 
     @Test
-    public void viewNewsInMainPageWithEditAndActiveTest() {
-        step("8. Просмотр текущих новостей на главной странице и редактирование. Активность новости.");
+    public void viewNewsInMainPageWithCheckActiveTest() {
+        step("8. Отображение активной/неактивной новости на главное странице.");
+
+        LoginPageFragment loginPage = logIn();
+
+        MainPageFragment mainPage = new MainPageFragment();
+        NewsPageFragment newsPage = mainPage.goToNewsPage();
+        NewsEditPageFragment newsEdit = newsPage.goToEditNewsPage();
+
+        NewsInfo.NewInfo newsInfo =
+                NewsInfo.getNewInfo(HospiceData.newsCategory.Announcement.getTitle(), true); //заявка
+
+        NewsFragment news = newsEdit.goToCreateNews();
+        newsInfo = news.createSimpleNews(newsInfo, true); //создание
+
+        newsEdit.goToMainPage();
+        mainPage.checkNews(newsInfo, true);
+
+        mainPage.goToNewsPage();
+        newsPage.goToEditNewsPage();
+        newsEdit.toFoundNews(newsInfo);
+        news = newsEdit.goToEditNews(newsInfo);
+        news.changeActive(newsInfo, false);
+        newsEdit.goToMainPage();
+        mainPage.checkNews(newsInfo, false); //уточнить проверку на отсутствие
+
+        mainPage.goToNewsPage();
+        newsPage.goToEditNewsPage();
+        newsEdit.toFoundNews(newsInfo);
+        news = newsEdit.goToEditNews(newsInfo);
+        news.changeActive(newsInfo, true);
+        newsEdit.goToMainPage();
+        mainPage.checkNews(newsInfo, true);
+
+        loginPage.toComeOut();
+    }
+
+    @Test
+    public void checkEditNewsTest() {
+        step("8.2 Редактирование/отмена редактирования новости.");
 
         LoginPageFragment loginPage = logIn();
 
@@ -379,74 +436,95 @@ public class SimpleHospiceTest {
         NewsPageFragment newsPage = mainPage.goToNewsPageFromNewsBox();
         NewsEditPageFragment newsEdit = newsPage.goToEditNewsPage();
 
-        newsEdit.createSimpleNews(newsInfo, true);
-        newsEdit.goToMainPage();
-        // TODO На главной странице может не быть, если за текущий день больше 3 новостей
-        mainPage.checkNews(newsInfo, true);
-        mainPage.goToNewsPageFromNewsBox();
-        newsPage.goToEditNewsPage();
-        newsEdit.changeActive(newsInfo, false);
-        newsEdit.goToMainPage();
-        mainPage.checkNews(newsInfo, false);
-        mainPage.goToNewsPageFromNewsBox();
-        newsPage.goToEditNewsPage();
-        newsEdit.changeActive(newsInfo, true);
-        newsEdit.goToMainPage();
-        mainPage.checkNews(newsInfo, true);
-        mainPage.goToNewsPageFromNewsBox();
-        newsPage.goToEditNewsPage();
-        newsInfo = newsEdit.editNews(newsInfo, false);
-        newsInfo = newsEdit.editNews(newsInfo, true);
-        newsEdit.goToMainPage();
-        mainPage.checkNews(newsInfo, true);
+        NewsFragment news = newsEdit.goToCreateNews();
+        newsInfo = news.createSimpleNews(newsInfo, true); //создание
+
+        newsEdit.toFoundNews(newsInfo);
+        news = newsEdit.goToEditNews(newsInfo);
+        news.editNewsCategoryTitleAndDescrpt(
+                newsInfo, HospiceData.newsCategory.Holiday.getTitle(), false); //отмена
+
+        newsEdit.toFoundNews(newsInfo);
+        news = newsEdit.goToEditNews(newsInfo);
+        newsInfo = news.editNewsCategoryTitleAndDescrpt(
+                newsInfo, HospiceData.newsCategory.Holiday.getTitle(), true);
+
+        newsEdit.toFoundNews(newsInfo);
+        news = newsEdit.goToEditNews(newsInfo);
+        news.checkNews(newsInfo);
+
+        loginPage.toComeOut();
+    }
+
+    @Test
+    public void checkNewsFilterCategoryTest() {
+        step("9. Проверка фильтров новостей. Категории.");
+
+        LoginPageFragment loginPage = logIn();
+
+        String category[] = {
+                HospiceData.newsCategory.Announcement.getTitle(), //новость Объявление
+                HospiceData.newsCategory.Birthday.getTitle(), //новость День рождения
+                HospiceData.newsCategory.Salary.getTitle(), //новость Зарплата
+                HospiceData.newsCategory.Union.getTitle(), //новость Профсоюз
+                HospiceData.newsCategory.Holiday.getTitle(), //новость Праздник
+                HospiceData.newsCategory.Massage.getTitle(), //новость Массаж
+                HospiceData.newsCategory.Gratitude.getTitle(), //новость Благодарность
+                HospiceData.newsCategory.Help.getTitle(), //новость Нужна помощь
+                HospiceData.newsCategory.Announcement.getTitle() //нужно для последнего цикла
+        };
+        MainPageFragment mainPage = new MainPageFragment();
+        NewsPageFragment newsPage = mainPage.goToNewsPageFromNewsBox();
+        NewsEditPageFragment newsEdit = newsPage.goToEditNewsPage();
+        NewsFragment news = newsEdit.goToCreateNews();
+
+        NewsInfo.NewInfo newsInfo =
+                NewsInfo.getNewInfo(category[0], true); //заявка
+        newsInfo = news.createSimpleNews(newsInfo, true); //создание
+
+        for (int i = 0; i < 8; i++) {
+            newsPage = newsEdit.goToNewsPage();
+            newsPage.setUpCategoryFilter(newsInfo.getCategory()); // устанавливаем фильтр в Новостях
+            newsPage.toFoundNews(newsInfo);
+            newsPage.checkNews(newsInfo);
+
+            newsEdit = newsPage.goToEditNewsPage();
+            // устанавливаем фильтр в редактировании новостей
+            newsEdit.setUpFilter(newsInfo, true, true, true);
+            newsEdit.toFoundNews(newsInfo);
+            newsEdit.checkNews(newsInfo);
+
+            news = newsEdit.goToEditNews(newsInfo); // меняем категорию
+            newsInfo = news.editNewsCategoryTitleAndDescrpt(newsInfo, category[i + 1], true);
+        }
 
         loginPage.toComeOut();
     }
 
     @Test
     public void checkNewsFilterTest() {
-        step("9. Проверка фильтров новостей.");
+        step("9. Проверка фильтров новостей. Активность.");
 
         LoginPageFragment loginPage = logIn();
 
-        NewsInfo.NewInfo[] news = {
-                NewsInfo.getNewInfo(HospiceData.newsCategory.Announcement.getTitle(), true), //новость Объявление
-                NewsInfo.getNewInfo(HospiceData.newsCategory.Birthday.getTitle(), true), //новость День рождения
-                NewsInfo.getNewInfo(HospiceData.newsCategory.Salary.getTitle(), true), //новость Зарплата
-                NewsInfo.getNewInfo(HospiceData.newsCategory.Union.getTitle(), true), //новость Профсоюз
-                NewsInfo.getNewInfo(HospiceData.newsCategory.Holiday.getTitle(), true), //новость Праздник
-                NewsInfo.getNewInfo(HospiceData.newsCategory.Massage.getTitle(), true), //новость Массаж
-                NewsInfo.getNewInfo(HospiceData.newsCategory.Gratitude.getTitle(), true), //новость Благодарность
-                NewsInfo.getNewInfo(HospiceData.newsCategory.Help.getTitle(), true) //новость Нужна помощь
-        };
         MainPageFragment mainPage = new MainPageFragment();
         NewsPageFragment newsPage = mainPage.goToNewsPageFromNewsBox();
         NewsEditPageFragment newsEdit = newsPage.goToEditNewsPage();
 
-        for (NewsInfo.NewInfo newsInfo : news) { // создаем новости
-            newsEdit.createSimpleNews(newsInfo, true);
-        }
+        NewsInfo.NewInfo newsInfo =
+                NewsInfo.getNewInfo(HospiceData.newsCategory.Announcement.getTitle(), true); //заявка
+        NewsFragment news = newsEdit.goToCreateNews();
+        newsInfo = news.createSimpleNews(newsInfo, true); //создание
 
-        newsEdit.goToMainPage();
-        mainPage.goToNewsPage();
-        for (NewsInfo.NewInfo newsInfo : news) { //проверяем фильтр по категориям в новостях
-            newsPage.checkNewsWithCategoryFilter(newsInfo);
-        }
+        newsEdit.setUpFilter(newsInfo, false, true, false);
+        newsEdit.toFoundNews(newsInfo);
+        newsEdit.checkNewsActive(newsInfo);
 
-        newsPage.goToEditNewsPage();
-        for (NewsInfo.NewInfo newsInfo : news) { //проверяем фильтр по категориям в редактировании новостей
-            newsEdit.checkNewsCategoryAndActive(newsInfo, true, true);
-        }
-
-        newsEdit.changeActive(news[0], false);
-        newsEdit.checkNewsActive(news[0], false, true);
-        newsEdit.checkNewsActive(news[1], true, false);
-
-        newsEdit.goToMainPage();
-        mainPage.goToNewsPage();
-        newsPage.goToEditNewsPage();
-        newsEdit.checkNewsCategoryAndActive(news[0], false, true);
-        newsEdit.checkNewsCategoryAndActive(news[1], true, false);
+        news = newsEdit.goToEditNews(newsInfo);
+        newsInfo = news.changeActive(newsInfo, false);
+        newsEdit.setUpFilter(newsInfo, false, false, true);
+        newsEdit.toFoundNews(newsInfo);
+        newsEdit.checkNewsActive(newsInfo);
 
         loginPage.toComeOut();
     }
@@ -537,7 +615,7 @@ public class SimpleHospiceTest {
         NewsInfo.NewInfo news;
         for (int i = 0; i < text.length; i = i + 1) {         //русские символы пропущены
             news = NewsInfo.getNewInfoWithTitleAndDescr(text[i], text[i]); //заявка
-            newsEdit.createSimpleNews(news, true);
+//            newsEdit.createSimpleNews(news, true);
         }
 
         loginPage.toComeOut();
@@ -603,7 +681,7 @@ public class SimpleHospiceTest {
         NewsEditPageFragment newsEditPage = newsPage.goToEditNewsPage();
 
         for (int i = 0; i < news.length; i = i + 1) {
-            news[i] = newsEditPage.createSimpleNews(news[i], true);
+//            news[i] = newsEditPage.createSimpleNews(news[i], true);
             newsEditPage.checkDataTimeInClaim(news[i]);
         }
 

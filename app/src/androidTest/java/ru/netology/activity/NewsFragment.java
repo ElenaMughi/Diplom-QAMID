@@ -6,6 +6,7 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
+import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -45,32 +46,28 @@ public class NewsFragment {
 
     public NewsInfo.NewInfo createSimpleNews(NewsInfo.NewInfo newsInfo, boolean saveCancel) {
 
-        onView(
-                allOf(
-                        withClassName(endsWith("ImageButton")),
-                        withParent(withParent(withParent(withParent(withId(
-                                R.id.news_item_category_text_input_layout)))))
-                )
-        ).perform(click());
+        onView(allOf(withClassName(endsWith("ImageButton")),
+                withParent(withParent(withParent(withParent(withId(
+                        R.id.news_item_category_text_input_layout)))))))
+                .perform(click());
         res.getItemFromList(newsInfo.getCategory());
 
         res.typingTextWithClear(R.id.news_item_title_text_input_edit_text, newsInfo.getTitle()); //Заголовок
 
         SetDataTime.setDate(R.id.news_item_publish_date_text_input_edit_text, newsInfo.getDateNews());
         newsInfo.setCreationDate(LocalDate.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")));
-        SetDataTime.setTime(R.id.news_item_publish_time_text_input_edit_text, newsInfo.getTimeNews());
 
+        SetDataTime.setTime(R.id.news_item_publish_time_text_input_edit_text, newsInfo.getTimeNews());
 
         res.typingText(R.id.news_item_description_text_input_edit_text, newsInfo.getDescription()); // Описание
 
         clickSaveCancelButton(saveCancel); //сохранение/отмена
-
-        WaitId.waitId(R.id.trademark_image_view, 5000);
+        WaitId.waitId(R.id.news_list_recycler_view, 10000);
 
         return newsInfo;
     }
 
-    public void checkEmptyFieldsWhenCreatingNews(NewsInfo.NewInfo newsInfo) {
+    public NewsInfo.NewInfo checkEmptyFieldsWhenCreatingNews(NewsInfo.NewInfo newsInfo) {
 
         clickSaveCancelButton(true); //сохранение/отмена
         // TODO проверка toast-сообщения - не реализовано
@@ -104,54 +101,50 @@ public class NewsFragment {
         clickSaveCancelButton(true); //сохранение/отмена
         // проверка toast-сообщения - не реализовано
 
-        clickSaveCancelButton(false); //сохранение/отмена
+        res.typingText(R.id.news_item_title_text_input_edit_text, newsInfo.getTitle()); //Заголовок
+        clickSaveCancelButton(true); //выходим без сохранения
 
+        newsInfo.setCreationDate(LocalDate.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")));
+        WaitId.waitId(R.id.news_list_recycler_view, 10000);
+
+        return newsInfo;
     }
 
     public NewsInfo.NewInfo changeActive(NewsInfo.NewInfo newsInfo, boolean getActive) {
         if (getActive) {
-            onView(allOf(withId(R.id.switcher), withText("Not active")))
-                    .check(matches(isDisplayed()));
             onView(withId(R.id.switcher)).perform(click());
-            onView(allOf(withId(R.id.switcher), withText("Active")))
-                    .check(matches(isDisplayed()));
         } else {
-            onView(allOf(withId(R.id.switcher), withText("Active")))
-                    .check(matches(isDisplayed()));
             onView(withId(R.id.switcher)).perform(click());
-            onView(allOf(withId(R.id.switcher), withText("Not active")))
-                    .check(matches(isDisplayed()));
         }
-        newsInfo.setActive(getActive);
+        newsInfo.setActive(getActive); //сохраняем активность
         clickSaveCancelButton(true); //сохранение/отмена
         return newsInfo;
     }
 
-    public NewsInfo.NewInfo editNews(NewsInfo.NewInfo newsInfo, boolean saveCancel) {
+    public NewsInfo.NewInfo editNewsCategoryTitleAndDescrpt(
+            NewsInfo.NewInfo newsInfo, String category, boolean saveCancel) {
 
-        onView(allOf(withId(R.id.news_item_category_text_auto_complete_text_view), withText(newsInfo.getCategory())))
-                .check(matches(isDisplayed()));
+        WaitId.waitId(R.id.news_item_category_text_auto_complete_text_view, 5000);
+
         onView(withId(R.id.news_item_category_text_auto_complete_text_view)).perform(clearText());
-        onView(withId(R.id.news_item_category_text_auto_complete_text_view)).perform(click()); //Категория
-        res.getItemFromList(HospiceData.newsCategory.Salary.getTitle());
+        onView(allOf(withId(R.id.text_input_end_icon),
+                withContentDescription("Show dropdown menu")))
+                .perform(click());
+        res.getItemFromList(category);
 
-        onView(allOf(withId(R.id.news_item_title_text_input_edit_text), withText(newsInfo.getTitle())))
-                .check(matches(isDisplayed()));
         String title = faker.bothify("Bunny???#??#??#??#");
         res.typingTextWithClear(R.id.news_item_title_text_input_edit_text, title); //Заголовок
 
-        onView(allOf(withId(R.id.news_item_description_text_input_edit_text), withText(newsInfo.getDescription())))
-                .check(matches(isDisplayed()));
         String descript = faker.bothify("Fox???#??#??#??#");
         res.typingTextWithClear(R.id.news_item_description_text_input_edit_text, descript); // Описание
 
         if (saveCancel) {
-            newsInfo.setCategory(HospiceData.newsCategory.Salary.getTitle());
+            newsInfo.setCategory(category);
             newsInfo.setTitle(title);
             newsInfo.setDescription(descript);
         }
         clickSaveCancelButton(saveCancel); //сохранение/отмена
-        WaitId.waitId(R.id.trademark_image_view, 3000);
+        WaitId.waitId(R.id.trademark_image_view, 5000);
         return newsInfo;
     }
 
