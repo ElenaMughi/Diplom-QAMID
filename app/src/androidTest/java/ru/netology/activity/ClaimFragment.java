@@ -184,9 +184,9 @@ public class ClaimFragment {
 //                withText(claimInfo.getCreationTime()))).check(matches(isDisplayed()));
 
         onView(allOf(withId(R.id.plane_date_text_view),   //плановая дата
-                withText(claimInfo.getCreationDate()))).check(matches(isDisplayed()));
-//        onView(allOf(withId(R.id.plan_time_text_view),   //плановое время
-//                withText(claimInfo.getCreationTime()))).check(matches(isDisplayed()));
+                withText(claimInfo.getPlanDate()))).check(matches(isDisplayed()));
+        onView(allOf(withId(R.id.plan_time_text_view),   //плановое время
+                withText(claimInfo.getPlanTime()))).check(matches(isDisplayed()));
 
         if (claimInfo.getStatus() == HospiceData.claimsStatus.OPEN.getTitle()) { // доступность смены статуса
             onView(withId(R.id.status_processing_image_button)).check(matches(isEnabled()));
@@ -351,11 +351,18 @@ public class ClaimFragment {
         return claimInfo;
     }
 
-    public void editDataTime(String data, String time) {
+    public ClaimsInfo.ClaimInfo editDataTime(ClaimsInfo.ClaimInfo claimInfo, String data, String time) {
+        onView(withId(R.id.edit_processing_image_button)).perform(click());
+        WaitId.waitId(R.id.title_text_input_layout, 3000);
 
         SetDataTime.setDate(R.id.date_in_plan_text_input_edit_text, data);
         SetDataTime.setTime(R.id.time_in_plan_text_input_edit_text, time);
 
+        onView(withId(R.id.save_button)).perform(click());
+        claimInfo.setPlanDate(data);
+        claimInfo.setPlanTime(time);
+
         closeClaim();
+        return  claimInfo;
     }
 }

@@ -44,7 +44,7 @@ public class ClaimsInfo {
     public static ClaimInfo getClaimInfoWithChoiceDateTime(String ddate, String ttime) {
         return new ClaimInfo(
                 faker.bothify("Elena???#??#??#??#"),
-                HospiceData.fio.EMPTY.getTitle(),
+                HospiceData.fio.IVANOV.getTitle(),
                 ddate,
                 ttime,
                 faker.bothify("Elena???#??#??#??#????"),
@@ -94,9 +94,13 @@ public class ClaimsInfo {
             return planDate;
         }
 
+        public void setPlanDate(String planDate) { this.planDate = planDate; }
+
         public String getPlanTime() {
             return planTime;
         }
+
+        public void setPlanTime(String planTime) { this.planTime = planTime; }
 
         public String getDescription() {
             return description;

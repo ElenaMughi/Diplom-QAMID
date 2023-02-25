@@ -21,6 +21,7 @@ import ru.netology.data.NewsInfo;
 import ru.netology.resourses.CustomSetChecked;
 import ru.netology.resourses.CustomViewAssertions;
 import ru.netology.resourses.PrintText;
+import ru.netology.resourses.SetDataTime;
 import ru.netology.resourses.WaitId;
 
 public class NewsEditPageFragment {
@@ -69,6 +70,17 @@ public class NewsEditPageFragment {
         WaitId.waitId(R.id.news_list_recycler_view, 15000);
     }
 
+    public void setUpFilterWithData(String data) {
+
+        onView(withId(R.id.filter_news_material_button)).perform(click());
+
+        SetDataTime.setDate(R.id.news_item_publish_date_start_text_input_edit_text, data);
+        SetDataTime.setDate(R.id.news_item_publish_date_end_text_input_edit_text, data);
+
+        onView(withId(R.id.filter_button)).perform(click());
+        WaitId.waitId(R.id.news_list_recycler_view, 15000);
+    }
+
     public NewsFragment goToCreateNews() {
         onView(withId(R.id.add_news_image_view)).perform(click());
         WaitId.waitMyIdWithCheck(R.id.custom_app_bar_sub_title_text_view, 15000);
@@ -83,20 +95,20 @@ public class NewsEditPageFragment {
         return new NewsFragment();
     }
 
-    public NewsInfo.NewInfo editNewsDataAndTime(NewsInfo.NewInfo news, String data, String time) {
-//        setUpFilterCategory(news.getCategory());
-        toFoundNews(news);
-        onView(allOf(withId(R.id.edit_news_item_image_view),
-                withParent(withParent((hasDescendant(withText(news.getTitle())))))))
-                .perform(click());
-        onView(withId(R.id.custom_app_bar_sub_title_text_view))
-                .check(matches(isDisplayed()));
-        news.setDateNews(data);
-        news.setTimeNews(time);
-        NewsFragment newsFragment = new NewsFragment();
-        newsFragment.editNewsDataAndTime(news);
-        return news;
-    }
+//    public NewsInfo.NewInfo editNewsDataAndTime(NewsInfo.NewInfo news, String data, String time) {
+////        setUpFilterCategory(news.getCategory());
+//        toFoundNews(news);
+//        onView(allOf(withId(R.id.edit_news_item_image_view),
+//                withParent(withParent((hasDescendant(withText(news.getTitle())))))))
+//                .perform(click());
+//        onView(withId(R.id.custom_app_bar_sub_title_text_view))
+//                .check(matches(isDisplayed()));
+//        news.setDateNews(data);
+//        news.setTimeNews(time);
+//        NewsFragment newsFragment = new NewsFragment();
+//        newsFragment.editNewsDataAndTime(news);
+//        return news;
+//    }
 
     public void deleteNews(NewsInfo.NewInfo newsInfo, boolean okNo) {
         toFoundNews(newsInfo);

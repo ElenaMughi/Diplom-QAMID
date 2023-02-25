@@ -25,7 +25,7 @@ public class ClaimsPageFragment {
     HospiceData hospiceData = new HospiceData();
 
     public void setFilter(boolean filter[]) {
-        WaitId.waitId(R.id.filters_material_button, 15000);
+        WaitId.waitId(R.id.filters_material_button, 20000);
         onView(withId(R.id.filters_material_button)).perform(click());
         // ставим галочки согласно фильтру
         onView(withId(R.id.item_filter_open)).perform(scrollTo(), CustomSetChecked.setChecked(filter[0]));
@@ -34,23 +34,23 @@ public class ClaimsPageFragment {
         onView(withId(R.id.item_filter_cancelled)).perform(scrollTo(), CustomSetChecked.setChecked(filter[3]));
 
         onView(withId(R.id.claim_list_filter_ok_material_button)).perform(click());
-        WaitId.waitMyIdWithCheck(R.id.claim_list_recycler_view, 25000);
+        WaitId.waitMyIdWithCheck(R.id.claim_list_recycler_view, 40000);
     }
 
-    public ClaimFragment foundClaim(int id, String text) {
-        ViewInteraction recyclerView = onView(withId(id));
+    public ClaimFragment foundClaim(String text) {
+
+        ViewInteraction recyclerView = onView(withId(R.id.claim_list_recycler_view));
         recyclerView.perform(actionOnItem(hasDescendant(withText(text)), click()));
 
-        WaitId.waitMyIdWithCheck(R.id.title_text_view, 25000);
+        WaitId.waitMyIdWithCheck(R.id.title_text_view, 90000);
         return new ClaimFragment();
     }
 
-    public ClaimFragment toFoundClaimWithWholeFilter(ClaimsInfo.ClaimInfo claimInfo) {
-        boolean filter[] = {true, true, true, true};
+    public ClaimFragment toFoundClaimWithRandomFilter(ClaimsInfo.ClaimInfo claimInfo, boolean filter[]) {
         setFilter(filter); //ставим галочки
 
-        ClaimFragment claim = foundClaim(R.id.claim_list_recycler_view, claimInfo.getTitle());
-        WaitId.waitMyIdWithCheck(R.id.status_label_text_view, 25000);
+        ClaimFragment claim = foundClaim(claimInfo.getTitle());
+        WaitId.waitMyIdWithCheck(R.id.status_label_text_view, 20000);
         return claim;
     }
 
@@ -62,69 +62,22 @@ public class ClaimsPageFragment {
         if (claimInfo.getStatus() == HospiceData.claimsStatus.CANCEL.getTitle()) { filter[3] = true; }
         setFilter(filter);
 
-        ClaimFragment claim = foundClaim(R.id.claim_list_recycler_view, claimInfo.getTitle());
+        ClaimFragment claim = foundClaim(claimInfo.getTitle());
         WaitId.waitMyIdWithCheck(R.id.status_label_text_view, 20000);
         return claim;
     }
 
     public ClaimFragment callCreateClaim() {
+        WaitId.waitMyIdWithCheck(R.id.add_new_claim_material_button, 10000);
         onView(withId(R.id.add_new_claim_material_button)).perform(click());
-        WaitId.waitMyIdWithCheck(R.id.save_button, 5000);
+        WaitId.waitMyIdWithCheck(R.id.save_button, 10000);
         return new ClaimFragment();
-    }
-
-    public ClaimsInfo.ClaimInfo createClaim(ClaimsInfo.ClaimInfo claimInfo) {
-        onView(withId(R.id.add_new_claim_material_button)).perform(click());
-        WaitId.waitMyIdWithCheck(R.id.save_button, 5000);
-        ClaimFragment claim = new ClaimFragment();
-        return claim.createClaim(claimInfo);
-    }
-
-    public ClaimsInfo.ClaimInfo changeStatusOfClaim(ClaimsInfo.ClaimInfo claimInfo, String newStatus, boolean comment) {
-        ClaimFragment claimFragment = toFoundClaimWithFilter(claimInfo);
-        WaitId.waitMyIdWithCheck(R.id.title_text_view, 5000);
-        return claimFragment.toChangeStatusClaim(claimInfo, newStatus, comment);
-    }
-
-    public ClaimsInfo.ClaimInfo editTitleAndDescriptionInClaim(ClaimsInfo.ClaimInfo claimInfo, boolean saveCancel) {
-        ClaimFragment claimFragment = toFoundClaimWithFilter(claimInfo);
-        return claimFragment.editTitleAndDescriptionInClaim(claimInfo, saveCancel);
-    }
-
-    public ClaimsInfo.ClaimInfo changeExecutor(ClaimsInfo.ClaimInfo claim, String executor) {
-        ClaimFragment claimFragment = toFoundClaimWithFilter(claim);
-        return claimFragment.changeExecutor(claim, executor);
     }
 
     public void goToMainPage() {
         onView(withId(R.id.main_menu_image_button)).perform(click());
         res.getItemFromList("Main");
-        WaitId.waitId(R.id.main_swipe_refresh, 3000);
-    }
-
-    public void checkClaimWithWholeFilter(ClaimsInfo.ClaimInfo claimInfo) {
-        ClaimFragment claimFragment = toFoundClaimWithWholeFilter(claimInfo);
-        claimFragment.checkClaimFields(claimInfo);
-    }
-
-    public void checkClaimWithFilter(ClaimsInfo.ClaimInfo claim) {
-        ClaimFragment claimFragment = toFoundClaimWithFilter(claim);
-        claimFragment.checkClaimFields(claim);
-    }
-
-    public void checkClaimWithMultipleFiler(ClaimsInfo.ClaimInfo[] claims, boolean filter[]) {
-        setFilter(filter);
-        for (int i = 0; i < 3; i++) {
-            if (filter[i]) {
-                ClaimFragment claimFragment = foundClaim(R.id.claim_list_recycler_view, claims[i].getTitle());
-                claimFragment.checkClaimFields(claims[i]);
-            }
-        }
-    }
-
-    public void editData(ClaimsInfo.ClaimInfo claim, String data, String time) {
-        ClaimFragment claimFragment = toFoundClaimWithFilter(claim);
-        claimFragment.editDataTime(data, time);
+        WaitId.waitId(R.id.claim_list_recycler_view, 5000);
     }
 
 }

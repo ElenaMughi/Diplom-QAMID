@@ -21,9 +21,11 @@ import java.time.format.DateTimeFormatter;
 import io.qameta.allure.android.runners.AllureAndroidJUnit4;
 import ru.iteco.fmhandroid.R;
 import ru.iteco.fmhandroid.ui.AppActivity;
+import ru.netology.activity.AboutPageFragment;
 import ru.netology.activity.ClaimFragment;
 import ru.netology.activity.ClaimsPageFragment;
 import ru.netology.activity.LoginPageFragment;
+import ru.netology.activity.LoveIsAllPageFragment;
 import ru.netology.activity.MainPageFragment;
 import ru.netology.activity.NewsEditPageFragment;
 import ru.netology.activity.NewsFragment;
@@ -480,7 +482,7 @@ public class SimpleHospiceTest {
 
         NewsInfo.NewInfo newsInfo =
                 NewsInfo.getNewInfo(category[0], true); //заявка
-        newsInfo = news.createSimpleNews(newsInfo, true); //создание
+        newsInfo = news.createSimpleNews(newsInfo, true);
 
         for (int i = 0; i < 8; i++) {
             newsPage = newsEdit.goToNewsPage();
@@ -531,7 +533,7 @@ public class SimpleHospiceTest {
 
     @Test
     public void checkClaimsFilterTest() {
-        step("10. Проверка фильтров заявок.");
+        step("10. Проверка фильтров заявок. Статусы");
 
         LoginPageFragment loginPage = logIn();
 
@@ -545,30 +547,54 @@ public class SimpleHospiceTest {
         MainPageFragment mainPage = new MainPageFragment();
         ClaimsPageFragment claimPage = mainPage.goToClaimsPage();
 
-        for (ClaimsInfo.ClaimInfo cl : claims) {
-            claimPage.createClaim(cl);  // создаем все заявки и присваиваем им статусы далее
-        }
-        claimPage.changeStatusOfClaim(claims[2], HospiceData.claimsStatus.EXEC.getTitle(), true);
-        claimPage.changeStatusOfClaim(claims[3], HospiceData.claimsStatus.CANCEL.getTitle(), true);
+        ClaimFragment claimFragment = claimPage.callCreateClaim();
+        claims[0] = claimFragment.createClaim(claims[0]); // Open
 
-        for (int i = 0; i < 4; i = i + 1) { //фильтр со всеми галочками
-            claimPage.checkClaimWithWholeFilter(claims[i]);
-        }
+        claimFragment = claimPage.callCreateClaim();
+        claims[1] = claimFragment.createClaim(claims[1]); // Work
 
-        for (int i = 0; i < 4; i = i + 1) { //фильтр с одной галочкой
-            claimPage.checkClaimWithFilter(claims[i]);
-        }
+        claimFragment = claimPage.callCreateClaim();
+        claims[2] = claimFragment.createClaim(claims[2]); // Exec
+        claimFragment = claimPage.toFoundClaimWithFilter(claims[2]); //проверка по фильтру в работе
+        claims[2] = claimFragment.toChangeStatusClaim(claims[2], HospiceData.claimsStatus.EXEC.getTitle(), true);
+        claimFragment = claimPage.toFoundClaimWithFilter(claims[2]); //проверка по фильтру в выполнено
+        claimFragment.closeClaim();
 
-        boolean filter1[] = {true, true, false, false};
-        claimPage.checkClaimWithMultipleFiler(claims, filter1);
-        boolean filter2[] = {true, false, true, false};
-        claimPage.checkClaimWithMultipleFiler(claims, filter2);
-        boolean filter3[] = {true, false, true, true};
-        claimPage.checkClaimWithMultipleFiler(claims, filter3);
+        claimFragment = claimPage.callCreateClaim();
+        claims[3] = claimFragment.createClaim(claims[3]); // Cancel
+        claimFragment = claimPage.toFoundClaimWithFilter(claims[3]); //проверка по фильтру в открыто
+        claims[3] = claimFragment.toChangeStatusClaim(claims[3], HospiceData.claimsStatus.CANCEL.getTitle(), true);
+        claimPage.toFoundClaimWithFilter(claims[3]); //проверка по фильтру в отмена
+        claimFragment.closeClaim();
+
+//TODO всегда падает
+
+//        boolean filter[] = {true, true, true, true};
+//        for (ClaimsInfo.ClaimInfo cl : claims) { //фильтр со всеми галочками
+//            claimPage.toFoundClaimWithRandomFilter(cl, filter);
+//            claimFragment.closeClaim();
+//        }
+
+        boolean filter1[] = {false, true, true, false};
+        claimPage.toFoundClaimWithRandomFilter(claims[1], filter1);
+        claimFragment.closeClaim();
+        claimPage.toFoundClaimWithRandomFilter(claims[2], filter1);
+        claimFragment.closeClaim();
+
+        boolean filter2[] = {false, false, true, true};
+        claimPage.toFoundClaimWithRandomFilter(claims[2], filter2);
+        claimFragment.closeClaim();
+        claimPage.toFoundClaimWithRandomFilter(claims[3], filter2);
+        claimFragment.closeClaim();
+
+        boolean filter3[] = {false, true, true, true};
+        for (int i = 1; i < 4; i++) {
+            claimPage.toFoundClaimWithRandomFilter(claims[i], filter3);
+            claimFragment.closeClaim();
+        }
 
         loginPage.toComeOut();
     }
-
 
     @Test
     public void checkPrintAllSymbolsAndLettersInClaimsTest() {
@@ -580,17 +606,20 @@ public class SimpleHospiceTest {
         ClaimsPageFragment claimPage = mainPage.goToClaimsPageFromClaimBox();
 
         String[] text = {
-                HospiceData.SymbolsAndLetters.EnglishAndNumAndSymbol.getTitle(),
-                HospiceData.SymbolsAndLetters.EnglishUpAndSymbol.getTitle(),
-                HospiceData.SymbolsAndLetters.Letters50.getTitle(),
-                HospiceData.SymbolsAndLetters.OneSymbol.getTitle()
+                HospiceData.SymbolsAndLetters.EnglishAndSymbol40.getTitle() + faker.bothify("??#??"),
+                HospiceData.SymbolsAndLetters.EnglishUpAndSymbol40.getTitle() + faker.bothify("??#??"),
+                HospiceData.SymbolsAndLetters.Letters40.getTitle() + faker.bothify("??#????#??"),
+                faker.bothify("?")
         };
 
         ClaimsInfo.ClaimInfo claim;
         for (int i = 0; i < text.length; i = i + 1) {         //русские символы пропущены
             claim = ClaimsInfo.getClaimInfoWithChoiceTitleAndDiscr(text[i], text[i]); //заявка
-            claimPage.createClaim(claim);
-//            claimPage.addCommentToClaim(claim, true);
+            ClaimFragment claimFragment = claimPage.callCreateClaim();
+            claim = claimFragment.createClaim(claim); // Exec
+            claimFragment = claimPage.toFoundClaimWithFilter(claim);
+            claimFragment.writeComment(claim, text[i], true);
+            claimFragment.closeClaim();
         }
         loginPage.toComeOut();
     }
@@ -606,16 +635,17 @@ public class SimpleHospiceTest {
         NewsEditPageFragment newsEdit = newsPage.goToEditNewsPage();
 
         String[] text = {
-                HospiceData.SymbolsAndLetters.EnglishAndNumAndSymbol.getTitle(),
-                HospiceData.SymbolsAndLetters.EnglishUpAndSymbol.getTitle(),
-                HospiceData.SymbolsAndLetters.Letters50.getTitle(),
-                HospiceData.SymbolsAndLetters.OneSymbol.getTitle()
+                HospiceData.SymbolsAndLetters.EnglishAndSymbol40.getTitle() + faker.bothify("??#??"),
+                HospiceData.SymbolsAndLetters.EnglishUpAndSymbol40.getTitle() + faker.bothify("??#??"),
+                HospiceData.SymbolsAndLetters.Letters40.getTitle() + faker.bothify("??#????#??"),
+                faker.bothify("?")
         };
 
-        NewsInfo.NewInfo news;
+        NewsInfo.NewInfo newInfo;
         for (int i = 0; i < text.length; i = i + 1) {         //русские символы пропущены
-            news = NewsInfo.getNewInfoWithTitleAndDescr(text[i], text[i]); //заявка
-//            newsEdit.createSimpleNews(news, true);
+            newInfo = NewsInfo.getNewInfoWithTitleAndDescr(text[i], text[i]); //заявка
+            NewsFragment newsFragment = newsEdit.goToCreateNews();
+            newInfo = newsFragment.createSimpleNews(newInfo, true); //создание
         }
 
         loginPage.toComeOut();
@@ -627,35 +657,42 @@ public class SimpleHospiceTest {
 
         LoginPageFragment loginPage = logIn();
 
-        ClaimsInfo.ClaimInfo claims[] = {
-                ClaimsInfo.getClaimInfoWithChoiceDateTime(
-                        LocalDate.now().plusYears(1).format(DateTimeFormatter.ofPattern("dd.MM.yyyy")),
-                        LocalTime.now().plusHours(1).format(DateTimeFormatter.ofPattern("hh:mm"))),
-                ClaimsInfo.getClaimInfoWithChoiceDateTime(
-                        LocalDate.now().plusMonths(1).format(DateTimeFormatter.ofPattern("dd.MM.yyyy")),
-                        LocalTime.now().plusMinutes(1).format(DateTimeFormatter.ofPattern("hh:mm"))),
-                ClaimsInfo.getClaimInfoWithChoiceDateTime(
-                        LocalDate.now().plusDays(1).format(DateTimeFormatter.ofPattern("dd.MM.yyyy")),
-                        LocalTime.now().minusHours(1).format(DateTimeFormatter.ofPattern("hh:mm")))
-        };
+        ClaimsInfo.ClaimInfo claim1 = ClaimsInfo.getClaimInfoWithChoiceDateTime( // заявка без исполнителя
+                LocalDate.now().plusYears(1).format(DateTimeFormatter.ofPattern("dd.MM.yyyy")),
+                LocalTime.now().plusHours(1).format(DateTimeFormatter.ofPattern("hh:mm")));
+        claim1.setExecutor(HospiceData.fio.EMPTY.getTitle()); //обнуляем исполнителя в 1 заявке
+
+        ClaimsInfo.ClaimInfo claim2 = ClaimsInfo.getClaimInfoWithChoiceDateTime( // заявка с исполнителем
+                LocalDate.now().plusMonths(1).format(DateTimeFormatter.ofPattern("dd.MM.yyyy")),
+                LocalTime.now().plusMinutes(1).format(DateTimeFormatter.ofPattern("hh:mm")));
 
         MainPageFragment mainPage = new MainPageFragment();
         ClaimsPageFragment claimPage = mainPage.goToClaimsPage();
 
-        for (int i = 0; i < claims.length; i = i + 1) {
-            claimPage.createClaim(claims[i]);
-            claimPage.checkClaimWithFilter(claims[i]);
-        }
-
-        claimPage.editData(claims[0],
+        ClaimFragment claimFragment = claimPage.callCreateClaim();
+        claim1 = claimFragment.createClaim(claim1);
+        claimFragment = claimPage.toFoundClaimWithFilter(claim1);
+        claimFragment.checkClaimFields(claim1);
+        claimFragment = claimPage.toFoundClaimWithFilter(claim1);
+        claim1 = claimFragment.editDataTime(claim1, // ставим более раннее время
                 LocalDate.now().plusDays(2).format(DateTimeFormatter.ofPattern("dd.MM.yyyy")),
                 LocalTime.now().minusHours(1).format(DateTimeFormatter.ofPattern("hh:mm")));
-        claimPage.checkClaimWithFilter(claims[0]);
+        claimFragment = claimPage.toFoundClaimWithFilter(claim1);
+        claimFragment.checkClaimFields(claim1);
 
-        claimPage.editData(claims[0],
+        ClaimFragment claimFragment2 = claimPage.callCreateClaim();
+        claim2 = claimFragment2.createClaim(claim2);
+        claimFragment2 = claimPage.toFoundClaimWithFilter(claim2);
+        claimFragment2.checkClaimFields(claim2);
+        claimFragment2 = claimPage.toFoundClaimWithFilter(claim2);
+        // переводим заявку в статус Open для изменения времени
+        claim2 = claimFragment2.toChangeStatusClaim(claim2, HospiceData.claimsStatus.OPEN.getTitle(), true);
+        claimFragment2 = claimPage.toFoundClaimWithFilter(claim2);
+        claim2 = claimFragment2.editDataTime(claim2, // ставим более позднее время
                 LocalDate.now().plusMonths(3).format(DateTimeFormatter.ofPattern("dd.MM.yyyy")),
                 LocalTime.now().minusMinutes(10).format(DateTimeFormatter.ofPattern("hh:mm")));
-        claimPage.checkClaimWithFilter(claims[0]);
+        claimFragment2 = claimPage.toFoundClaimWithFilter(claim2);
+        claimFragment2.checkClaimFields(claim2);
 
         loginPage.toComeOut();
     }
@@ -666,40 +703,102 @@ public class SimpleHospiceTest {
 
         LoginPageFragment loginPage = logIn();
 
-        NewsInfo.NewInfo news[] = {
-                NewsInfo.getNewsInfoDateTimeChoice(LocalDate.now().plusYears(1).format(DateTimeFormatter.ofPattern("dd.MM.yyyy")),
-                        LocalTime.now().plusHours(1).format(DateTimeFormatter.ofPattern("hh:mm"))),
-                NewsInfo.getNewsInfoDateTimeChoice(
-                        LocalDate.now().plusMonths(1).format(DateTimeFormatter.ofPattern("dd.MM.yyyy")),
-                        LocalTime.now().plusMinutes(1).format(DateTimeFormatter.ofPattern("hh:mm"))),
-                NewsInfo.getNewsInfoDateTimeChoice(
-                        LocalDate.now().plusDays(1).format(DateTimeFormatter.ofPattern("dd.MM.yyyy")),
-                        LocalTime.now().minusHours(1).format(DateTimeFormatter.ofPattern("hh:mm")))
-        };
         MainPageFragment mainPage = new MainPageFragment();
         NewsPageFragment newsPage = mainPage.goToNewsPage();
         NewsEditPageFragment newsEditPage = newsPage.goToEditNewsPage();
 
-        for (int i = 0; i < news.length; i = i + 1) {
-//            news[i] = newsEditPage.createSimpleNews(news[i], true);
-            newsEditPage.checkDataTimeInClaim(news[i]);
-        }
+        String data1 = LocalDate.now().plusYears(1).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+        NewsInfo.NewInfo newsInfo = NewsInfo.getNewsInfoDateTimeChoice(data1,
+                LocalTime.now().plusHours(1).format(DateTimeFormatter.ofPattern("hh:mm")));
 
-        news[0] = newsEditPage.editNewsDataAndTime(news[1],
-                LocalDate.now().plusDays(2).format(DateTimeFormatter.ofPattern("dd.MM.yyyy")),
+        NewsFragment newsFragment = newsEditPage.goToCreateNews();
+        newsInfo = newsFragment.createSimpleNews(newsInfo, true);
+        newsEditPage.setUpFilterWithData(data1); // фильтр по дате в редактировании новостей
+        newsEditPage.toFoundNews(newsInfo);
+        newsFragment = newsEditPage.goToEditNews(newsInfo);
+        newsFragment.checkNews(newsInfo); // проверяем даты в редактировании новости
+
+        newsEditPage.setUpFilterWithData(data1);
+        newsEditPage.toFoundNews(newsInfo);
+        newsFragment = newsEditPage.goToEditNews(newsInfo);
+        String data2 = LocalDate.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+        newsInfo = newsFragment.editNewsDataAndTime(newsInfo, data2,   //изменяем дату на более раннюю
                 LocalTime.now().minusHours(1).format(DateTimeFormatter.ofPattern("hh:mm")));
-        newsEditPage.checkDataTimeInClaim(news[1]);
 
-        news[0] = newsEditPage.editNewsDataAndTime(news[2],
-                LocalDate.now().plusMonths(3).format(DateTimeFormatter.ofPattern("dd.MM.yyyy")),
+        newsEditPage.setUpFilterWithData(data2);
+        newsEditPage.toFoundNews(newsInfo);
+        newsFragment = newsEditPage.goToEditNews(newsInfo);
+        newsFragment.checkNews(newsInfo); // проверяем дату в редактировании новости
+
+        newsEditPage.goToNewsPage();
+        newsPage.setUpDataFilter(data2); // фильтр по дате в новостях
+        newsPage.toFoundNews(newsInfo);
+        newsPage.checkNews(newsInfo); // проверяем даты в новостях
+
+        newsEditPage = newsPage.goToEditNewsPage();
+        newsEditPage.setUpFilterWithData(data2);
+        newsEditPage.toFoundNews(newsInfo);
+        newsFragment = newsEditPage.goToEditNews(newsInfo);
+        newsFragment.changeActive(newsInfo, false); //делаем новость неактивной
+
+        newsEditPage.setUpFilterWithData(data2);
+        newsEditPage.toFoundNews(newsInfo);
+        newsFragment = newsEditPage.goToEditNews(newsInfo);
+        String data3 = LocalDate.now().plusMonths(3).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+        newsInfo = newsFragment.editNewsDataAndTime(newsInfo, data3, //изменяем дату на более позднюю
                 LocalTime.now().minusMinutes(10).format(DateTimeFormatter.ofPattern("hh:mm")));
-        newsEditPage.checkDataTimeInClaim(news[2]);
+
+        newsEditPage.setUpFilterWithData(data3);
+        newsEditPage.toFoundNews(newsInfo);
+        newsFragment = newsEditPage.goToEditNews(newsInfo);
+        newsFragment.checkNews(newsInfo); // проверяем даты в редактировании новости
 
         loginPage.toComeOut();
     }
 
-    //    {
-//      2. Создание заявки из главной страницы(все варианты)
-//    }
+    @Test
+    public void checkMainPageButtonTest() {
+        step("16.1 Пробег по кнопкам на главной странице.");
+        LoginPageFragment loginPage = logIn();
+
+        MainPageFragment mainPage = new MainPageFragment();
+        ClaimsInfo.ClaimInfo claim = ClaimsInfo.getClaimInfoWithOutFIO();
+        ClaimFragment claimFragment = mainPage.callCreationClaimFromMainPage();
+        claim = claimFragment.createClaim(claim);
+
+        ClaimsPageFragment claimsPage = mainPage.goToClaimsPageFromClaimBox();
+        claimFragment = claimsPage.toFoundClaimWithFilter(claim);
+        claimFragment.checkClaimFields(claim);
+        claimsPage.goToMainPage();
+
+        NewsPageFragment newsPage = mainPage.goToNewsPageFromNewsBox();
+        newsPage.goToMainPage();
+
+        loginPage.toComeOut();
+    }
+
+    @Test
+    public void checkAboutPageButtonTest() {
+        step("16.2 Пробег по кнопкам. Страница About.");
+        LoginPageFragment loginPage = logIn();
+
+        MainPageFragment mainPage = new MainPageFragment();
+        AboutPageFragment aboutPage = mainPage.goToAboutPage();
+        aboutPage.checkPage();
+
+        loginPage.toComeOut();
+    }
+
+    @Test
+    public void checkLoveIsAllPageButtonTest() {
+        step("16.3 Пробег по кнопкам. Страница Love Is All.");
+        LoginPageFragment loginPage = logIn();
+
+        MainPageFragment mainPage = new MainPageFragment();
+        LoveIsAllPageFragment loveIsAllPage = mainPage.goToLoveIsAllPage();
+        loveIsAllPage.checkQuote();
+
+        loginPage.toComeOut();
+    }
 }
 

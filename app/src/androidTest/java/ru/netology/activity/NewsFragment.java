@@ -148,10 +148,13 @@ public class NewsFragment {
         return newsInfo;
     }
 
-    public void editNewsDataAndTime(NewsInfo.NewInfo news) {
-        SetDataTime.setDate(R.id.news_item_publish_date_text_input_edit_text, news.getDateNews());
-        SetDataTime.setTime(R.id.news_item_publish_time_text_input_edit_text, news.getTimeNews());
+    public NewsInfo.NewInfo editNewsDataAndTime(NewsInfo.NewInfo news, String data, String time) {
+        SetDataTime.setDate(R.id.news_item_publish_date_text_input_edit_text, data);
+        SetDataTime.setTime(R.id.news_item_publish_time_text_input_edit_text, time);
+        news.setDateNews(data);
+        news.setTimeNews(time);
         clickSaveCancelButton(true);
+        return news;
     }
 
     public void checkNews(NewsInfo.NewInfo news) {

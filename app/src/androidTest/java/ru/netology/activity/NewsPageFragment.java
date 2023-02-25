@@ -18,11 +18,18 @@ import androidx.test.espresso.ViewInteraction;
 import ru.iteco.fmhandroid.R;
 import ru.netology.data.NewsInfo;
 import ru.netology.resourses.PrintText;
+import ru.netology.resourses.SetDataTime;
 import ru.netology.resourses.WaitId;
 
 public class NewsPageFragment {
 
     PrintText res = new PrintText();
+
+    public void goToMainPage() {
+        onView(withId(R.id.main_menu_image_button)).perform(click());
+        res.getItemFromList("Main");
+        WaitId.waitId(R.id.main_swipe_refresh, 3000);
+    }
 
     public NewsEditPageFragment goToEditNewsPage() {
         onView(withId(R.id.edit_news_material_button)).perform(click());
@@ -38,13 +45,23 @@ public class NewsPageFragment {
                 .perform(click());
         res.getItemFromList(category);
         onView(withId(R.id.filter_button)).perform(click());
-        WaitId.waitId(R.id.news_list_recycler_view, 10000);
+        WaitId.waitId(R.id.news_list_recycler_view, 15000);
     }
 
     public void toFoundNews(NewsInfo.NewInfo newsInfo) {
         ViewInteraction recyclerView = onView(withId(R.id.news_list_recycler_view));
         recyclerView.perform(actionOnItem(hasDescendant(withText(newsInfo.getTitle())), click()));
         WaitId.waitId(R.id.news_item_description_text_view, 10000);
+    }
+
+    public void setUpDataFilter(String data) {
+        onView(withId(R.id.filter_news_material_button)).perform(click());
+
+        SetDataTime.setDate(R.id.news_item_publish_date_start_text_input_edit_text, data);
+        SetDataTime.setDate(R.id.news_item_publish_date_end_text_input_edit_text, data);
+
+        onView(withId(R.id.filter_button)).perform(click());
+        WaitId.waitId(R.id.news_list_recycler_view, 15000);
     }
 
     public void checkNews(NewsInfo.NewInfo newsInfo) {
@@ -60,4 +77,5 @@ public class NewsPageFragment {
                 hasSibling(withText(newsInfo.getDescription()))))
                 .check(matches(withText(newsInfo.getDateNews())));
     }
+
 }

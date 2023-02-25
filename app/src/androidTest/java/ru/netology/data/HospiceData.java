@@ -47,7 +47,9 @@ public class HospiceData {
             this.title = title;
         }
 
-        public String getTitle() { return title; }
+        public String getTitle() {
+            return title;
+        }
     }
 
     public enum claimStatusPopUpMenu {
@@ -90,10 +92,10 @@ public class HospiceData {
     }
 
     public enum SymbolsAndLetters {
-        EnglishAndNumAndSymbol("nmasdfghjklqwertyuiopzxcvb1234567890{}[]()"),
-        EnglishUpAndSymbol("ZXCVBNMASDFGHJKLQWERTYUIOP<>?,./!@#$%^&*_+=-;:'|"),
+        EnglishAndSymbol40("nmasdfghjklqwertyuiopzxcvb{}[]();:'|+=-_"),
+        EnglishUpAndSymbol40("ZXCVBNMASDFGHJKLQWERTYUIOP<>?,./!@#$%^&*"),
         OneSymbol("A"),
-        Letters50("12345678901234567890123456789012345678901234567890"),
+        Letters40("1234567890123456789012345678901234567890"),
         Russian("ячсмитьбюфывапролджэйцукенгшщзхъё"),
         RussianUpper("ЁЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ");
 
@@ -108,4 +110,41 @@ public class HospiceData {
         }
     }
 
+    public enum aboutPageData {
+        Version("1.0.0"),
+        PrivacyPolicy("https://vhospice.org/#/privacy-policy/"),
+        TermsOfUse("https://vhospice.org/#/terms-of-use"),
+        ITeco("© I-Teco, 2022");
+
+        private String title;
+
+        aboutPageData(String title) {
+            this.title = title;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+        }
+
+    public enum OurMissionData {
+        OneTitle("«Хоспис для меня - это то, каким должен быть мир.\""),
+        OneDiscript("\"Ну, идеальное устройство мира в моих глазах. Где никто " +
+                "не оценивает, никто не осудит, где говоришь, и тебя слышат, где, " +
+                "если страшно, тебя обнимут и возьмут за руку, а если холодно тебя " +
+                "согреют.” Юля Капис, волонтер"),
+        TwoTitle("Хоспис в своем истинном понимании - это творчество"),
+        TwoDiscript("Нет шаблона и стандарта, есть только дух, который живет в " +
+                "разных домах по-разному. Но всегда он добрый, любящий и помогающий.");
+
+        private String title;
+
+        OurMissionData(String title) {
+            this.title = title;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+    }
 }
