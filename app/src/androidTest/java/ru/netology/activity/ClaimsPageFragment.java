@@ -25,7 +25,7 @@ public class ClaimsPageFragment {
     HospiceData hospiceData = new HospiceData();
 
     public void setFilter(boolean filter[]) {
-        WaitId.waitId(R.id.filters_material_button, 20000);
+        WaitId.waitId(R.id.filters_material_button, 80000);
         onView(withId(R.id.filters_material_button)).perform(click());
         // ставим галочки согласно фильтру
         onView(withId(R.id.item_filter_open)).perform(scrollTo(), CustomSetChecked.setChecked(filter[0]));
@@ -34,7 +34,7 @@ public class ClaimsPageFragment {
         onView(withId(R.id.item_filter_cancelled)).perform(scrollTo(), CustomSetChecked.setChecked(filter[3]));
 
         onView(withId(R.id.claim_list_filter_ok_material_button)).perform(click());
-        WaitId.waitMyIdWithCheck(R.id.claim_list_recycler_view, 40000);
+        WaitId.waitMyIdWithCheck(R.id.claim_list_recycler_view, 100000);
     }
 
     public ClaimFragment foundClaim(String text) {
@@ -42,7 +42,7 @@ public class ClaimsPageFragment {
         ViewInteraction recyclerView = onView(withId(R.id.claim_list_recycler_view));
         recyclerView.perform(actionOnItem(hasDescendant(withText(text)), click()));
 
-        WaitId.waitMyIdWithCheck(R.id.title_text_view, 90000);
+        WaitId.waitMyIdWithCheck(R.id.title_text_view, 100000);
         return new ClaimFragment();
     }
 

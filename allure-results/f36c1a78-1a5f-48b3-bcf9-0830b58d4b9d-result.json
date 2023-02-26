@@ -1,0 +1,69 @@
+{
+    "name": "viewNewsInMainPageWithCheckActiveTest",
+    "start": 1677404731691,
+    "stop": 1677404767275,
+    "stage": "finished",
+    "description": null,
+    "descriptionHtml": null,
+    "status": "passed",
+    "statusDetails": null,
+    "steps": [
+        {
+            "name": "8. Отображение активной/неактивной новости на главное странице.",
+            "start": 1677404732349,
+            "stop": 1677404732349,
+            "stage": "finished",
+            "description": null,
+            "descriptionHtml": null,
+            "status": "passed",
+            "statusDetails": null,
+            "steps": [
+            ],
+            "attachments": [
+            ],
+            "parameters": [
+            ]
+        }
+    ],
+    "attachments": [
+    ],
+    "parameters": [
+    ],
+    "uuid": "f36c1a78-1a5f-48b3-bcf9-0830b58d4b9d",
+    "historyId": "891b1fb3d3e00f9e6a643ca2c2311805",
+    "fullName": "ru.netology.test.SimpleHospiceTest.viewNewsInMainPageWithCheckActiveTest",
+    "labels": [
+        {
+            "name": "package",
+            "value": "ru.netology.test"
+        },
+        {
+            "name": "testClass",
+            "value": "ru.netology.test.SimpleHospiceTest"
+        },
+        {
+            "name": "testMethod",
+            "value": "viewNewsInMainPageWithCheckActiveTest"
+        },
+        {
+            "name": "suite",
+            "value": "ru.netology.test.SimpleHospiceTest"
+        },
+        {
+            "name": "host",
+            "value": "localhost"
+        },
+        {
+            "name": "thread",
+            "value": "Instr: io.qameta.allure.android.runners.AllureAndroidJUnitRunner(502)"
+        },
+        {
+            "name": "framework",
+            "value": "junit4"
+        },
+        {
+            "name": "language",
+            "value": "kotlin"
+        }
+    ]
+}

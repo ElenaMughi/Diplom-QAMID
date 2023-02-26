@@ -567,13 +567,13 @@ public class SimpleHospiceTest {
         claimPage.toFoundClaimWithFilter(claims[3]); //проверка по фильтру в отмена
         claimFragment.closeClaim();
 
-//TODO всегда падает
+//TODO почти всегда падает
 
-//        boolean filter[] = {true, true, true, true};
-//        for (ClaimsInfo.ClaimInfo cl : claims) { //фильтр со всеми галочками
-//            claimPage.toFoundClaimWithRandomFilter(cl, filter);
-//            claimFragment.closeClaim();
-//        }
+        boolean filter[] = {true, true, true, true};
+        for (ClaimsInfo.ClaimInfo cl : claims) { //фильтр со всеми галочками
+            claimPage.toFoundClaimWithRandomFilter(cl, filter);
+            claimFragment.closeClaim();
+        }
 
         boolean filter1[] = {false, true, true, false};
         claimPage.toFoundClaimWithRandomFilter(claims[1], filter1);
