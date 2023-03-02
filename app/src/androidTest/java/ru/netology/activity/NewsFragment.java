@@ -70,7 +70,7 @@ public class NewsFragment {
     public NewsInfo.NewInfo checkEmptyFieldsWhenCreatingNews(NewsInfo.NewInfo newsInfo) {
 
         clickSaveCancelButton(true); //сохранение/отмена
-        // TODO проверка toast-сообщения - не реализовано
+        // TODO проверка toast-сообщения - в текущей версии не работает
 
         onView(withId(R.id.news_item_category_text_auto_complete_text_view)).perform(click());
         res.getItemFromList(newsInfo.getCategory());

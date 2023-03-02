@@ -69,8 +69,7 @@ public class MainPageFragment {
         return new LoveIsAllPageFragment();
     }
 
-    public void checkNews(NewsInfo.NewInfo newsInfo, boolean visible) {
-        if (visible) {
+    public void checkNews(NewsInfo.NewInfo newsInfo) {
             WaitId.waitId(R.id.view_news_item_image_view, 5000);
             onView(allOf(withId(R.id.view_news_item_image_view),
                     withParent(withParent((hasDescendant(withText(newsInfo.getTitle()))))))
@@ -79,9 +78,5 @@ public class MainPageFragment {
             onView(allOf(withId(R.id.news_item_description_text_view),
                     withText(newsInfo.getDescription()))
             ).check(matches(isDisplayed()));
-        } else {
-// TODO Проверка что на экране нет - не реализовано
-        }
     }
-
 }

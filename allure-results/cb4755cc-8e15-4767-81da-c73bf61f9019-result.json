@@ -1,0 +1,69 @@
+{
+    "name": "createNewsWithCheckEmptyFieldsTest",
+    "start": 1677785647380,
+    "stop": 1677785680310,
+    "stage": "finished",
+    "description": null,
+    "descriptionHtml": null,
+    "status": "passed",
+    "statusDetails": null,
+    "steps": [
+        {
+            "name": "7.2 Создание новости с проверкой пустых полей.",
+            "start": 1677785648221,
+            "stop": 1677785648221,
+            "stage": "finished",
+            "description": null,
+            "descriptionHtml": null,
+            "status": "passed",
+            "statusDetails": null,
+            "steps": [
+            ],
+            "attachments": [
+            ],
+            "parameters": [
+            ]
+        }
+    ],
+    "attachments": [
+    ],
+    "parameters": [
+    ],
+    "uuid": "cb4755cc-8e15-4767-81da-c73bf61f9019",
+    "historyId": "3b19f72daed49bb6f2b9b09182c1e5ad",
+    "fullName": "ru.netology.test.SimpleHospiceTest.createNewsWithCheckEmptyFieldsTest",
+    "labels": [
+        {
+            "name": "package",
+            "value": "ru.netology.test"
+        },
+        {
+            "name": "testClass",
+            "value": "ru.netology.test.SimpleHospiceTest"
+        },
+        {
+            "name": "testMethod",
+            "value": "createNewsWithCheckEmptyFieldsTest"
+        },
+        {
+            "name": "suite",
+            "value": "ru.netology.test.SimpleHospiceTest"
+        },
+        {
+            "name": "host",
+            "value": "localhost"
+        },
+        {
+            "name": "thread",
+            "value": "Instr: io.qameta.allure.android.runners.AllureAndroidJUnitRunner(332)"
+        },
+        {
+            "name": "framework",
+            "value": "junit4"
+        },
+        {
+            "name": "language",
+            "value": "kotlin"
+        }
+    ]
+}

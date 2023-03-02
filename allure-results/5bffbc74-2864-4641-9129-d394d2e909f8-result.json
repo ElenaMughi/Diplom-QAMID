@@ -1,0 +1,69 @@
+{
+    "name": "checkPrintAllSymbolsAndLettersInClaimsTest",
+    "start": 1677787785422,
+    "stop": 1677787895759,
+    "stage": "finished",
+    "description": null,
+    "descriptionHtml": null,
+    "status": "passed",
+    "statusDetails": null,
+    "steps": [
+        {
+            "name": "11. Проверка доступности символов при создании заявки.",
+            "start": 1677787787585,
+            "stop": 1677787787591,
+            "stage": "finished",
+            "description": null,
+            "descriptionHtml": null,
+            "status": "passed",
+            "statusDetails": null,
+            "steps": [
+            ],
+            "attachments": [
+            ],
+            "parameters": [
+            ]
+        }
+    ],
+    "attachments": [
+    ],
+    "parameters": [
+    ],
+    "uuid": "5bffbc74-2864-4641-9129-d394d2e909f8",
+    "historyId": "509cf5d5c423fe8c359ad044ea8d058d",
+    "fullName": "ru.netology.test.SimpleHospiceTest.checkPrintAllSymbolsAndLettersInClaimsTest",
+    "labels": [
+        {
+            "name": "package",
+            "value": "ru.netology.test"
+        },
+        {
+            "name": "testClass",
+            "value": "ru.netology.test.SimpleHospiceTest"
+        },
+        {
+            "name": "testMethod",
+            "value": "checkPrintAllSymbolsAndLettersInClaimsTest"
+        },
+        {
+            "name": "suite",
+            "value": "ru.netology.test.SimpleHospiceTest"
+        },
+        {
+            "name": "host",
+            "value": "localhost"
+        },
+        {
+            "name": "thread",
+            "value": "Instr: io.qameta.allure.android.runners.AllureAndroidJUnitRunner(363)"
+        },
+        {
+            "name": "framework",
+            "value": "junit4"
+        },
+        {
+            "name": "language",
+            "value": "kotlin"
+        }
+    ]
+}

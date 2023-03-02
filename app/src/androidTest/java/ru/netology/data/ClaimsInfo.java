@@ -16,7 +16,7 @@ public class ClaimsInfo {
                 faker.bothify("Elena???#??#??#??#"),
                 HospiceData.fio.EMPTY.getTitle(),
                 LocalDate.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")),
-                LocalTime.now().format(DateTimeFormatter.ofPattern("hh:mm")),
+                LocalTime.now().format(DateTimeFormatter.ofPattern("kk:mm")),
                 faker.bothify("Elena???#??#??#??#??"),
                 HospiceData.fio.IVANOV.getTitle());
     }
@@ -26,7 +26,7 @@ public class ClaimsInfo {
                 faker.bothify("Elena???#??#??#??#"),
                 fio,
                 LocalDate.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")),
-                LocalTime.now().format(DateTimeFormatter.ofPattern("hh:mm")),
+                LocalTime.now().format(DateTimeFormatter.ofPattern("kk:mm")),
                 faker.bothify("Elena???#??#??#??#???"),
                 HospiceData.fio.IVANOV.getTitle());
     }
@@ -36,7 +36,7 @@ public class ClaimsInfo {
                 title,
                 HospiceData.fio.EMPTY.getTitle(),
                 LocalDate.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy")),
-                LocalTime.now().format(DateTimeFormatter.ofPattern("hh:mm")),
+                LocalTime.now().format(DateTimeFormatter.ofPattern("kk:mm")),
                 descript,
                 HospiceData.fio.IVANOV.getTitle());
     }

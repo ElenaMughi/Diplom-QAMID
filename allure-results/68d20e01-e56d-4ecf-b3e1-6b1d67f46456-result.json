@@ -1,0 +1,69 @@
+{
+    "name": "changeClaimStatusFromWorkTest",
+    "start": 1677785894577,
+    "stop": 1677785940330,
+    "stage": "finished",
+    "description": null,
+    "descriptionHtml": null,
+    "status": "passed",
+    "statusDetails": null,
+    "steps": [
+        {
+            "name": "6.4. Прохождение по статусам отмены заявки начиная со статуса В работе.",
+            "start": 1677785895311,
+            "stop": 1677785895312,
+            "stage": "finished",
+            "description": null,
+            "descriptionHtml": null,
+            "status": "passed",
+            "statusDetails": null,
+            "steps": [
+            ],
+            "attachments": [
+            ],
+            "parameters": [
+            ]
+        }
+    ],
+    "attachments": [
+    ],
+    "parameters": [
+    ],
+    "uuid": "68d20e01-e56d-4ecf-b3e1-6b1d67f46456",
+    "historyId": "b5eeec8e6f4a823f8b5c64e1d68d1189",
+    "fullName": "ru.netology.test.SimpleHospiceTest.changeClaimStatusFromWorkTest",
+    "labels": [
+        {
+            "name": "package",
+            "value": "ru.netology.test"
+        },
+        {
+            "name": "testClass",
+            "value": "ru.netology.test.SimpleHospiceTest"
+        },
+        {
+            "name": "testMethod",
+            "value": "changeClaimStatusFromWorkTest"
+        },
+        {
+            "name": "suite",
+            "value": "ru.netology.test.SimpleHospiceTest"
+        },
+        {
+            "name": "host",
+            "value": "localhost"
+        },
+        {
+            "name": "thread",
+            "value": "Instr: io.qameta.allure.android.runners.AllureAndroidJUnitRunner(332)"
+        },
+        {
+            "name": "framework",
+            "value": "junit4"
+        },
+        {
+            "name": "language",
+            "value": "kotlin"
+        }
+    ]
+}

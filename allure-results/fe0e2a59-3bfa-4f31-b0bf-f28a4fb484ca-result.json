@@ -1,0 +1,69 @@
+{
+    "name": "createAndDeleteNewsFromMainPageTest",
+    "start": 1677785940431,
+    "stop": 1677785980683,
+    "stage": "finished",
+    "description": null,
+    "descriptionHtml": null,
+    "status": "passed",
+    "statusDetails": null,
+    "steps": [
+        {
+            "name": "7.1 Создание/отмена создания/удаление/отмена удаления новости.",
+            "start": 1677785941238,
+            "stop": 1677785941239,
+            "stage": "finished",
+            "description": null,
+            "descriptionHtml": null,
+            "status": "passed",
+            "statusDetails": null,
+            "steps": [
+            ],
+            "attachments": [
+            ],
+            "parameters": [
+            ]
+        }
+    ],
+    "attachments": [
+    ],
+    "parameters": [
+    ],
+    "uuid": "fe0e2a59-3bfa-4f31-b0bf-f28a4fb484ca",
+    "historyId": "807247a1586164769a914bb82d6611da",
+    "fullName": "ru.netology.test.SimpleHospiceTest.createAndDeleteNewsFromMainPageTest",
+    "labels": [
+        {
+            "name": "package",
+            "value": "ru.netology.test"
+        },
+        {
+            "name": "testClass",
+            "value": "ru.netology.test.SimpleHospiceTest"
+        },
+        {
+            "name": "testMethod",
+            "value": "createAndDeleteNewsFromMainPageTest"
+        },
+        {
+            "name": "suite",
+            "value": "ru.netology.test.SimpleHospiceTest"
+        },
+        {
+            "name": "host",
+            "value": "localhost"
+        },
+        {
+            "name": "thread",
+            "value": "Instr: io.qameta.allure.android.runners.AllureAndroidJUnitRunner(332)"
+        },
+        {
+            "name": "framework",
+            "value": "junit4"
+        },
+        {
+            "name": "language",
+            "value": "kotlin"
+        }
+    ]
+}

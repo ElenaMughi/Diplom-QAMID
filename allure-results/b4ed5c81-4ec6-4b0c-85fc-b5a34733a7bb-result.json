@@ -1,0 +1,69 @@
+{
+    "name": "createAndEditCommentsOnOpenClaimTest",
+    "start": 1677786132730,
+    "stop": 1677786176514,
+    "stage": "finished",
+    "description": null,
+    "descriptionHtml": null,
+    "status": "passed",
+    "statusDetails": null,
+    "steps": [
+        {
+            "name": "5.1 Добавление/редактирование (с отменой) комментариев к заявке в статусе Открыто.",
+            "start": 1677786133488,
+            "stop": 1677786133488,
+            "stage": "finished",
+            "description": null,
+            "descriptionHtml": null,
+            "status": "passed",
+            "statusDetails": null,
+            "steps": [
+            ],
+            "attachments": [
+            ],
+            "parameters": [
+            ]
+        }
+    ],
+    "attachments": [
+    ],
+    "parameters": [
+    ],
+    "uuid": "b4ed5c81-4ec6-4b0c-85fc-b5a34733a7bb",
+    "historyId": "b716c86fbf5698193c0d488d2430cf1b",
+    "fullName": "ru.netology.test.SimpleHospiceTest.createAndEditCommentsOnOpenClaimTest",
+    "labels": [
+        {
+            "name": "package",
+            "value": "ru.netology.test"
+        },
+        {
+            "name": "testClass",
+            "value": "ru.netology.test.SimpleHospiceTest"
+        },
+        {
+            "name": "testMethod",
+            "value": "createAndEditCommentsOnOpenClaimTest"
+        },
+        {
+            "name": "suite",
+            "value": "ru.netology.test.SimpleHospiceTest"
+        },
+        {
+            "name": "host",
+            "value": "localhost"
+        },
+        {
+            "name": "thread",
+            "value": "Instr: io.qameta.allure.android.runners.AllureAndroidJUnitRunner(332)"
+        },
+        {
+            "name": "framework",
+            "value": "junit4"
+        },
+        {
+            "name": "language",
+            "value": "kotlin"
+        }
+    ]
+}

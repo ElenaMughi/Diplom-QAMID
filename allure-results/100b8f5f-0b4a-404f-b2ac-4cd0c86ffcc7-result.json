@@ -1,0 +1,69 @@
+{
+    "name": "editExecutorInOpenStatusClaimTest",
+    "start": 1677785458658,
+    "stop": 1677785488934,
+    "stage": "finished",
+    "description": null,
+    "descriptionHtml": null,
+    "status": "passed",
+    "statusDetails": null,
+    "steps": [
+        {
+            "name": "6.2. Изменение Исполнителя в заявке в статусе Открыто.",
+            "start": 1677785459588,
+            "stop": 1677785459588,
+            "stage": "finished",
+            "description": null,
+            "descriptionHtml": null,
+            "status": "passed",
+            "statusDetails": null,
+            "steps": [
+            ],
+            "attachments": [
+            ],
+            "parameters": [
+            ]
+        }
+    ],
+    "attachments": [
+    ],
+    "parameters": [
+    ],
+    "uuid": "100b8f5f-0b4a-404f-b2ac-4cd0c86ffcc7",
+    "historyId": "74df12859869d9f1a8e66e89bb8e92ee",
+    "fullName": "ru.netology.test.SimpleHospiceTest.editExecutorInOpenStatusClaimTest",
+    "labels": [
+        {
+            "name": "package",
+            "value": "ru.netology.test"
+        },
+        {
+            "name": "testClass",
+            "value": "ru.netology.test.SimpleHospiceTest"
+        },
+        {
+            "name": "testMethod",
+            "value": "editExecutorInOpenStatusClaimTest"
+        },
+        {
+            "name": "suite",
+            "value": "ru.netology.test.SimpleHospiceTest"
+        },
+        {
+            "name": "host",
+            "value": "localhost"
+        },
+        {
+            "name": "thread",
+            "value": "Instr: io.qameta.allure.android.runners.AllureAndroidJUnitRunner(332)"
+        },
+        {
+            "name": "framework",
+            "value": "junit4"
+        },
+        {
+            "name": "language",
+            "value": "kotlin"
+        }
+    ]
+}

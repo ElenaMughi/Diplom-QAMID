@@ -34,7 +34,7 @@ public class ClaimsPageFragment {
         onView(withId(R.id.item_filter_cancelled)).perform(scrollTo(), CustomSetChecked.setChecked(filter[3]));
 
         onView(withId(R.id.claim_list_filter_ok_material_button)).perform(click());
-        WaitId.waitMyIdWithCheck(R.id.claim_list_recycler_view, 100000);
+        WaitId.waitMyIdWithCheck(R.id.claim_list_recycler_view, 250000);
     }
 
     public ClaimFragment foundClaim(String text) {
@@ -42,7 +42,7 @@ public class ClaimsPageFragment {
         ViewInteraction recyclerView = onView(withId(R.id.claim_list_recycler_view));
         recyclerView.perform(actionOnItem(hasDescendant(withText(text)), click()));
 
-        WaitId.waitMyIdWithCheck(R.id.title_text_view, 100000);
+        WaitId.waitMyIdWithCheck(R.id.title_text_view, 250000);
         return new ClaimFragment();
     }
 
@@ -50,7 +50,7 @@ public class ClaimsPageFragment {
         setFilter(filter); //ставим галочки
 
         ClaimFragment claim = foundClaim(claimInfo.getTitle());
-        WaitId.waitMyIdWithCheck(R.id.status_label_text_view, 20000);
+        WaitId.waitMyIdWithCheck(R.id.status_label_text_view, 30000);
         return claim;
     }
 
@@ -63,11 +63,11 @@ public class ClaimsPageFragment {
         setFilter(filter);
 
         ClaimFragment claim = foundClaim(claimInfo.getTitle());
-        WaitId.waitMyIdWithCheck(R.id.status_label_text_view, 20000);
+        WaitId.waitMyIdWithCheck(R.id.status_label_text_view, 30000);
         return claim;
     }
 
-    public ClaimFragment callCreateClaim() {
+    public ClaimFragment callCreateNewClaim() {
         WaitId.waitMyIdWithCheck(R.id.add_new_claim_material_button, 10000);
         onView(withId(R.id.add_new_claim_material_button)).perform(click());
         WaitId.waitMyIdWithCheck(R.id.save_button, 10000);

@@ -6,8 +6,10 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.swipeUp;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.hasSibling;
+import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
+import static androidx.test.espresso.matcher.ViewMatchers.isNotClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -80,7 +82,7 @@ public class ClaimFragment {
         claimInfo.setCreationDate( // сохраняем дату перед сохранением заявки
                 LocalDate.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))); // сохраняем дату создания
         claimInfo.setCreationTime(
-                LocalTime.now(Clock.system(ZoneId.of("Europe/Moscow"))).format(DateTimeFormatter.ofPattern("hh:mm"))); // сохраняем время создания
+                LocalTime.now().format(DateTimeFormatter.ofPattern("kk:mm"))); // сохраняем время создания
 
         onView(withId(R.id.save_button)).perform(click());
         WaitId.waitId(R.id.claim_list_swipe_refresh, 10000);
@@ -101,7 +103,7 @@ public class ClaimFragment {
             claimInfo.setCreationDate( // сохраняем дату перед сохранением заявки
                     LocalDate.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))); // сохраняем дату создания
             claimInfo.setCreationTime(
-                    LocalTime.now(Clock.system(ZoneId.of("Europe/Moscow"))).format(DateTimeFormatter.ofPattern("hh:mm"))); // сохраняем время создания
+                    LocalTime.now().format(DateTimeFormatter.ofPattern("kk:mm"))); // сохраняем время создания
             onView(withId(R.id.save_button)).perform(click());
             WaitId.waitId(R.id.claim_list_swipe_refresh, 5000);
         } else { // подтверждаем отмену
@@ -150,7 +152,7 @@ public class ClaimFragment {
         claimInfo.setCreationDate( // сохраняем дату перед сохранением заявки
                 LocalDate.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))); // сохраняем дату создания
         claimInfo.setCreationTime(
-                LocalTime.now().format(DateTimeFormatter.ofPattern("hh:mm"))); // сохраняем время создания
+                LocalTime.now().format(DateTimeFormatter.ofPattern("kk:mm"))); // сохраняем время создания
 
         return claimInfo;
     }
@@ -178,10 +180,8 @@ public class ClaimFragment {
         onView(allOf(withId(R.id.create_data_text_view),   //дата создания
                 withText(claimInfo.getCreationDate()))).check(matches(isDisplayed()));
 
-// TODO уточнить время создания - не работает
-
-//        onView(allOf(withId(R.id.create_time_text_view),   //время создания
-//                withText(claimInfo.getCreationTime()))).check(matches(isDisplayed()));
+        onView(allOf(withId(R.id.create_time_text_view),   //время создания
+                withText(claimInfo.getCreationTime()))).check(matches(isDisplayed()));
 
         onView(allOf(withId(R.id.plane_date_text_view),   //плановая дата
                 withText(claimInfo.getPlanDate()))).check(matches(isDisplayed()));
@@ -189,23 +189,23 @@ public class ClaimFragment {
                 withText(claimInfo.getPlanTime()))).check(matches(isDisplayed()));
 
         if (claimInfo.getStatus() == HospiceData.claimsStatus.OPEN.getTitle()) { // доступность смены статуса
-            onView(withId(R.id.status_processing_image_button)).check(matches(isEnabled()));
-            onView(withId(R.id.edit_processing_image_button)).check(matches(isEnabled()));
+            onView(withId(R.id.status_processing_image_button)).check(matches(isClickable()));
+            onView(withId(R.id.edit_processing_image_button)).check(matches(isClickable()));
         } else {
             if (claimInfo.getStatus() == HospiceData.claimsStatus.WORK.getTitle()) {
                 if (claimInfo.getExecutor() == claimInfo.getAuthor()) {
-                    onView(withId(R.id.status_processing_image_button)).check(matches(isEnabled()));
+                    onView(withId(R.id.status_processing_image_button)).check(matches(isClickable()));
+                    onView(withId(R.id.edit_processing_image_button)).check(matches(isClickable())); //
                 } else {
-//TODO как проверить что кнопка отжата не работает
-
-//                    onView(withId(R.id.status_processing_image_button)).check(matches(not(isEnabled())));
+                    onView(withId(R.id.status_processing_image_button)).check(matches(isClickable())); //
+                    onView(withId(R.id.edit_processing_image_button)).check(matches(isClickable())); //
                 }
             } else {
-//                onView(withId(R.id.status_processing_image_button)).check(matches(not(isEnabled())));
+                onView(withId(R.id.status_processing_image_button)).check(matches(isClickable())); //
+                onView(withId(R.id.edit_processing_image_button)).check(matches(isClickable())); //
             }
-//            onView(withId(R.id.edit_processing_image_button)).check(matches(not(isEnabled())));
+            onView(withId(R.id.edit_processing_image_button)).check(matches(isClickable())); //
         }
-
         closeClaim();
     }
 

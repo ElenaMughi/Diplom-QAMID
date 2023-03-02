@@ -13,7 +13,7 @@ public class NewsInfo {
     public static NewInfo getNewInfo(String category, boolean NewsActive) {
         String title = faker.bothify("Winnie???#??#??#??#");
         String datePublish = LocalDate.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
-        String timePublish = LocalTime.now().format(DateTimeFormatter.ofPattern("hh:mm"));
+        String timePublish = LocalTime.now().format(DateTimeFormatter.ofPattern("kk:mm"));
         String descript = faker.bothify("Boniface???#??#??#??#");
         boolean active = NewsActive;
         return new NewInfo(category, title, datePublish, timePublish, descript, active,
@@ -22,7 +22,7 @@ public class NewsInfo {
 
     public static NewInfo getNewInfoWithTitleAndDescr(String title, String descript) {
         String datePublish = LocalDate.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
-        String timePublish = LocalTime.now().format(DateTimeFormatter.ofPattern("hh:mm"));
+        String timePublish = LocalTime.now().format(DateTimeFormatter.ofPattern("kk:mm"));
         return new NewInfo(HospiceData.newsCategory.Help.getTitle(),
                 title, datePublish, timePublish, descript, true,
                 HospiceData.authorNews.IVANOV.getTitle());

@@ -79,7 +79,7 @@ public class SimpleHospiceTest {
     }
 
     @Test
-    public void createClaimFromMainPageWithCheckEmptyFieldsTest() {
+    public void createClaimWithCheckEmptyFieldsTest() {
         step("2. Создание заявки и проверка заполнения полей(без исполнителя)");
 
         LoginPageFragment loginPage = logIn();
@@ -89,7 +89,7 @@ public class SimpleHospiceTest {
 
         MainPageFragment mainPage = new MainPageFragment();
         ClaimsPageFragment claimsPage = mainPage.goToClaimsPage();
-        ClaimFragment claim = claimsPage.callCreateClaim(); //вызов создания заявки
+        ClaimFragment claim = claimsPage.callCreateNewClaim(); //вызов создания заявки
         claimInfo = claim.checkingEmptyFieldsWhenCreatingClaim(claimInfo); // проверка пустых полей
 
         claim = claimsPage.toFoundClaimWithFilter(claimInfo);
@@ -100,7 +100,7 @@ public class SimpleHospiceTest {
     }
 
     @Test
-    public void createClaimFromMainPageWithCheckCancelTest() {
+    public void createClaimWithCheckCancelTest() {
         step("3. Проверка отмены создания заявки");
 
         LoginPageFragment loginPage = logIn();
@@ -110,10 +110,10 @@ public class SimpleHospiceTest {
 
         MainPageFragment mainPage = new MainPageFragment();
         ClaimsPageFragment claimsPage = mainPage.goToClaimsPage();
-        ClaimFragment claim = claimsPage.callCreateClaim();
+        ClaimFragment claim = claimsPage.callCreateNewClaim();
         claim.cancellationCreateClaim(claimInfo, false); //не сохранять при подтверждении
 
-        claim = claimsPage.callCreateClaim();
+        claim = claimsPage.callCreateNewClaim();
         claimInfo = claim.cancellationCreateClaim(claimInfo, true); //сохранить при подтверждении
 
         claim = claimsPage.toFoundClaimWithFilter(claimInfo);
@@ -124,8 +124,8 @@ public class SimpleHospiceTest {
     }
 
     @Test
-    public void createClaimFromClaimsPageWithCheckExecutorTest() {
-        step("4. Создание заявки с Исполнителем и проверкой статуса.");
+    public void createClaimWithCheckExecutorTest() {
+        step("4. Создание заявки с проверкой исполнителя и статуса.");
 
         LoginPageFragment loginPage = logIn();
 
@@ -135,13 +135,13 @@ public class SimpleHospiceTest {
         MainPageFragment mainPage = new MainPageFragment();
         ClaimsPageFragment claimsPage = mainPage.goToClaimsPage();
 
-        ClaimFragment claim = claimsPage.callCreateClaim();
+        ClaimFragment claim = claimsPage.callCreateNewClaim();
         claimInfo = claim.createClaim(claimInfo);
 
         claim = claimsPage.toFoundClaimWithFilter(claimInfo);
         claim.checkClaimFields(claimInfo);
 
-// TODO: 22.01.2023 //Нельзя ввести несуществующего исполнителя. Проверка снята.
+// TODO: на случай возможности вставки другого исполнителя - в текущей версии не используется
 
 //        ClaimsInfo.ClaimInfo claimInfo2 =
 //                ClaimsInfo.getClaimInfoWithChoiceFIO(HospiceData.fio.PETROV.getTitle()); //заявка
@@ -152,7 +152,7 @@ public class SimpleHospiceTest {
 
         ClaimsInfo.ClaimInfo claimInfo3 =
                 ClaimsInfo.getClaimInfoWithChoiceFIO(HospiceData.fio.IVANOV.getTitle()); //заявка
-        claim = claimsPage.callCreateClaim();
+        claim = claimsPage.callCreateNewClaim();
         claimInfo3 = claim.createClaim(claimInfo3);
 
         claim = claimsPage.toFoundClaimWithFilter(claimInfo3);
@@ -173,7 +173,7 @@ public class SimpleHospiceTest {
         MainPageFragment mainPage = new MainPageFragment();
         ClaimsPageFragment claimsPage = mainPage.goToClaimsPage();
 
-        ClaimFragment claim = claimsPage.callCreateClaim();
+        ClaimFragment claim = claimsPage.callCreateNewClaim();
         claimInfo = claim.createClaim(claimInfo);
 
         claim = claimsPage.toFoundClaimWithFilter(claimInfo);
@@ -205,7 +205,7 @@ public class SimpleHospiceTest {
 
         MainPageFragment mainPage = new MainPageFragment();
         ClaimsPageFragment claimsPage = mainPage.goToClaimsPageFromClaimBox();
-        ClaimFragment claim = claimsPage.callCreateClaim();
+        ClaimFragment claim = claimsPage.callCreateNewClaim();
         claimInfo = claim.createClaim(claimInfo);
 
         claim = claimsPage.toFoundClaimWithFilter(claimInfo);
@@ -236,7 +236,7 @@ public class SimpleHospiceTest {
 
         MainPageFragment mainPage = new MainPageFragment();
         ClaimsPageFragment claimsPage = mainPage.goToClaimsPageFromClaimBox();
-        ClaimFragment claim = claimsPage.callCreateClaim();
+        ClaimFragment claim = claimsPage.callCreateNewClaim();
         claimInfo = claim.createClaim(claimInfo);
 
         claim = claimsPage.toFoundClaimWithFilter(claimInfo);
@@ -263,7 +263,7 @@ public class SimpleHospiceTest {
 
         MainPageFragment mainPage = new MainPageFragment();
         ClaimsPageFragment claimsPage = mainPage.goToClaimsPageFromClaimBox();
-        ClaimFragment claim = claimsPage.callCreateClaim();
+        ClaimFragment claim = claimsPage.callCreateNewClaim();
         claimInfo = claim.createClaim(claimInfo);
 
         claim = claimsPage.toFoundClaimWithFilter(claimInfo);
@@ -286,7 +286,7 @@ public class SimpleHospiceTest {
 
         MainPageFragment mainPage = new MainPageFragment();
         ClaimsPageFragment claimsPage = mainPage.goToClaimsPageFromClaimBox();
-        ClaimFragment claim = claimsPage.callCreateClaim();
+        ClaimFragment claim = claimsPage.callCreateNewClaim();
         claimInfo = claim.createClaim(claimInfo);
 
         claim = claimsPage.toFoundClaimWithFilter(claimInfo);
@@ -321,7 +321,7 @@ public class SimpleHospiceTest {
 
         MainPageFragment mainPage = new MainPageFragment();
         ClaimsPageFragment claimsPage = mainPage.goToClaimsPageFromClaimBox();
-        ClaimFragment claim = claimsPage.callCreateClaim();
+        ClaimFragment claim = claimsPage.callCreateNewClaim();
         claimInfo = claim.createClaim(claimInfo);
 
         claim = claimsPage.toFoundClaimWithFilter(claimInfo);
@@ -405,7 +405,7 @@ public class SimpleHospiceTest {
         newsInfo = news.createSimpleNews(newsInfo, true); //создание
 
         newsEdit.goToMainPage();
-        mainPage.checkNews(newsInfo, true);
+        mainPage.checkNews(newsInfo);
 
         mainPage.goToNewsPage();
         newsPage.goToEditNewsPage();
@@ -413,7 +413,7 @@ public class SimpleHospiceTest {
         news = newsEdit.goToEditNews(newsInfo);
         news.changeActive(newsInfo, false);
         newsEdit.goToMainPage();
-        mainPage.checkNews(newsInfo, false); //уточнить проверку на отсутствие
+//TODO проверка на отсутствие на главной странице - в текущей версии не работает
 
         mainPage.goToNewsPage();
         newsPage.goToEditNewsPage();
@@ -421,7 +421,7 @@ public class SimpleHospiceTest {
         news = newsEdit.goToEditNews(newsInfo);
         news.changeActive(newsInfo, true);
         newsEdit.goToMainPage();
-        mainPage.checkNews(newsInfo, true);
+        mainPage.checkNews(newsInfo);
 
         loginPage.toComeOut();
     }
@@ -547,27 +547,25 @@ public class SimpleHospiceTest {
         MainPageFragment mainPage = new MainPageFragment();
         ClaimsPageFragment claimPage = mainPage.goToClaimsPage();
 
-        ClaimFragment claimFragment = claimPage.callCreateClaim();
+        ClaimFragment claimFragment = claimPage.callCreateNewClaim();
         claims[0] = claimFragment.createClaim(claims[0]); // Open
 
-        claimFragment = claimPage.callCreateClaim();
+        claimFragment = claimPage.callCreateNewClaim();
         claims[1] = claimFragment.createClaim(claims[1]); // Work
 
-        claimFragment = claimPage.callCreateClaim();
+        claimFragment = claimPage.callCreateNewClaim();
         claims[2] = claimFragment.createClaim(claims[2]); // Exec
         claimFragment = claimPage.toFoundClaimWithFilter(claims[2]); //проверка по фильтру в работе
         claims[2] = claimFragment.toChangeStatusClaim(claims[2], HospiceData.claimsStatus.EXEC.getTitle(), true);
         claimFragment = claimPage.toFoundClaimWithFilter(claims[2]); //проверка по фильтру в выполнено
         claimFragment.closeClaim();
 
-        claimFragment = claimPage.callCreateClaim();
+        claimFragment = claimPage.callCreateNewClaim();
         claims[3] = claimFragment.createClaim(claims[3]); // Cancel
         claimFragment = claimPage.toFoundClaimWithFilter(claims[3]); //проверка по фильтру в открыто
         claims[3] = claimFragment.toChangeStatusClaim(claims[3], HospiceData.claimsStatus.CANCEL.getTitle(), true);
         claimPage.toFoundClaimWithFilter(claims[3]); //проверка по фильтру в отмена
         claimFragment.closeClaim();
-
-//TODO почти всегда падает
 
         boolean filter[] = {true, true, true, true};
         for (ClaimsInfo.ClaimInfo cl : claims) { //фильтр со всеми галочками
@@ -615,7 +613,7 @@ public class SimpleHospiceTest {
         ClaimsInfo.ClaimInfo claim;
         for (int i = 0; i < text.length; i = i + 1) {         //русские символы пропущены
             claim = ClaimsInfo.getClaimInfoWithChoiceTitleAndDiscr(text[i], text[i]); //заявка
-            ClaimFragment claimFragment = claimPage.callCreateClaim();
+            ClaimFragment claimFragment = claimPage.callCreateNewClaim();
             claim = claimFragment.createClaim(claim); // Exec
             claimFragment = claimPage.toFoundClaimWithFilter(claim);
             claimFragment.writeComment(claim, text[i], true);
@@ -659,28 +657,28 @@ public class SimpleHospiceTest {
 
         ClaimsInfo.ClaimInfo claim1 = ClaimsInfo.getClaimInfoWithChoiceDateTime( // заявка без исполнителя
                 LocalDate.now().plusYears(1).format(DateTimeFormatter.ofPattern("dd.MM.yyyy")),
-                LocalTime.now().plusHours(1).format(DateTimeFormatter.ofPattern("hh:mm")));
+                LocalTime.now().plusHours(1).format(DateTimeFormatter.ofPattern("kk:mm")));
         claim1.setExecutor(HospiceData.fio.EMPTY.getTitle()); //обнуляем исполнителя в 1 заявке
 
         ClaimsInfo.ClaimInfo claim2 = ClaimsInfo.getClaimInfoWithChoiceDateTime( // заявка с исполнителем
                 LocalDate.now().plusMonths(1).format(DateTimeFormatter.ofPattern("dd.MM.yyyy")),
-                LocalTime.now().plusMinutes(1).format(DateTimeFormatter.ofPattern("hh:mm")));
+                LocalTime.now().plusMinutes(1).format(DateTimeFormatter.ofPattern("kk:mm")));
 
         MainPageFragment mainPage = new MainPageFragment();
         ClaimsPageFragment claimPage = mainPage.goToClaimsPage();
 
-        ClaimFragment claimFragment = claimPage.callCreateClaim();
+        ClaimFragment claimFragment = claimPage.callCreateNewClaim();
         claim1 = claimFragment.createClaim(claim1);
         claimFragment = claimPage.toFoundClaimWithFilter(claim1);
         claimFragment.checkClaimFields(claim1);
         claimFragment = claimPage.toFoundClaimWithFilter(claim1);
         claim1 = claimFragment.editDataTime(claim1, // ставим более раннее время
                 LocalDate.now().plusDays(2).format(DateTimeFormatter.ofPattern("dd.MM.yyyy")),
-                LocalTime.now().minusHours(1).format(DateTimeFormatter.ofPattern("hh:mm")));
+                LocalTime.now().minusHours(1).format(DateTimeFormatter.ofPattern("kk:mm")));
         claimFragment = claimPage.toFoundClaimWithFilter(claim1);
         claimFragment.checkClaimFields(claim1);
 
-        ClaimFragment claimFragment2 = claimPage.callCreateClaim();
+        ClaimFragment claimFragment2 = claimPage.callCreateNewClaim();
         claim2 = claimFragment2.createClaim(claim2);
         claimFragment2 = claimPage.toFoundClaimWithFilter(claim2);
         claimFragment2.checkClaimFields(claim2);
@@ -690,7 +688,7 @@ public class SimpleHospiceTest {
         claimFragment2 = claimPage.toFoundClaimWithFilter(claim2);
         claim2 = claimFragment2.editDataTime(claim2, // ставим более позднее время
                 LocalDate.now().plusMonths(3).format(DateTimeFormatter.ofPattern("dd.MM.yyyy")),
-                LocalTime.now().minusMinutes(10).format(DateTimeFormatter.ofPattern("hh:mm")));
+                LocalTime.now().minusMinutes(10).format(DateTimeFormatter.ofPattern("kk:mm")));
         claimFragment2 = claimPage.toFoundClaimWithFilter(claim2);
         claimFragment2.checkClaimFields(claim2);
 
@@ -709,7 +707,7 @@ public class SimpleHospiceTest {
 
         String data1 = LocalDate.now().plusYears(1).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
         NewsInfo.NewInfo newsInfo = NewsInfo.getNewsInfoDateTimeChoice(data1,
-                LocalTime.now().plusHours(1).format(DateTimeFormatter.ofPattern("hh:mm")));
+                LocalTime.now().plusHours(1).format(DateTimeFormatter.ofPattern("kk:mm")));
 
         NewsFragment newsFragment = newsEditPage.goToCreateNews();
         newsInfo = newsFragment.createSimpleNews(newsInfo, true);
@@ -723,7 +721,7 @@ public class SimpleHospiceTest {
         newsFragment = newsEditPage.goToEditNews(newsInfo);
         String data2 = LocalDate.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
         newsInfo = newsFragment.editNewsDataAndTime(newsInfo, data2,   //изменяем дату на более раннюю
-                LocalTime.now().minusHours(1).format(DateTimeFormatter.ofPattern("hh:mm")));
+                LocalTime.now().minusHours(1).format(DateTimeFormatter.ofPattern("kk:mm")));
 
         newsEditPage.setUpFilterWithData(data2);
         newsEditPage.toFoundNews(newsInfo);
@@ -746,7 +744,7 @@ public class SimpleHospiceTest {
         newsFragment = newsEditPage.goToEditNews(newsInfo);
         String data3 = LocalDate.now().plusMonths(3).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
         newsInfo = newsFragment.editNewsDataAndTime(newsInfo, data3, //изменяем дату на более позднюю
-                LocalTime.now().minusMinutes(10).format(DateTimeFormatter.ofPattern("hh:mm")));
+                LocalTime.now().minusMinutes(10).format(DateTimeFormatter.ofPattern("kk:mm")));
 
         newsEditPage.setUpFilterWithData(data3);
         newsEditPage.toFoundNews(newsInfo);
