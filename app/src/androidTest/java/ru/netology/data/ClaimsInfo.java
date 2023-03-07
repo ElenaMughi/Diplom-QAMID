@@ -41,12 +41,12 @@ public class ClaimsInfo {
                 HospiceData.fio.IVANOV.getTitle());
     }
 
-    public static ClaimInfo getClaimInfoWithChoiceDateTime(String ddate, String ttime) {
+    public static ClaimInfo getClaimInfoWithChoiceDateTime(String fio) {
         return new ClaimInfo(
                 faker.bothify("Elena???#??#??#??#"),
-                HospiceData.fio.IVANOV.getTitle(),
-                ddate,
-                ttime,
+                fio,
+                LocalDate.now().plusYears(1).format(DateTimeFormatter.ofPattern("dd.MM.yyyy")),
+                LocalTime.now().plusHours(1).format(DateTimeFormatter.ofPattern("kk:mm")),
                 faker.bothify("Elena???#??#??#??#????"),
                 HospiceData.fio.IVANOV.getTitle());
     }

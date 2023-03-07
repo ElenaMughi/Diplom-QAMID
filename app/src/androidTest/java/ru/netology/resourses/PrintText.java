@@ -18,20 +18,20 @@ import androidx.test.espresso.matcher.RootMatchers;
 
 public class PrintText {
 
-    public void typingText(int id, String text) {
+    public static void typingText(int id, String text) {
         ViewInteraction textClaim =  //Заголовок
                 onView(withId(id)).perform(click());
         textClaim.perform(typeText(text), closeSoftKeyboard());
     }
 
-    public void typingTextWithClear(int id, String text) {
+    public static void typingTextWithClear(int id, String text) {
         ViewInteraction textClaim =  //Заголовок
                 onView(withId(id)).perform(click());
         textClaim.perform(clearText());
         textClaim.perform(typeText(text), closeSoftKeyboard());
     }
 
-    public void typingTextWithParent(int parentId, String text) {
+    public static void typingTextWithParent(int parentId, String text) {
         onView(withId(parentId)).perform(click());
         ViewInteraction element = onView(
                 allOf(
@@ -42,7 +42,7 @@ public class PrintText {
         element.perform(typeText(text), closeSoftKeyboard());
     }
 
-    public void typingTextWithParentWithClear(int parentId, String text) {
+    public static void typingTextWithParentWithClear(int parentId, String text) {
         onView(withId(parentId)).perform(click());
         ViewInteraction element = onView(
                 allOf(
@@ -54,7 +54,7 @@ public class PrintText {
         element.perform(typeText(text), closeSoftKeyboard());
     }
 
-    public void getItemFromList(String text) {
+    public static void getItemFromList(String text) {
         onView(withText(text))
                 .inRoot(RootMatchers.isPlatformPopup())
                 .perform(click());

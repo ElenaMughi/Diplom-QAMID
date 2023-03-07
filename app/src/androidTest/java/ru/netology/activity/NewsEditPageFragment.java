@@ -14,6 +14,8 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.hamcrest.Matchers.allOf;
 
+import static io.qameta.allure.kotlin.Allure.step;
+
 import androidx.test.espresso.ViewInteraction;
 
 import ru.iteco.fmhandroid.R;
@@ -29,6 +31,7 @@ public class NewsEditPageFragment {
     PrintText res = new PrintText();
 
     public void goToMainPage() {
+        step("Переход на главную страницу.");
         WaitId.waitId(R.id.main_menu_image_button, 5000);
         onView(withId(R.id.main_menu_image_button)).perform(click());
         res.getItemFromList("Main");
@@ -36,6 +39,7 @@ public class NewsEditPageFragment {
     }
 
     public NewsPageFragment goToNewsPage() {
+        step("Переход на страницу новостей.");
         onView(withId(R.id.main_menu_image_button)).perform(click());
         res.getItemFromList("News");
         onView(withId(R.id.news_list_swipe_refresh))
@@ -44,6 +48,7 @@ public class NewsEditPageFragment {
     }
 
     public void toFoundNews(NewsInfo.NewInfo newsInfo) {
+        step("Поиск элемента на странице редактирования новостей.");
         WaitId.waitId(R.id.news_list_recycler_view, 10000);
         ViewInteraction recyclerView = onView(withId(R.id.news_list_recycler_view));
         recyclerView.check(CustomViewAssertions.isRecyclerView());
@@ -53,6 +58,7 @@ public class NewsEditPageFragment {
 
     public void setUpFilter(NewsInfo.NewInfo newsInfo,
                             boolean category, boolean active, boolean notActive) {
+        step("Установка фильтра на странице редактирования новостей.");
 
         onView(withId(R.id.filter_news_material_button)).perform(click());
         if (category) {
@@ -71,6 +77,7 @@ public class NewsEditPageFragment {
     }
 
     public void setUpFilterWithData(String data) {
+        step("Установка фильтра по дате на странице редактирования новостей.");
 
         onView(withId(R.id.filter_news_material_button)).perform(click());
 
@@ -82,12 +89,14 @@ public class NewsEditPageFragment {
     }
 
     public NewsFragment goToCreateNews() {
+        step("Открытие окна создания новости.");
         onView(withId(R.id.add_news_image_view)).perform(click());
         WaitId.waitMyIdWithCheck(R.id.custom_app_bar_sub_title_text_view, 15000);
         return new NewsFragment();
     }
 
     public NewsFragment goToEditNews(NewsInfo.NewInfo newsInfo) {
+        step("Открытие окна редактирования новости.");
         onView(allOf(withId(R.id.edit_news_item_image_view),
                 withParent(withParent((hasDescendant(withText(newsInfo.getTitle())))))))
                 .perform(click());
@@ -95,22 +104,8 @@ public class NewsEditPageFragment {
         return new NewsFragment();
     }
 
-//    public NewsInfo.NewInfo editNewsDataAndTime(NewsInfo.NewInfo news, String data, String time) {
-////        setUpFilterCategory(news.getCategory());
-//        toFoundNews(news);
-//        onView(allOf(withId(R.id.edit_news_item_image_view),
-//                withParent(withParent((hasDescendant(withText(news.getTitle())))))))
-//                .perform(click());
-//        onView(withId(R.id.custom_app_bar_sub_title_text_view))
-//                .check(matches(isDisplayed()));
-//        news.setDateNews(data);
-//        news.setTimeNews(time);
-//        NewsFragment newsFragment = new NewsFragment();
-//        newsFragment.editNewsDataAndTime(news);
-//        return news;
-//    }
-
     public void deleteNews(NewsInfo.NewInfo newsInfo, boolean okNo) {
+        step("Удаление новости.");
         toFoundNews(newsInfo);
         onView(allOf(withId(R.id.delete_news_item_image_view),
                 withParent(withParent((hasDescendant(withText(newsInfo.getTitle())))))))
@@ -123,6 +118,7 @@ public class NewsEditPageFragment {
     }
 
     public void checkNewsActive(NewsInfo.NewInfo newsInfo) {
+        step("Проверка активности новости.");
         if (newsInfo.isActive()) {
             onView(allOf(withId(R.id.news_item_published_text_view),
                     hasSibling(withText(newsInfo.getTitle()))))
@@ -134,17 +130,8 @@ public class NewsEditPageFragment {
         }
     }
 
-    public void checkDataTimeInClaim(NewsInfo.NewInfo newsInfo) {
-//        setUpFilterCategory(newsInfo.getCategory());
-        toFoundNews(newsInfo);
-        onView(allOf(withId(R.id.edit_news_item_image_view),
-                withParent(withParent((hasDescendant(withText(newsInfo.getTitle())))))))
-                .perform(click());
-        NewsFragment newsFragment = new NewsFragment();
-        newsFragment.checkNews(newsInfo);
-    }
-
     public void checkNews(NewsInfo.NewInfo news) {
+        step("Проверка новости на странице редактирования новости.");
         toFoundNews(news);
 
         onView(allOf(withId(R.id.news_item_title_text_view), withText(news.getTitle())))

@@ -10,6 +10,8 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.hamcrest.Matchers.allOf;
 
+import static io.qameta.allure.kotlin.Allure.step;
+
 import androidx.test.espresso.ViewInteraction;
 
 import ru.iteco.fmhandroid.R;
@@ -25,6 +27,7 @@ public class ClaimsPageFragment {
     HospiceData hospiceData = new HospiceData();
 
     public void setFilter(boolean filter[]) {
+        step("Установка фильтра заявок.");
         WaitId.waitId(R.id.filters_material_button, 80000);
         onView(withId(R.id.filters_material_button)).perform(click());
         // ставим галочки согласно фильтру
@@ -38,7 +41,7 @@ public class ClaimsPageFragment {
     }
 
     public ClaimFragment foundClaim(String text) {
-
+        step("Поиск заявки.");
         ViewInteraction recyclerView = onView(withId(R.id.claim_list_recycler_view));
         recyclerView.perform(actionOnItem(hasDescendant(withText(text)), click()));
 
@@ -47,6 +50,7 @@ public class ClaimsPageFragment {
     }
 
     public ClaimFragment toFoundClaimWithRandomFilter(ClaimsInfo.ClaimInfo claimInfo, boolean filter[]) {
+        step("Поиск и открытие заявки по выборочному фильтру.");
         setFilter(filter); //ставим галочки
 
         ClaimFragment claim = foundClaim(claimInfo.getTitle());
@@ -55,6 +59,7 @@ public class ClaimsPageFragment {
     }
 
     public ClaimFragment toFoundClaimWithFilter(ClaimsInfo.ClaimInfo claimInfo) {
+        step("Поиск и открытие заявки по статусу заявки.");
         boolean filter[] = {false, false, false, false}; //определяем галочки в фильтре
         if (claimInfo.getStatus() == HospiceData.claimsStatus.OPEN.getTitle()) { filter[0] = true; }
         if (claimInfo.getStatus() == HospiceData.claimsStatus.WORK.getTitle()) { filter[1] = true; }
@@ -68,6 +73,7 @@ public class ClaimsPageFragment {
     }
 
     public ClaimFragment callCreateNewClaim() {
+        step("Вызов создания заявки.");
         WaitId.waitMyIdWithCheck(R.id.add_new_claim_material_button, 10000);
         onView(withId(R.id.add_new_claim_material_button)).perform(click());
         WaitId.waitMyIdWithCheck(R.id.save_button, 10000);
@@ -75,6 +81,7 @@ public class ClaimsPageFragment {
     }
 
     public void goToMainPage() {
+        step("Переход на главную страницу.");
         onView(withId(R.id.main_menu_image_button)).perform(click());
         res.getItemFromList("Main");
         WaitId.waitId(R.id.claim_list_recycler_view, 5000);

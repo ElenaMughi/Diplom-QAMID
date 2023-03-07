@@ -10,5 +10,5 @@
 ![скриншот](https://github.com/ElenaMughi/Diplom-QAMID/blob/master/pict2.JPG)
 ![скриншот](https://github.com/ElenaMughi/Diplom-QAMID/blob/master/pict3.JPG)
 
-## Список багов
+
 

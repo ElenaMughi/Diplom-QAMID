@@ -16,6 +16,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.hamcrest.Matchers.allOf;
 
+import static io.qameta.allure.kotlin.Allure.step;
 import static ru.netology.resourses.WaitId.waitId;
 
 import androidx.test.espresso.ViewInteraction;
@@ -42,12 +43,13 @@ public class ClaimFragment {
     static Faker faker = new Faker();
 
     public void closeClaim() {
+        step("Закрыть заявку.");
         onView(withId(R.id.close_image_button)).perform(click());
         WaitId.waitId(R.id.claim_list_swipe_refresh, 10000);
     }
 
     public ClaimsInfo.ClaimInfo fillingInClaimFields(ClaimsInfo.ClaimInfo claimInfo) {
-
+        step("Заполнение полей заявки.");
         onView(isRoot()).perform(waitId(R.id.title_edit_text, 10000));
         res.typingText(R.id.title_edit_text, claimInfo.getTitle()); //Заголовок
 
@@ -76,7 +78,7 @@ public class ClaimFragment {
     }
 
     public ClaimsInfo.ClaimInfo createClaim(ClaimsInfo.ClaimInfo claimInfo) {
-
+        step("Создать заявку.");
         claimInfo = fillingInClaimFields(claimInfo);
 
         claimInfo.setCreationDate( // сохраняем дату перед сохранением заявки
@@ -91,7 +93,7 @@ public class ClaimFragment {
     }
 
     public ClaimsInfo.ClaimInfo cancellationCreateClaim(ClaimsInfo.ClaimInfo claimInfo, boolean saveCancel) {
-
+        step("Проверка отмены создания заявки.");
         fillingInClaimFields(claimInfo); // заполнение полей
 
         onView(withId(R.id.cancel_button)).perform(click());
@@ -121,7 +123,7 @@ public class ClaimFragment {
     }
 
     public ClaimsInfo.ClaimInfo checkingEmptyFieldsWhenCreatingClaim(ClaimsInfo.ClaimInfo claimInfo) {
-
+        step("Проверка заполения полей заявки.");
         WaitId.waitId(R.id.title_edit_text, 5000);
 
         checkFillEmptyFieldsMessage();
@@ -158,6 +160,7 @@ public class ClaimFragment {
     }
 
     public void checkClaimFields(ClaimsInfo.ClaimInfo claimInfo) {
+        step("Проверка полей заявки.");
         WaitId.waitId(R.id.status_label_text_view, 10000);
 
         onView(allOf(withId(R.id.status_label_text_view),  //статус
@@ -210,7 +213,7 @@ public class ClaimFragment {
     }
 
     public String defineRequiredMenu(ClaimsInfo.ClaimInfo claimInfo, String newStatus) {
-
+        step("Определение необходимого пункта меню смены статуса.");
         String statusMenu = HospiceData.claimStatusPopUpMenu.EMPTY.getTitle(); //устанавливаем недоступный вариант.
         if (claimInfo.getStatus() == HospiceData.claimsStatus.OPEN.getTitle()) {
             if (newStatus == HospiceData.claimsStatus.WORK.getTitle()) {
@@ -234,6 +237,8 @@ public class ClaimFragment {
 
     public ClaimsInfo.ClaimInfo toChangeStatusClaim(ClaimsInfo.ClaimInfo claimInfo, String newStatus, boolean comment) {
         // переход из  "В работе" на другой статус с комментарием. Для остальных параметр comment не используется и значение не важно.
+        step("Смена статуса заявки.");
+        WaitId.waitId(R.id.status_processing_image_button, 10000);
         String statusMenu = defineRequiredMenu(claimInfo, newStatus); //определяем необходимый пункт меню
 
         onView(withId(R.id.status_processing_image_button)).perform(click());
@@ -261,7 +266,7 @@ public class ClaimFragment {
 
     public ClaimsInfo.ClaimInfo writeComment(ClaimsInfo.ClaimInfo claimInfo, String comment,
                                              boolean okCancel) {
-
+        step("Создание комментария к заявке.");
         onView(withId(R.id.add_comment_image_button)).perform(click());
         res.typingTextWithParent(R.id.comment_text_input_layout, comment);
         if (okCancel) {
@@ -275,7 +280,7 @@ public class ClaimFragment {
     }
 
     public void editComment(String comment, String comment2, boolean okCancel) {
-
+        step("Редактирование комментария к заявке.");
         onView(allOf(withId(R.id.edit_comment_image_button),   //плановая дата
                 hasSibling(withText(comment)))).perform(click());
 
@@ -288,7 +293,7 @@ public class ClaimFragment {
     }
 
     public void checkComment(ClaimsInfo.ClaimInfo claimInfo, String comment) {
-
+        step("Проверка комментария к заявке.");
         if (claimInfo.getNumberOfComments() > 1) {
             ViewInteraction recyclerView = onView(withId(R.id.claim_comments_list_recycler_view));
             recyclerView.perform(swipeUp());
@@ -303,7 +308,7 @@ public class ClaimFragment {
 
     public ClaimsInfo.ClaimInfo editTitleAndDescriptionInClaim(ClaimsInfo.ClaimInfo claimInfo,
                                                                boolean saveCancel) {
-
+        step("Редактирования названия и описания заявки.");
         onView(withId(R.id.edit_processing_image_button)).perform(click());
         WaitId.waitId(R.id.title_text_input_layout, 3000);
 
@@ -330,7 +335,7 @@ public class ClaimFragment {
     }
 
     public ClaimsInfo.ClaimInfo changeExecutor(ClaimsInfo.ClaimInfo claimInfo, String executor) {
-
+        step("Смена исполнителя у заявки.");
         WaitId.waitId(R.id.executor_name_text_view, 5000);
 
         onView(withId(R.id.edit_processing_image_button))
@@ -352,6 +357,7 @@ public class ClaimFragment {
     }
 
     public ClaimsInfo.ClaimInfo editDataTime(ClaimsInfo.ClaimInfo claimInfo, String data, String time) {
+        step("Изменение даты и времени заявки.");
         onView(withId(R.id.edit_processing_image_button)).perform(click());
         WaitId.waitId(R.id.title_text_input_layout, 3000);
 

@@ -7,8 +7,8 @@ public class HospiceData {
     // fio.IVANOV - должно быть связано с логином login2
     public enum fio {
         IVANOV("Ivanov Ivan Ivanovich"),
-        EMPTY(""),
-        PETROV("Petrov Petr Petrovich");
+        EMPTY("");
+//        PETROV("Petrov Petr Petrovich");
 
         private String title;
 

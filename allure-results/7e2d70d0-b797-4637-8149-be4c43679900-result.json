@@ -1,0 +1,53 @@
+{
+    "name": "16.3 Пробег по кнопкам. Страница Love Is All.",
+    "start": 1678177819360,
+    "stop": 1678177834131,
+    "stage": "finished",
+    "description": null,
+    "descriptionHtml": null,
+    "status": "passed",
+    "statusDetails": null,
+    "steps": [
+    ],
+    "attachments": [
+    ],
+    "parameters": [
+    ],
+    "uuid": "7e2d70d0-b797-4637-8149-be4c43679900",
+    "historyId": "d2d7dd208a4f4df433ce892b7ceaadfd",
+    "fullName": "ru.netology.test.SimpleHospiceTest.checkLoveIsAllPageButtonTest",
+    "labels": [
+        {
+            "name": "package",
+            "value": "ru.netology.test"
+        },
+        {
+            "name": "testClass",
+            "value": "ru.netology.test.SimpleHospiceTest"
+        },
+        {
+            "name": "testMethod",
+            "value": "checkLoveIsAllPageButtonTest"
+        },
+        {
+            "name": "suite",
+            "value": "ru.netology.test.SimpleHospiceTest"
+        },
+        {
+            "name": "host",
+            "value": "localhost"
+        },
+        {
+            "name": "thread",
+            "value": "Instr: io.qameta.allure.android.runners.AllureAndroidJUnitRunner(308)"
+        },
+        {
+            "name": "framework",
+            "value": "junit4"
+        },
+        {
+            "name": "language",
+            "value": "kotlin"
+        }
+    ]
+}

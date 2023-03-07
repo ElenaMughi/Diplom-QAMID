@@ -13,6 +13,8 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.hamcrest.Matchers.allOf;
 
+import static io.qameta.allure.kotlin.Allure.step;
+
 import androidx.test.espresso.ViewInteraction;
 
 import ru.iteco.fmhandroid.R;
@@ -26,12 +28,14 @@ public class NewsPageFragment {
     PrintText res = new PrintText();
 
     public void goToMainPage() {
+        step("Переход на главную страницу.");
         onView(withId(R.id.main_menu_image_button)).perform(click());
         res.getItemFromList("Main");
         WaitId.waitId(R.id.main_swipe_refresh, 3000);
     }
 
     public NewsEditPageFragment goToEditNewsPage() {
+        step("Переход на страницу редактирования новостей.");
         onView(withId(R.id.edit_news_material_button)).perform(click());
         onView(withId(R.id.news_control_panel_swipe_to_refresh))
                 .check(matches(isDisplayed()));
@@ -39,6 +43,7 @@ public class NewsPageFragment {
     }
 
     public void setUpCategoryFilter(String category) {
+        step("Установка фильтра.");
         onView(withId(R.id.filter_news_material_button)).perform(click());
         onView(allOf(withId(R.id.text_input_end_icon),
                 withContentDescription("Show dropdown menu")))
@@ -49,12 +54,14 @@ public class NewsPageFragment {
     }
 
     public void toFoundNews(NewsInfo.NewInfo newsInfo) {
+        step("Поиск элемента.");
         ViewInteraction recyclerView = onView(withId(R.id.news_list_recycler_view));
         recyclerView.perform(actionOnItem(hasDescendant(withText(newsInfo.getTitle())), click()));
         WaitId.waitId(R.id.news_item_description_text_view, 10000);
     }
 
     public void setUpDataFilter(String data) {
+        step("Установка фильтра по дате.");
         onView(withId(R.id.filter_news_material_button)).perform(click());
 
         SetDataTime.setDate(R.id.news_item_publish_date_start_text_input_edit_text, data);
@@ -65,6 +72,7 @@ public class NewsPageFragment {
     }
 
     public void checkNews(NewsInfo.NewInfo newsInfo) {
+        step("Проверка новости на странице новостей.");
         onView(allOf(withId(R.id.news_item_title_text_view),
                 hasSibling(withText(newsInfo.getDescription()))))
                 .check(matches(withText(newsInfo.getTitle())));
@@ -77,5 +85,4 @@ public class NewsPageFragment {
                 hasSibling(withText(newsInfo.getDescription()))))
                 .check(matches(withText(newsInfo.getDateNews())));
     }
-
 }

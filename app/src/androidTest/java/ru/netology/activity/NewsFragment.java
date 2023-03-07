@@ -14,6 +14,8 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.endsWith;
 
+import static io.qameta.allure.kotlin.Allure.step;
+
 import androidx.test.espresso.ViewInteraction;
 
 import net.datafaker.Faker;
@@ -45,6 +47,7 @@ public class NewsFragment {
     }
 
     public NewsInfo.NewInfo createSimpleNews(NewsInfo.NewInfo newsInfo, boolean saveCancel) {
+        step("Заполнение полей и создание новости.");
 
         onView(allOf(withClassName(endsWith("ImageButton")),
                 withParent(withParent(withParent(withParent(withId(
@@ -68,6 +71,7 @@ public class NewsFragment {
     }
 
     public NewsInfo.NewInfo checkEmptyFieldsWhenCreatingNews(NewsInfo.NewInfo newsInfo) {
+        step("Проверка заполнения полей в создании новости.");
 
         clickSaveCancelButton(true); //сохранение/отмена
         // TODO проверка toast-сообщения - в текущей версии не работает
@@ -111,6 +115,7 @@ public class NewsFragment {
     }
 
     public NewsInfo.NewInfo changeActive(NewsInfo.NewInfo newsInfo, boolean getActive) {
+        step("Изменение активности новости.");
         if (getActive) {
             onView(withId(R.id.switcher)).perform(click());
         } else {
@@ -123,6 +128,7 @@ public class NewsFragment {
 
     public NewsInfo.NewInfo editNewsCategoryTitleAndDescrpt(
             NewsInfo.NewInfo newsInfo, String category, boolean saveCancel) {
+        step("Изменение категории, названия и/или описания новости.");
 
         WaitId.waitId(R.id.news_item_category_text_auto_complete_text_view, 5000);
 
@@ -149,6 +155,7 @@ public class NewsFragment {
     }
 
     public NewsInfo.NewInfo editNewsDataAndTime(NewsInfo.NewInfo news, String data, String time) {
+        step("Изменение даты и времени новости.");
         SetDataTime.setDate(R.id.news_item_publish_date_text_input_edit_text, data);
         SetDataTime.setTime(R.id.news_item_publish_time_text_input_edit_text, time);
         news.setDateNews(data);
@@ -158,6 +165,7 @@ public class NewsFragment {
     }
 
     public void checkNews(NewsInfo.NewInfo news) {
+        step("Проверка полей в просмотре деталей новости.");
         onView(allOf(withId(R.id.news_item_category_text_auto_complete_text_view), withText(news.getCategory())))
                 .check(matches(isDisplayed()));
 
